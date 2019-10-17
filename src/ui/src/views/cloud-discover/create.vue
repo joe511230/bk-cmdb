@@ -13,7 +13,7 @@
                             name="taskName"
                             v-validate="'required|singlechar|length:256'"
                             :placeholder="$t('请输入任务名称')">
-                        </div>
+                        </bk-input>
                     </div>
                     <span v-show="errors.has('taskName')" class="error-info color-danger">{{ errors.first('taskName') }}</span>
                 </li>
@@ -80,7 +80,7 @@
                                 :name="option.name">
                             </bk-option>
                         </bk-select>
-                        <bk-input
+                        <bk-input style="width: 210px;"
                             type="text"
                             class="cmdb-form-input"
                             v-model="taskMap.bk_period"
@@ -89,7 +89,7 @@
                             v-validate="'required|dayFormat'"
                             :placeholder="$t('例如: 19:30')">
                         </bk-input>
-                        <bk-input type="text"
+                        <bk-input type="text" style="width: 210px;"
                             class="cmdb-form-input"
                             v-model="taskMap.bk_period"
                             v-if="taskMap.bk_period_type === 'hour'"
@@ -334,12 +334,15 @@
             .resource-lable {
                 height: 19px;
                 width: 56px;
+                font-size: 14px;
             }
             .resource-confirm {
                 height: 19px;
                 margin-top: 20px;
+                font-size: 14px;
                 .span-text {
                     opacity:0.5;
+                    font-size: 14px;
                 }
             }
         }

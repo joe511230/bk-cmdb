@@ -331,6 +331,7 @@
 
 <style lang="scss" scoped>
     .cloud-wrapper {
+        padding: 0 20px;
         .cloud-filter {
             .cloud-btn {
                 float: left;

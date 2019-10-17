@@ -11,6 +11,7 @@ export const MENU_BUSINESS_SERVICE_TEMPLATE = 'menu_business_service_template'
 export const MENU_BUSINESS_SERVICE_TOPOLOGY = 'menu_business_service_topology'
 export const MENU_BUSINESS_ADVANCED = 'menu_business_advanced'
 export const MENU_BUSINESS_SET_TEMPLATE = 'menu_business_set_template'
+export const MENU_BUSINESS_CLOUD_DISCOVER = 'menu_business_cloud_discover'
 
 export const MENU_RESOURCE_EVENTPUSH = 'menu_resource_eventpush'
 export const MENU_RESOURCE_MANAGEMENT = 'menu_resource_management'

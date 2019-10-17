@@ -7,6 +7,7 @@ import {
     MENU_BUSINESS_HOST,
     MENU_BUSINESS_SERVICE,
     MENU_BUSINESS_ADVANCED,
+    MENU_BUSINESS_CLOUD_DISCOVER,
     MENU_RESOURCE_EVENTPUSH,
     MENU_RESOURCE_MANAGEMENT,
     MENU_MODEL_MANAGEMENT,
@@ -74,6 +75,11 @@ const menus = [{
         i18n: '高级功能',
         icon: 'icon-cc-nav-advanced-features',
         submenu: getSubmenu(businessViews, MENU_BUSINESS_ADVANCED, 'business')
+    }, {
+        id: MENU_BUSINESS_CLOUD_DISCOVER,
+        i18n: '云资源发现',
+        icon: 'icon-cc-nav-advanced-features',
+        route: getMenuRoute(businessViews, MENU_BUSINESS_CLOUD_DISCOVER, 'business')
     }]
 }, {
     id: MENU_RESOURCE,

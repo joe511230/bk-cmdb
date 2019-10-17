@@ -1,5 +1,5 @@
 import Meta from '@/router/meta'
-import { NAV_BUSINESS_RESOURCE } from '@/dictionary/menu'
+import { MENU_BUSINESS, MENU_BUSINESS_CLOUD_DISCOVER } from '@/dictionary/menu-symbol'
 import {
     C_CLOUD_DISCOVER,
     U_CLOUD_DISCOVER,
@@ -17,17 +17,17 @@ export const OPERATION = {
 const path = 'cloud-discover'
 
 export default {
-    name: 'cloudDiscover',
+    name: MENU_BUSINESS_CLOUD_DISCOVER,
     path: path,
     component: () => import('./index.vue'),
     meta: new Meta({
         menu: {
+            owner: MENU_BUSINESS,
             i18n: '云资源发现'
         },
         auth: {
-            operation: OPERATION,
+            operation: {},
             authScope: 'global'
-        },
-        requireBusiness: true
+        }
     })
 }

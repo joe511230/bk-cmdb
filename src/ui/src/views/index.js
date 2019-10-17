@@ -23,6 +23,8 @@ import operation from '@/views/operation/router.config'
 import setSync from '@/views/set-sync/router.config'
 import setTemplate from '@/views/set-template/router.config'
 
+import cloudDiscover from '@/views/cloud-discover/router.config'
+
 import statusPermission from '@/views/status/permission'
 import statusError from '@/views/status/error'
 
@@ -59,7 +61,8 @@ export const businessViews = injectStatusComponents(flatternViews([
     serviceSynchronous,
     customFields,
     setSync,
-    setTemplate
+    setTemplate,
+    cloudDiscover
 ]))
 
 export const resourceViews = injectStatusComponents(flatternViews([
