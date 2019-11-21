@@ -8,8 +8,10 @@
         <nav class="header-nav">
             <router-link class="header-link"
                 v-for="nav in menu"
+                ref="headerLink"
                 :to="{ name: nav.id }"
-                :key="nav.id">
+                :key="nav.id"
+                @click.native="handleHeaderLinkClick($event)">
                 {{$t(nav.i18n)}}
             </router-link>
         </nav>
@@ -73,6 +75,12 @@
                 }).then(data => {
                     window.location.href = data.url
                 })
+            },
+            handleHeaderLinkClick (event) {
+                this.$refs.headerLink.forEach(({ $el }) => {
+                    $el.classList.remove('router-link-active')
+                })
+                event.currentTarget.classList.add('router-link-active')
             }
         }
     }
