@@ -140,21 +140,24 @@ const setupStatus = {
 }
 
 router.beforeEach((to, from, next) => {
+    setLoading(true)
+    // nextTick是为了让app挂载到router.app上
     Vue.nextTick(async () => {
         try {
-            setLoading(true)
-            if (setupStatus.preload) {
+            if (!['404', 'error'].includes(to.name)) {
                 await preload(router.app)
-            }
-            await checkOwner(to)
-            setAdminView(to)
+                await checkOwner(to)
+                setAdminView(to)
 
-            const isAvailable = checkAvailable(to, from)
-            if (!isAvailable) {
-                throw new StatusError({ name: '404' })
+                const isAvailable = checkAvailable(to, from)
+                if (!isAvailable) {
+                    throw new StatusError({ name: '404' })
+                }
+                await checkViewAuthorize(to)
+                next()
+            } else {
+                next()
             }
-            await checkViewAuthorize(to)
-            return next()
         } catch (e) {
             if (e.__CANCEL__) {
                 next()
@@ -164,9 +167,6 @@ router.beforeEach((to, from, next) => {
                 console.error(e)
                 next({ name: 'error' })
             }
-        } finally {
-            setLoading(false)
-            setupStatus.preload = false
         }
     })
 })
