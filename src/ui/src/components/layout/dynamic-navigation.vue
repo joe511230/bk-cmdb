@@ -31,7 +31,8 @@
                         }"
                         :key="index"
                         :to="menu.route"
-                        :title="$t(menu.i18n)">
+                        :title="$t(menu.i18n)"
+                        @click.native="handleLinkClick($event)">
                         <h3 class="menu-info clearfix">
                             <i :class="['menu-icon', menu.icon]"></i>
                             <span class="menu-name">{{$t(menu.i18n)}}</span>
@@ -68,7 +69,8 @@
                                     }"
                                     :key="submenuIndex"
                                     :to="submenu.route"
-                                    :title="$t(submenu.i18n)">
+                                    :title="$t(submenu.i18n)"
+                                    @click.native="handleLinkClick($event)">
                                     {{$t(submenu.i18n)}}
                                 </router-link>
                             </div>
@@ -319,6 +321,13 @@
                     window.location.hash = '#/business'
                     window.location.reload()
                 }
+            },
+            handleLinkClick (event) {
+                this.$refs.menuLink.forEach(({ $el }) => {
+                    $el.classList.remove('active')
+                    $el.classList.remove('is-relative-active')
+                })
+                event.currentTarget.classList.add('active')
             }
         }
     }

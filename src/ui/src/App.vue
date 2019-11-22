@@ -9,7 +9,7 @@
             <i class="tips-icon bk-icon icon-close-circle-shape" @click="showBrowserTips = false"></i>
         </div>
         <the-header></the-header>
-        <router-view class="views-layout" v-bkloading="{ isLoading: isIndex && globalLoading }"></router-view>
+        <router-view class="views-layout" v-bkloading="{ isLoading: isIndex && globalLoading, extCls: 'global-loading' }"></router-view>
         <the-permission-modal ref="permissionModal"></the-permission-modal>
         <cmdb-business-selector v-if="businessSelectorVisible" hidden
             @on-select="resolveBusinessSelectorPromise"
