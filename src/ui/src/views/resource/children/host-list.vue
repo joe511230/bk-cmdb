@@ -141,7 +141,10 @@
                     this.getProperties(),
                     this.getHostPropertyGroups()
                 ])
-                this.getHostList()
+                const directory = this.CMDB_MODEL.get('Directory')
+                directory.addStateListener('active', this.getHostList)
+                console.log('addStateListener')
+                // this.getHostList()
                 this.ready = true
             } catch (e) {
                 console.log(e)

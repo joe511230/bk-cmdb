@@ -92,6 +92,7 @@
     export default {
         data () {
             return {
+                directory: this.CMDB_MODEL.get('Directory'),
                 dirSearch: '',
                 resetName: false,
                 createInfo: {
@@ -114,38 +115,30 @@
         computed: {
             filterDirList () {
                 if (this.dirSearch) {
-                    return this.dirList.filter(module => module.bk_module_name.indexOf(this.dirSearch) > -1)
+                    return this.directory.data.filter(module => module.bk_module_name.indexOf(this.dirSearch) > -1)
                 }
-                return [...this.dirList]
+                return this.directory.data
             }
         },
         created () {
+            this.init()
             Bus.$on('refresh-dir-count', this.refreshCount)
-            this.getDirectoryList()
         },
         beforeDestroy () {
             Bus.$off('refresh-dir-count', this.refreshCount)
         },
         methods: {
-            async getDirectoryList () {
+            async init () {
                 try {
-                    const data = await this.$store.dispatch('resourceDirectory/getDirectoryList', {
-                        params: {
-                            page: {
-                                sort: '-bk_module_id'
-                            }
-                        },
-                        config: {
-                            requestId: 'getDirectoryList'
-                        }
+                    this.directory.defineReactive({
+                        active: null
                     })
-                    this.dirList = data.info || []
-                    const firstDir = this.dirList[0] || {}
-                    this.acitveDirId = firstDir.bk_module_id
-                    this.$store.commit('resourceHost/setActiveDirectory', firstDir)
+                    console.log('defined')
+                    const data = await this.directory.read()
+                    this.directory.active = data[0].bk_module_id
+                    console.log('active change')
                 } catch (e) {
-                    console.error(e)
-                    this.dirList = []
+                    console.log(e)
                 }
             },
             async createdDir () {
