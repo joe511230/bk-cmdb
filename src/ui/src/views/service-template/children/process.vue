@@ -96,7 +96,7 @@
                     Object.keys(template).map(key => {
                         const type = typeof template[key]
                         if (type === 'object') {
-                            result[key] = template[key]['value']
+                            result[key] = template[key].value
                         } else {
                             result[key] = template[key]
                         }

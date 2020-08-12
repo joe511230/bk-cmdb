@@ -167,8 +167,8 @@ function handleReject (error, config) {
             } else {
                 window.CMDB_CONFIG.site.login && (window.location.href = window.CMDB_CONFIG.site.login)
             }
-        } else if (data && data['bk_error_msg']) {
-            nextError.message = data['bk_error_msg']
+        } else if (data && data.bk_error_msg) {
+            nextError.message = data.bk_error_msg
         } else if (status === 403) {
             nextError.message = language === 'en' ? 'You don\'t have permission.' : '无权限操作'
         } else if (status === 500) {

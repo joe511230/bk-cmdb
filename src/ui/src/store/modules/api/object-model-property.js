@@ -128,16 +128,16 @@ const actions = {
      * @return {promises} promises 对象
      */
     batchSearchObjectAttribute ({ commit, state, dispatch }, { params, config, injectId = false }) {
-        return $http.post(`find/objectattr`, params, config).then(properties => {
+        return $http.post('find/objectattr', params, config).then(properties => {
             const result = {}
-            params['bk_obj_id']['$in'].forEach(objId => {
+            params.bk_obj_id.$in.forEach(objId => {
                 result[objId] = []
                 if (injectId === objId) {
                     result[objId].push(createIdProperty(objId))
                 }
             })
             properties.forEach(property => {
-                result[property['bk_obj_id']].push(property)
+                result[property.bk_obj_id].push(property)
             })
             return result
         })

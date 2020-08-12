@@ -27,7 +27,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     searchDataCollection ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.post(`collector/netcollect/collector/action/search`, params, config)
+        return $http.post('collector/netcollect/collector/action/search', params, config)
     },
     /**
      *  采集器配置保存
@@ -37,7 +37,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     updateDataCollection ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.post(`collector/netcollect/collector/action/update`, params, config)
+        return $http.post('collector/netcollect/collector/action/update', params, config)
     },
     /**
      *  采集器执行发现
@@ -47,7 +47,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     collectDataCollection ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.post(`collector/netcollect/collector/action/discover`, params, config)
+        return $http.post('collector/netcollect/collector/action/discover', params, config)
     }
 }
 

@@ -229,7 +229,7 @@
                 return this.usercustom[this.columnsConfigKey] || []
             },
             globalCustomColumns () {
-                return this.globalUsercustom['biz_global_custom_table_columns'] || []
+                return this.globalUsercustom.biz_global_custom_table_columns || []
             },
             saveAuth () {
                 const type = this.attribute.type
@@ -247,7 +247,7 @@
         watch: {
             'filter.id' (id) {
                 this.filter.value = ''
-                this.filter.type = (this.$tools.getProperty(this.properties, id) || {})['bk_property_type']
+                this.filter.type = (this.$tools.getProperty(this.properties, id) || {}).bk_property_type
             },
             'slider.show' (show) {
                 if (!show) {
@@ -326,13 +326,13 @@
                     resolve(headerProperties)
                 }).then(properties => {
                     this.updateTableHeader(properties)
-                    this.columnsConfig.selected = properties.map(property => property['bk_property_id'])
+                    this.columnsConfig.selected = properties.map(property => property.bk_property_id)
                 })
             },
             updateTableHeader (properties) {
                 this.table.header = properties.map(property => {
                     return {
-                        id: property['bk_property_id'],
+                        id: property.bk_property_id,
                         name: this.$tools.getHeaderPropertyName(property),
                         property
                     }
@@ -397,7 +397,7 @@
             getSearchParams () {
                 const params = {
                     condition: {
-                        'bk_data_status': { '$ne': 'disabled' }
+                        bk_data_status: { $ne: 'disabled' }
                     },
                     fields: [],
                     page: {
@@ -421,7 +421,7 @@
             },
             async handleEdit (inst) {
                 const bizNameProperty = this.$tools.getProperty(this.properties, 'bk_biz_name')
-                bizNameProperty.isreadonly = inst['bk_biz_name'] === '蓝鲸'
+                bizNameProperty.isreadonly = inst.bk_biz_name === '蓝鲸'
                 this.attribute.inst.edit = inst
                 this.attribute.type = 'update'
             },
@@ -429,14 +429,14 @@
                 this.attribute.type = 'create'
                 this.attribute.inst.edit = {}
                 this.slider.show = true
-                this.slider.title = `${this.$t('创建')} ${this.model['bk_obj_name']}`
+                this.slider.title = `${this.$t('创建')} ${this.model.bk_obj_name}`
             },
             handleDelete (inst) {
                 this.$bkInfo({
-                    title: this.$t('确认要归档', { name: inst['bk_biz_name'] }),
+                    title: this.$t('确认要归档', { name: inst.bk_biz_name }),
                     subTitle: this.$t('归档确认信息'),
                     confirmFn: () => {
-                        this.archiveBusiness(inst['bk_biz_id']).then(() => {
+                        this.archiveBusiness(inst.bk_biz_id).then(() => {
                             this.slider.show = false
                             this.$success(this.$t('归档成功'))
                             this.getTableData()
@@ -448,7 +448,7 @@
             handleSave (values, changedValues, originalValues, type) {
                 if (type === 'update') {
                     this.updateBusiness({
-                        bizId: originalValues['bk_biz_id'],
+                        bizId: originalValues.bk_biz_id,
                         params: values
                     }).then(() => {
                         this.attribute.inst.details = Object.assign({}, originalValues, values)
@@ -476,7 +476,7 @@
             },
             handleApplayColumnsConfig (properties) {
                 this.$store.dispatch('userCustom/saveUsercustom', {
-                    [this.columnsConfigKey]: properties.map(property => property['bk_property_id'])
+                    [this.columnsConfigKey]: properties.map(property => property.bk_property_id)
                 })
                 this.columnsConfig.show = false
             },

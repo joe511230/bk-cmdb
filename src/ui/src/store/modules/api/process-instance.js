@@ -11,7 +11,7 @@ const actions = {
         return $http.post('create/proc/process_instance', params, config)
     },
     deleteServiceInstanceProcess (context, { serviceInstanceId, config }) {
-        return $http.delete(`delete/proc/process_instance`, config)
+        return $http.delete('delete/proc/process_instance', config)
     }
 }
 

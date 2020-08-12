@@ -139,7 +139,7 @@
                 const headerProperties = this.$tools.getHeaderProperties(this.properties, this.customBusinessColumns, ['bk_biz_name'])
                 this.header = headerProperties.map(property => {
                     return {
-                        id: property['bk_property_id'],
+                        id: property.bk_property_id,
                         name: this.$tools.getHeaderPropertyName(property),
                         property
                     }
@@ -176,7 +176,7 @@
             getSearchParams () {
                 const params = {
                     condition: {
-                        'bk_data_status': 'disabled'
+                        bk_data_status: 'disabled'
                     },
                     fields: [],
                     page: {
@@ -187,8 +187,8 @@
                 }
                 if (this.filter.range.length) {
                     params.condition.last_time = {
-                        '$gte': this.filter.range[0],
-                        '$lte': this.filter.range[1]
+                        $gte: this.filter.range[0],
+                        $lte: this.filter.range[1]
                     }
                 }
                 if (this.filter.name) {
@@ -206,7 +206,7 @@
                 this.recoveryBusiness({
                     bizId: this.recovery.bizId,
                     params: {
-                        'bk_biz_name': this.recovery.name
+                        bk_biz_name: this.recovery.name
                     },
                     config: {
                         cancelWhenRouteChange: false

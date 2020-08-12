@@ -22,7 +22,7 @@ const getters = {
         const disableList = ['bk_cpu']
         state.propertyList.forEach(property => {
             property.options = property.option
-            property['__extra__'] = {
+            property.__extra__ = {
                 disabled: disableList.includes(property.bk_property_id)
             }
         })

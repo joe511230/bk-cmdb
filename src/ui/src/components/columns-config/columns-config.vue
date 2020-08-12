@@ -100,13 +100,13 @@
         computed: {
             sortedProperties () {
                 return [...this.properties].sort((propertyA, propertyB) => {
-                    return propertyA['bk_property_name'].localeCompare(propertyB['bk_property_name'], 'zh-Hans-CN', { sensitivity: 'accent' })
+                    return propertyA.bk_property_name.localeCompare(propertyB.bk_property_name, 'zh-Hans-CN', { sensitivity: 'accent' })
                 })
             },
             unselectedProperties () {
                 return this.sortedProperties.filter(property => {
-                    const unselected = !this.localSelected.includes(property['bk_property_id'])
-                    const includesFilter = property['bk_property_name'].toLowerCase().indexOf(this.filter.toLowerCase()) !== -1
+                    const unselected = !this.localSelected.includes(property.bk_property_id)
+                    const includesFilter = property.bk_property_name.toLowerCase().indexOf(this.filter.toLowerCase()) !== -1
                     return unselected && includesFilter
                 })
             },
@@ -128,7 +128,7 @@
                     const drabbleProperties = []
                     this.localSelected.forEach(propertyId => {
                         if (!this.disabledColumns.includes(propertyId)) {
-                            const property = this.properties.find(property => property['bk_property_id'] === propertyId)
+                            const property = this.properties.find(property => property.bk_property_id === propertyId)
                             if (property) {
                                 drabbleProperties.push(property)
                             }
@@ -137,7 +137,7 @@
                     return drabbleProperties
                 },
                 set (drabbleProperties) {
-                    this.localSelected = [...this.undragbbleProperties, ...drabbleProperties].map(property => property['bk_property_id'])
+                    this.localSelected = [...this.undragbbleProperties, ...drabbleProperties].map(property => property.bk_property_id)
                 }
             }
         },
@@ -151,24 +151,24 @@
         },
         methods: {
             initLocalSelected () {
-                this.localSelected = this.selected.filter(propertyId => this.properties.some(property => property['bk_property_id'] === propertyId))
+                this.localSelected = this.selected.filter(propertyId => this.properties.some(property => property.bk_property_id === propertyId))
             },
             selectProperty (property) {
                 if (this.localSelected.length < this.max) {
-                    this.localSelected.push(property['bk_property_id'])
+                    this.localSelected.push(property.bk_property_id)
                 } else {
                     this.$info(this.$t('最多选择N项', { n: this.max }))
                 }
             },
             unselectProperty (property) {
                 if (this.localSelected.length > this.min) {
-                    this.localSelected = this.localSelected.filter(propertyId => propertyId !== property['bk_property_id'])
+                    this.localSelected = this.localSelected.filter(propertyId => propertyId !== property.bk_property_id)
                 } else {
                     this.$info(this.$t('至少选择N项', { n: this.min }))
                 }
             },
             checkDisabled (property) {
-                return this.disabledColumns.includes(property['bk_property_id'])
+                return this.disabledColumns.includes(property.bk_property_id)
             },
             handleApply () {
                 if (this.localSelected.length > this.max) {

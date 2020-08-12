@@ -11,7 +11,7 @@ export const redirect = function ({ name, params = {}, query = {}, history = fal
             query: { ...currentRoute.query }
         }
         const base64 = Base64.encode(JSON.stringify(data))
-        queryBackup['_f'] = base64
+        queryBackup._f = base64
     }
     const to = {
         name,

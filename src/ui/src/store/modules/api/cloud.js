@@ -3,7 +3,7 @@ const cloudArea = {
     namespaced: true,
     actions: {
         findMany ({ commit, state, dispatch }, { params, config }) {
-            return $http.post(`findmany/cloudarea`, params, config)
+            return $http.post('findmany/cloudarea', params, config)
         },
         delete (context, { id, config }) {
             return $http.delete(`delete/cloudarea/${id}`, config)
@@ -21,7 +21,7 @@ const cloudAccount = {
     namespaced: true,
     actions: {
         findMany (context, { params, config }) {
-            return $http.post(`findmany/cloud/account`, params, config)
+            return $http.post('findmany/cloud/account', params, config)
         },
         async findOne (context, { id, config }) {
             return context.dispatch('findMany', {

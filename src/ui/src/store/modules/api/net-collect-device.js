@@ -27,7 +27,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     createDevice ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.post(`collector/netcollect/device/action/create`, params, config)
+        return $http.post('collector/netcollect/device/action/create', params, config)
     },
     /**
      * 更新设备
@@ -48,7 +48,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     searchDevice ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.post(`collector/netcollect/device/action/search`, params, config)
+        return $http.post('collector/netcollect/device/action/search', params, config)
     },
     /**
      * 批量删除设备
@@ -59,7 +59,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     deleteDevice ({ commit, state, dispatch, rootGetters }, { config }) {
-        return $http.delete(`collector/netcollect/device/action/delete`, config)
+        return $http.delete('collector/netcollect/device/action/delete', config)
     },
     /**
      * 导入设备

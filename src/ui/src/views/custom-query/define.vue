@@ -222,20 +222,20 @@
                     isShow: false,
                     defaultName: ['内网IP', '集群', '模块', '业务', '云区域'].map(i18n => this.$t(i18n)).join(','),
                     default: [{
-                        'bk_property_id': 'bk_host_innerip',
-                        'bk_property_name': this.$t('内网IP')
+                        bk_property_id: 'bk_host_innerip',
+                        bk_property_name: this.$t('内网IP')
                     }, {
-                        'bk_property_id': 'bk_set_name',
-                        'bk_property_name': this.$t('集群')
+                        bk_property_id: 'bk_set_name',
+                        bk_property_name: this.$t('集群')
                     }, {
-                        'bk_property_id': 'bk_module_name',
-                        'bk_property_name': this.$t('模块')
+                        bk_property_id: 'bk_module_name',
+                        bk_property_name: this.$t('模块')
                     }, {
-                        'bk_property_id': 'bk_biz_name',
-                        'bk_property_name': this.$t('业务')
+                        bk_property_id: 'bk_biz_name',
+                        bk_property_name: this.$t('业务')
                     }, {
-                        'bk_property_id': 'bk_cloud_id',
-                        'bk_property_name': this.$t('云区域')
+                        bk_property_id: 'bk_cloud_id',
+                        bk_property_name: this.$t('云区域')
                     }]
                 },
                 filter: {
@@ -244,8 +244,8 @@
                 },
                 userProperties: [],
                 operatorMap: {
-                    'time': '$in',
-                    'enum': '$eq'
+                    time: '$in',
+                    enum: '$eq'
                 },
                 isPreviewShow: false,
                 dataCopy: {
@@ -264,17 +264,17 @@
             filterList () {
                 return this.filter.allList.filter(item => {
                     return !this.userProperties.some(property => {
-                        return item['bk_obj_id'] === property.objId && item['bk_property_id'] === property.propertyId
+                        return item.bk_obj_id === property.objId && item.bk_property_id === property.propertyId
                     })
                 })
             },
             /* 生成保存自定义API的参数 */
             apiParams () {
                 const paramsMap = [
-                    { 'bk_obj_id': 'set', condition: [], fields: [] },
-                    { 'bk_obj_id': 'module', condition: [], fields: [] },
+                    { bk_obj_id: 'set', condition: [], fields: [] },
+                    { bk_obj_id: 'module', condition: [], fields: [] },
                     {
-                        'bk_obj_id': 'biz',
+                        bk_obj_id: 'biz',
                         condition: [{
                             field: 'default', // 该参数表明查询非资源池下的主机
                             operator: '$ne',
@@ -282,17 +282,17 @@
                         }],
                         fields: []
                     }, {
-                        'bk_obj_id': 'host',
+                        bk_obj_id: 'host',
                         condition: [],
                         fields: this.attribute.selected ? this.attribute.selected : []
                     }
                 ]
                 const specialObj = {
-                    'host': 'bk_host_innerip',
-                    'biz': 'bk_biz_name',
-                    'plat': 'bk_cloud_name',
-                    'module': 'bk_module_name',
-                    'set': 'bk_set_name'
+                    host: 'bk_host_innerip',
+                    biz: 'bk_biz_name',
+                    plat: 'bk_cloud_name',
+                    module: 'bk_module_name',
+                    set: 'bk_set_name'
                 }
                 this.userProperties.forEach((property, index) => {
                     const param = paramsMap.find(({ bk_obj_id: objId }) => {
@@ -300,7 +300,7 @@
                     })
                     if (property.propertyType === 'singleasst' || property.propertyType === 'multiasst') {
                         paramsMap.push({
-                            'bk_obj_id': property.asstObjId,
+                            bk_obj_id: property.asstObjId,
                             fields: [],
                             condition: [{
                                 field: specialObj.hasOwnProperty(property.asstObjId) ? specialObj[property.asstObjId] : 'bk_inst_name',
@@ -309,19 +309,19 @@
                             }]
                         })
                     } else if (property.propertyType === 'time' || property.propertyType === 'date') {
-                        const value = property['value']
-                        param['condition'].push({
+                        const value = property.value
+                        param.condition.push({
                             field: property.propertyId,
                             operator: value[0] === value[1] ? '$eq' : '$gte',
                             value: value[0]
                         })
-                        param['condition'].push({
+                        param.condition.push({
                             field: property.propertyId,
                             operator: value[0] === value[1] ? '$eq' : '$lte',
                             value: value[1]
                         })
                     } else if (property.propertyType === 'bool' && ['true', 'false'].includes(property.value)) {
-                        param['condition'].push({
+                        param.condition.push({
                             field: property.propertyId,
                             operator: property.operator,
                             value: property.value === 'true'
@@ -338,7 +338,7 @@
                         if (['bk_set_name', 'bk_module_name'].includes(property.propertyId)) {
                             value = value.split(/\n|;|；|,|，/).filter(str => str.trim().length).map(str => str.trim())
                         }
-                        param['condition'].push({
+                        param.condition.push({
                             field: property.propertyId,
                             operator: property.operator,
                             value: value
@@ -346,14 +346,14 @@
                     }
                 })
                 const params = {
-                    'bk_biz_id': this.bizId,
-                    'info': {
+                    bk_biz_id: this.bizId,
+                    info: {
                         condition: paramsMap
                     },
-                    'name': this.name
+                    name: this.name
                 }
                 if (this.type === 'update') {
-                    params['id'] = this.id
+                    params.id = this.id
                 }
                 return params
             },
@@ -421,10 +421,10 @@
                 properties.map(property => {
                     let isDefaultPropery = false
                     selected = this.attribute.default.map(defaultProperty => {
-                        if (property['bk_property_id'] === defaultProperty['bk_property_id']) {
+                        if (property.bk_property_id === defaultProperty.bk_property_id) {
                             isDefaultPropery = true
                         }
-                        return defaultProperty['bk_property_id']
+                        return defaultProperty.bk_property_id
                     })
                     if (!isDefaultPropery) {
                         tempList.push(property)
@@ -445,35 +445,35 @@
             },
             setUserProperties (detail) {
                 const properties = []
-                const info = JSON.parse(detail['info'])
+                const info = JSON.parse(detail.info)
                 info.condition.forEach(condition => {
-                    condition['condition'].forEach(property => {
-                        const originalProperty = this.getOriginalProperty(property.field, condition['bk_obj_id'])
+                    condition.condition.forEach(property => {
+                        const originalProperty = this.getOriginalProperty(property.field, condition.bk_obj_id)
                         if (originalProperty) {
-                            if (['time', 'date'].includes(originalProperty['bk_property_type']) && properties.some(({ propertyId }) => propertyId === originalProperty['bk_property_id'])) {
-                                const repeatProperty = properties.find(({ propertyId }) => propertyId === originalProperty['bk_property_id'])
+                            if (['time', 'date'].includes(originalProperty.bk_property_type) && properties.some(({ propertyId }) => propertyId === originalProperty.bk_property_id)) {
+                                const repeatProperty = properties.find(({ propertyId }) => propertyId === originalProperty.bk_property_id)
                                 repeatProperty.value = [repeatProperty.value, property.value]
                             } else {
                                 properties.push({
-                                    'objId': originalProperty['bk_obj_id'],
-                                    'objName': this.object[originalProperty['bk_obj_id']].name,
-                                    'propertyType': originalProperty['bk_property_type'],
-                                    'propertyName': originalProperty['bk_property_name'],
-                                    'propertyId': originalProperty['bk_property_id'],
-                                    'asstObjId': originalProperty['bk_asst_obj_id'],
-                                    'unit': originalProperty['unit'],
-                                    'operator': property.operator,
-                                    'value': this.getUserPropertyValue(property, originalProperty)
+                                    objId: originalProperty.bk_obj_id,
+                                    objName: this.object[originalProperty.bk_obj_id].name,
+                                    propertyType: originalProperty.bk_property_type,
+                                    propertyName: originalProperty.bk_property_name,
+                                    propertyId: originalProperty.bk_property_id,
+                                    asstObjId: originalProperty.bk_asst_obj_id,
+                                    unit: originalProperty.unit,
+                                    operator: property.operator,
+                                    value: this.getUserPropertyValue(property, originalProperty)
                                 })
                             }
                         }
                     })
                 })
                 this.userProperties = properties
-                this.name = detail['name']
+                this.name = detail.name
                 const timer = setTimeout(() => {
                     this.dataCopy = {
-                        name: detail['name'],
+                        name: detail.name,
                         userProperties: this.$tools.clone(properties)
                     }
                     clearTimeout(timer)
@@ -486,7 +486,7 @@
                     return property.value.join('\n')
                 } else if (property.operator === '$multilike'
                     && Array.isArray(property.value)
-                    && ['singlechar', 'longchar', 'singleasst', 'multiasst'].includes(originalProperty['bk_property_type'])
+                    && ['singlechar', 'longchar', 'singleasst', 'multiasst'].includes(originalProperty.bk_property_type)
                 ) {
                     return property.value.join('\n')
                 }
@@ -519,7 +519,7 @@
                 if (!await this.$validator.validateAll()) {
                     return
                 }
-                const params = Object.assign({}, this.apiParams, { 'info': JSON.stringify(this.apiParams['info']) })
+                const params = Object.assign({}, this.apiParams, { info: JSON.stringify(this.apiParams.info) })
                 // 将Info字段转为JSON字符串提交
                 if (this.type === 'create') {
                     const res = await this.createCustomQuery({
@@ -615,15 +615,15 @@
                         }
                     })
                 ])
-                let hostList = res[0].filter(property => !property['bk_isapi'])
-                let setList = res[1].filter(property => !property['bk_isapi'])
-                let moduleList = res[2].filter(property => !property['bk_isapi'])
+                let hostList = res[0].filter(property => !property.bk_isapi)
+                let setList = res[1].filter(property => !property.bk_isapi)
+                let moduleList = res[2].filter(property => !property.bk_isapi)
                 hostList = hostList.map(property => {
                     return {
                         ...property,
                         ...{
-                            filter_id: `${property['bk_obj_id']}-${property['bk_property_id']}`,
-                            filter_name: `${this.$t('主机')}-${property['bk_property_name']}`
+                            filter_id: `${property.bk_obj_id}-${property.bk_property_id}`,
+                            filter_name: `${this.$t('主机')}-${property.bk_property_name}`
                         }
                     }
                 })
@@ -631,8 +631,8 @@
                     return {
                         ...property,
                         ...{
-                            filter_id: `${property['bk_obj_id']}-${property['bk_property_id']}`,
-                            filter_name: `${this.$t('集群')}-${property['bk_property_name']}`
+                            filter_id: `${property.bk_obj_id}-${property.bk_property_id}`,
+                            filter_name: `${this.$t('集群')}-${property.bk_property_name}`
                         }
                     }
                 })
@@ -640,21 +640,21 @@
                     return {
                         ...property,
                         ...{
-                            filter_id: `${property['bk_obj_id']}-${property['bk_property_id']}`,
-                            filter_name: `${this.$t('模块')}-${property['bk_property_name']}`
+                            filter_id: `${property.bk_obj_id}-${property.bk_property_id}`,
+                            filter_name: `${this.$t('模块')}-${property.bk_property_name}`
                         }
                     }
                 })
                 this.filter.allList = [...hostList, ...setList, ...moduleList]
                 const propertyMap = {}
                 this.filter.allList.forEach(item => {
-                    if (propertyMap.hasOwnProperty(item['bk_obj_id'])) {
-                        propertyMap[item['bk_obj_id']].push({
+                    if (propertyMap.hasOwnProperty(item.bk_obj_id)) {
+                        propertyMap[item.bk_obj_id].push({
                             ...item,
                             __selected__: false
                         })
                     } else {
-                        propertyMap[item['bk_obj_id']] = [{
+                        propertyMap[item.bk_obj_id] = [{
                             ...item,
                             __selected__: false
                         }]
@@ -666,9 +666,9 @@
             getOriginalProperty (bkPropertyId, bkObjId) {
                 let property = null
                 for (const objId in this.object) {
-                    for (let i = 0; i < this.object[objId]['properties'].length; i++) {
-                        const loopProperty = this.object[objId]['properties'][i]
-                        if (loopProperty['bk_property_id'] === bkPropertyId && loopProperty['bk_obj_id'] === bkObjId) {
+                    for (let i = 0; i < this.object[objId].properties.length; i++) {
+                        const loopProperty = this.object[objId].properties[i]
+                        if (loopProperty.bk_property_id === bkPropertyId && loopProperty.bk_obj_id === bkObjId) {
                             property = loopProperty
                             break
                         }
@@ -692,11 +692,11 @@
                 for (let i = 0; i < addPropertyList.length; i++) {
                     const property = this.filterList.find(property => property.filter_id === addPropertyList[i].filter_id)
                     const {
-                        'bk_property_id': propertyId,
-                        'bk_property_name': propertyName,
-                        'bk_property_type': propertyType,
-                        'bk_asst_obj_id': asstObjId,
-                        'bk_obj_id': objId,
+                        bk_property_id: propertyId,
+                        bk_property_name: propertyName,
+                        bk_property_type: propertyType,
+                        bk_asst_obj_id: asstObjId,
+                        bk_obj_id: objId,
                         unit
                     } = property
                     this.userProperties.push({

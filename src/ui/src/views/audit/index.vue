@@ -333,7 +333,7 @@
                         const model = this.$store.getters['objectModelClassify/getModelById'](objId) || {}
                         return model.bk_obj_name || '--'
                     } else if (row.audit_type === 'model' && ['model', 'model_group', 'model_attribute', 'model_unique'].includes(type)) {
-                        return this.funcModules['model'] || '--'
+                        return this.funcModules.model || '--'
                     }
                     return this.funcModules[type] || '--'
                 }

@@ -14,7 +14,7 @@ const actions = {
         return $http.delete(`delete/resource/directory/${moduleId}`, config)
     },
     changeHostsDirectory (context, { params, config }) {
-        return $http.post(`host/transfer/resource/directory`, params, config)
+        return $http.post('host/transfer/resource/directory', params, config)
     },
     assignHostsToBusiness (context, { params, config }) {
         return $http.post('hosts/modules/resource/idle', params, config)

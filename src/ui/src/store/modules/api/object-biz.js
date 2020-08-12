@@ -105,8 +105,8 @@ const actions = {
     searchBusinessById ({ rootGetters }, { bizId, config }) {
         return $http.post(`biz/search/${rootGetters.supplierAccount}`, {
             condition: {
-                'bk_biz_id': {
-                    '$eq': bizId
+                bk_biz_id: {
+                    $eq: bizId
                 }
             },
             fields: [],

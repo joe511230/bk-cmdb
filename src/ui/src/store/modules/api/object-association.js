@@ -18,7 +18,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     searchAssociationType ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`find/associationtype`, params, config)
+        return $http.post('find/associationtype', params, config)
     },
     /**
      * 添加关联类型
@@ -29,7 +29,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     createAssociationType ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`create/associationtype`, params, config)
+        return $http.post('create/associationtype', params, config)
     },
     /**
      * 编辑关联类型
@@ -64,7 +64,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     searchObjectAssociation ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`find/objectassociation`, params, config)
+        return $http.post('find/objectassociation', params, config)
     },
     /**
      * 添加模型关联
@@ -75,7 +75,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     createObjectAssociation ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`create/objectassociation`, params, config)
+        return $http.post('create/objectassociation', params, config)
     },
     /**
      * 编辑模型关联
@@ -110,7 +110,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     searchAssociationListWithAssociationKindList ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`find/topoassociationtype`, params, config)
+        return $http.post('find/topoassociationtype', params, config)
     },
     /**
      * 查询实例关联
@@ -121,7 +121,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     searchInstAssociation ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`find/instassociation`, params, config)
+        return $http.post('find/instassociation', params, config)
     },
     /**
      * 添加实例关联
@@ -132,7 +132,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     createInstAssociation ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`create/instassociation`, params, config)
+        return $http.post('create/instassociation', params, config)
     },
     /**
      * 删除实例关联

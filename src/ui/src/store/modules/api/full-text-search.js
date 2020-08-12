@@ -25,7 +25,7 @@ const actions = {
      * @return {Promise} promise 对象
      */
     search ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`find/full_text`, params, config)
+        return $http.post('find/full_text', params, config)
     }
 }
 

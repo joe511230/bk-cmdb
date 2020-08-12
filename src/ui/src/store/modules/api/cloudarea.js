@@ -20,7 +20,7 @@ const getters = {
 
 const actions = {
     getCloudarea ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`findmany/cloudarea`, params, config)
+        return $http.post('findmany/cloudarea', params, config)
     },
     deleteCloudarea (context, { id, config }) {
         return $http.delete(`delete/cloudarea/${id}`, config)

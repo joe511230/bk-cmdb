@@ -160,25 +160,25 @@
                     title: this.$t('新建动态分组')
                 },
                 object: {
-                    'host': {
+                    host: {
                         id: 'host',
                         name: this.$t('主机'),
                         properties: [],
                         selected: []
                     },
-                    'set': {
+                    set: {
                         id: 'set',
                         name: this.$t('集群'),
                         properties: [],
                         selected: []
                     },
-                    'module': {
+                    module: {
                         id: 'module',
                         name: this.$t('模块'),
                         properties: [],
                         selected: []
                     },
-                    'biz': {
+                    biz: {
                         id: 'biz',
                         name: this.$t('业务'),
                         properties: [],
@@ -196,7 +196,7 @@
                     limit: this.table.pagination.limit,
                     sort: this.table.sort
                 }
-                this.filter.name ? params['condition'] = { 'name': this.filter.name } : void (0)
+                this.filter.name ? params.condition = { name: this.filter.name } : void (0)
                 return params
             }
         },
@@ -249,24 +249,24 @@
                     }
                 })
                 const properties = []
-                const info = JSON.parse(res['info'])
+                const info = JSON.parse(res.info)
                 info.condition.forEach(condition => {
-                    condition['condition'].forEach(property => {
-                        const originalProperty = this.getOriginalProperty(property.field, condition['bk_obj_id'])
+                    condition.condition.forEach(property => {
+                        const originalProperty = this.getOriginalProperty(property.field, condition.bk_obj_id)
                         if (originalProperty) {
-                            if (['time', 'date'].includes(originalProperty['bk_property_type']) && properties.some(({ propertyId }) => propertyId === originalProperty['bk_property_id'])) {
-                                const repeatProperty = properties.find(({ propertyId }) => propertyId === originalProperty['bk_property_id'])
+                            if (['time', 'date'].includes(originalProperty.bk_property_type) && properties.some(({ propertyId }) => propertyId === originalProperty.bk_property_id)) {
+                                const repeatProperty = properties.find(({ propertyId }) => propertyId === originalProperty.bk_property_id)
                                 repeatProperty.value = [repeatProperty.value, property.value]
                             } else {
                                 properties.push({
-                                    'objId': originalProperty['bk_obj_id'],
-                                    'objName': this.object[originalProperty['bk_obj_id']].name,
-                                    'propertyType': originalProperty['bk_property_type'],
-                                    'propertyName': originalProperty['bk_property_name'],
-                                    'propertyId': originalProperty['bk_property_id'],
-                                    'asstObjId': originalProperty['bk_asst_obj_id'],
-                                    'operator': property.operator,
-                                    'value': this.getUserPropertyValue(property, originalProperty)
+                                    objId: originalProperty.bk_obj_id,
+                                    objName: this.object[originalProperty.bk_obj_id].name,
+                                    propertyType: originalProperty.bk_property_type,
+                                    propertyName: originalProperty.bk_property_name,
+                                    propertyId: originalProperty.bk_property_id,
+                                    asstObjId: originalProperty.bk_asst_obj_id,
+                                    operator: property.operator,
+                                    value: this.getUserPropertyValue(property, originalProperty)
                                 })
                             }
                         }
@@ -278,9 +278,9 @@
             getOriginalProperty (bkPropertyId, bkObjId) {
                 let property = null
                 for (const objId in this.object) {
-                    for (let i = 0; i < this.object[objId]['properties'].length; i++) {
-                        const loopProperty = this.object[objId]['properties'][i]
-                        if (loopProperty['bk_property_id'] === bkPropertyId && loopProperty['bk_obj_id'] === bkObjId) {
+                    for (let i = 0; i < this.object[objId].properties.length; i++) {
+                        const loopProperty = this.object[objId].properties[i]
+                        if (loopProperty.bk_property_id === bkPropertyId && loopProperty.bk_obj_id === bkObjId) {
                             property = loopProperty
                             break
                         }
@@ -298,7 +298,7 @@
                     return property.value.join('\n')
                 } else if (property.operator === '$multilike'
                     && Array.isArray(property.value)
-                    && ['singlechar', 'longchar', 'singleasst', 'multiasst'].includes(originalProperty['bk_property_type'])
+                    && ['singlechar', 'longchar', 'singleasst', 'multiasst'].includes(originalProperty.bk_property_type)
                 ) {
                     return property.value.join('\n')
                 }
@@ -313,10 +313,10 @@
             /* 生成保存自定义API的参数 */
             getApiParams (row, properties) {
                 const paramsMap = [
-                    { 'bk_obj_id': 'set', condition: [], fields: [] },
-                    { 'bk_obj_id': 'module', condition: [], fields: [] },
+                    { bk_obj_id: 'set', condition: [], fields: [] },
+                    { bk_obj_id: 'module', condition: [], fields: [] },
                     {
-                        'bk_obj_id': 'biz',
+                        bk_obj_id: 'biz',
                         condition: [{
                             field: 'default', // 该参数表明查询非资源池下的主机
                             operator: '$ne',
@@ -324,7 +324,7 @@
                         }],
                         fields: []
                     }, {
-                        'bk_obj_id': 'host',
+                        bk_obj_id: 'host',
                         condition: [],
                         fields: this.previewHeader
                     }
@@ -335,19 +335,19 @@
                     })
                     if (property.value !== null && property.value !== undefined && String(property.value).length) {
                         if (property.propertyType === 'time' || property.propertyType === 'date') {
-                            const value = property['value']
-                            param['condition'].push({
+                            const value = property.value
+                            param.condition.push({
                                 field: property.propertyId,
                                 operator: value[0] === value[1] ? '$eq' : '$gte',
                                 value: value[0]
                             })
-                            param['condition'].push({
+                            param.condition.push({
                                 field: property.propertyId,
                                 operator: value[0] === value[1] ? '$eq' : '$lte',
                                 value: value[1]
                             })
                         } else if (property.propertyType === 'bool' && ['true', 'false'].includes(property.value)) {
-                            param['condition'].push({
+                            param.condition.push({
                                 field: property.propertyId,
                                 operator: property.operator,
                                 value: property.value === 'true'
@@ -364,7 +364,7 @@
                             if (['bk_set_name', 'bk_module_name'].includes(property.propertyId)) {
                                 value = value.split(/\n|;|；|,|，/).filter(str => str.trim().length).map(str => str.trim())
                             }
-                            param['condition'].push({
+                            param.condition.push({
                                 field: property.propertyId,
                                 operator: property.operator,
                                 value: value
@@ -373,11 +373,11 @@
                     }
                 })
                 const params = {
-                    'bk_biz_id': this.bizId,
-                    'info': {
+                    bk_biz_id: this.bizId,
+                    info: {
                         condition: paramsMap
                     },
-                    'name': row.name
+                    name: row.name
                 }
                 return params
             },
@@ -422,7 +422,7 @@
                 if (column.property === 'operation') return
                 this.slider.isShow = true
                 this.slider.type = 'update'
-                this.slider.id = userAPI['id']
+                this.slider.id = userAPI.id
                 this.slider.title = this.$t('编辑动态分组')
             },
             deleteUserAPI (row) {
@@ -499,10 +499,10 @@
                         }
                     })
                 ])
-                this.object['host']['properties'] = res[0].filter(property => !property['bk_isapi'])
-                this.object['set']['properties'] = res[1].filter(property => !property['bk_isapi'])
-                this.object['module']['properties'] = res[2].filter(property => !property['bk_isapi'])
-                this.object['biz']['properties'] = res[3].filter(property => !property['bk_isapi'])
+                this.object.host.properties = res[0].filter(property => !property.bk_isapi)
+                this.object.set.properties = res[1].filter(property => !property.bk_isapi)
+                this.object.module.properties = res[2].filter(property => !property.bk_isapi)
+                this.object.biz.properties = res[3].filter(property => !property.bk_isapi)
             }
         }
     }

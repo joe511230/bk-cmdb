@@ -12,10 +12,10 @@ import $http from '@/api'
 
 const state = {
     privilege: {
-        'model_config': {},
-        'sys_config': {
-            'global_busi': null,
-            'back_config': null
+        model_config: {},
+        sys_config: {
+            global_busi: null,
+            back_config: null
         }
     },
     roles: []
@@ -28,7 +28,7 @@ const getters = {
         if (rootGetters.admin) {
             return ['search', 'update', 'delete']
         }
-        const modelConfig = state.privilege['model_config']
+        const modelConfig = state.privilege.model_config
         let modelAuthority = []
         for (const classifyId in modelConfig) {
             if (modelConfig[classifyId].hasOwnProperty(modelId)) {
@@ -42,14 +42,14 @@ const getters = {
         if (rootGetters.admin) {
             return ['search', 'update', 'delete']
         }
-        const globalBusi = state.privilege['sys_config']['global_busi'] || []
+        const globalBusi = state.privilege.sys_config.global_busi || []
         return globalBusi.includes(id) ? ['search', 'update', 'delete'] : []
     },
     backConfigAuthority: (state, getters, rootState, rootGetters) => id => {
         if (rootGetters.admin) {
             return ['search', 'update', 'delete']
         }
-        const backConfig = state.privilege['sys_config']['back_config'] || []
+        const backConfig = state.privilege.sys_config.back_config || []
         return backConfig.includes(id) ? ['search', 'update', 'delete'] : []
     }
 }

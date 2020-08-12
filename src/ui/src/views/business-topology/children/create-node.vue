@@ -74,7 +74,7 @@
             },
             sortedProperties () {
                 return this.properties.sort((propertyA, propertyB) => {
-                    return propertyA['bk_property_index'] - propertyB['bk_property_index']
+                    return propertyA.bk_property_index - propertyB.bk_property_index
                 })
             },
             title () {

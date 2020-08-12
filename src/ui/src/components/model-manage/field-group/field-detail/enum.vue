@@ -157,7 +157,7 @@
                 this.enumList.splice(index, 1)
                 if (this.defaultIndex === index) {
                     this.defaultIndex = 0
-                    this.enumList[0]['is_default'] = true
+                    this.enumList[0].is_default = true
                 }
                 this.handleInput()
             },

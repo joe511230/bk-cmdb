@@ -20,28 +20,28 @@ const getters = {
     models: state => {
         const models = []
         state.classifications.forEach(classification => {
-            (classification['bk_objects'] || []).forEach(model => {
+            (classification.bk_objects || []).forEach(model => {
                 models.push(model)
             })
         })
         return models
     },
     getModelById: (state, getters) => id => {
-        return getters.models.find(model => model['bk_obj_id'] === id)
+        return getters.models.find(model => model.bk_obj_id === id)
     },
     activeClassifications: state => {
         const classifications = state.classifications
         // 1.去掉停用模型
         let activeClassifications = classifications.map(classification => {
             const activeClassification = { ...classification }
-            activeClassification['bk_objects'] = activeClassification['bk_objects'].filter(model => !model['bk_ispaused'])
+            activeClassification.bk_objects = activeClassification.bk_objects.filter(model => !model.bk_ispaused)
             return activeClassification
         })
         // 2.去掉无启用模型的分类和不显示的分类
         activeClassifications = activeClassifications.filter(classification => {
             const {
-                'bk_classification_id': bkClassificationId,
-                'bk_objects': bkObjects
+                bk_classification_id: bkClassificationId,
+                bk_objects: bkObjects
             } = classification
             return !state.invisibleClassifications.includes(bkClassificationId) && Array.isArray(bkObjects) && bkObjects.length
         })
@@ -124,10 +124,10 @@ const mutations = {
         state.classifications = classifications
     },
     updateClassify (state, classification) {
-        const activeClassification = state.classifications.find(({ bk_classification_id: bkClassificationId }) => bkClassificationId === classification['bk_classification_id'])
+        const activeClassification = state.classifications.find(({ bk_classification_id: bkClassificationId }) => bkClassificationId === classification.bk_classification_id)
         if (activeClassification) {
-            activeClassification['bk_classification_icon'] = classification['bk_classification_icon']
-            activeClassification['bk_classification_name'] = classification['bk_classification_name']
+            activeClassification.bk_classification_icon = classification.bk_classification_icon
+            activeClassification.bk_classification_name = classification.bk_classification_name
         } else {
             state.classifications.push({
                 ...{
@@ -151,7 +151,7 @@ const mutations = {
     updateModel (state, data) {
         const models = []
         state.classifications.forEach(classification => {
-            (classification['bk_objects'] || []).forEach(model => {
+            (classification.bk_objects || []).forEach(model => {
                 models.push(model)
             })
         })

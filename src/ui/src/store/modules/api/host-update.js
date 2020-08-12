@@ -28,7 +28,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     updateHost ({ commit, state, dispatch }, { params, config }) {
-        return $http.put(`hosts/batch`, params, config)
+        return $http.put('hosts/batch', params, config)
     }
 }
 

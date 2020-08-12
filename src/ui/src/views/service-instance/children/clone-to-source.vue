@@ -137,7 +137,7 @@
                 })
             },
             bindIpProperty () {
-                return this.properties.find(property => property['bk_property_id'] === 'bind_ip') || {}
+                return this.properties.find(property => property.bk_property_id === 'bind_ip') || {}
             },
             hostId () {
                 return parseInt(this.$route.params.hostId)
@@ -145,9 +145,9 @@
             validateRules () {
                 const rules = {}
                 if (this.bindIpProperty.isrequired) {
-                    rules['required'] = true
+                    rules.required = true
                 }
-                rules['regex'] = this.bindIpProperty.option
+                rules.regex = this.bindIpProperty.option
                 return rules
             },
             checkDisabled () {
@@ -235,7 +235,7 @@
                 this.processForm.instance = {}
                 this.processForm.show = true
                 this.$nextTick(() => {
-                    this.bindIp = this.$tools.getInstFormValues(this.properties, this.processForm.instance, false)['bind_ip']
+                    this.bindIp = this.$tools.getInstFormValues(this.properties, this.processForm.instance, false).bind_ip
                     const { processForm } = this.$refs
                     this.processForm.unwatch = processForm.$watch(() => {
                         return processForm.values.bk_func_name
@@ -253,7 +253,7 @@
                 this.processForm.instance = item
                 this.processForm.show = true
                 this.$nextTick(() => {
-                    this.bindIp = this.$tools.getInstFormValues(this.properties, this.processForm.instance, false)['bind_ip']
+                    this.bindIp = this.$tools.getInstFormValues(this.properties, this.processForm.instance, false).bind_ip
                     const { processForm } = this.$refs
                     this.processForm.unwatch = processForm.$watch(() => {
                         return processForm.values.bk_func_name

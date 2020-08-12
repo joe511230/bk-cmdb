@@ -118,7 +118,7 @@
             },
             isReadOnly () {
                 if (this.activeModel) {
-                    return this.activeModel['bk_ispaused']
+                    return this.activeModel.bk_ispaused
                 }
                 return false
             }
@@ -147,10 +147,10 @@
             getRuleName (keys) {
                 const name = []
                 keys.forEach(key => {
-                    if (key['key_kind'] === 'property') {
-                        const attr = this.attributeList.find(({ id }) => id === key['key_id'])
+                    if (key.key_kind === 'property') {
+                        const attr = this.attributeList.find(({ id }) => id === key.key_id)
                         if (attr) {
-                            name.push(attr['bk_property_name'])
+                            name.push(attr.bk_property_name)
                         }
                     }
                 })
@@ -159,12 +159,12 @@
             async initAttrList () {
                 this.attributeList = await this.searchObjectAttribute({
                     params: this.$injectMetadata({
-                        bk_obj_id: this.activeModel['bk_obj_id']
+                        bk_obj_id: this.activeModel.bk_obj_id
                     }, {
                         inject: this.isInjectable
                     }),
                     config: {
-                        requestId: `post_searchObjectAttribute_${this.activeModel['bk_obj_id']}`
+                        requestId: `post_searchObjectAttribute_${this.activeModel.bk_obj_id}`
                     }
                 })
             },
@@ -190,7 +190,7 @@
                     title: this.$tc('确定删除唯一校验', this.getRuleName(verification.keys), { name: this.getRuleName(verification.keys) }),
                     confirmFn: async () => {
                         await this.deleteObjectUniqueConstraints({
-                            objId: verification['bk_obj_id'],
+                            objId: verification.bk_obj_id,
                             id: verification.id,
                             params: this.$injectMetadata({}, {
                                 inject: !!this.$tools.getMetadataBiz(verification)
@@ -205,7 +205,7 @@
             },
             async searchVerification () {
                 const res = await this.searchObjectUniqueConstraints({
-                    objId: this.activeModel['bk_obj_id'],
+                    objId: this.activeModel.bk_obj_id,
                     params: this.$injectMetadata({}, { inject: this.isInjectable }),
                     config: {
                         requestId: 'searchObjectUniqueConstraints'

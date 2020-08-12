@@ -22,7 +22,7 @@ const getters = {
             // 兼容通用方法
             property.options = property.option
             // 自定义字段空间
-            property['__extra__'] = {
+            property.__extra__ = {
                 visible: true
             }
         })

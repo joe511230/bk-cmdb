@@ -162,9 +162,9 @@
             },
             deleteConfirm (item) {
                 this.$bkInfo({
-                    title: this.$tc('删除推送确认', item['subscription_name'], { name: item['subscription_name'] }),
+                    title: this.$tc('删除推送确认', item.subscription_name, { name: item.subscription_name }),
                     confirmFn: () => {
-                        this.deletePush(item['subscription_id'])
+                        this.deletePush(item.subscription_id)
                     }
                 })
             },
@@ -207,8 +207,8 @@
                         this.getTableData()
                     }
                     res.info.map(item => {
-                        item['subscription_form'] = item['subscription_form'].split(',')
-                        item['last_time'] = formatTime(item['last_time'])
+                        item.subscription_form = item.subscription_form.split(',')
+                        item.last_time = formatTime(item.last_time)
                     })
                     this.table.list = res.info
                     pagination.count = res.count

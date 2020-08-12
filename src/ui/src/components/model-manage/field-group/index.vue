@@ -302,18 +302,18 @@
                 groupState: {},
                 initGroupState: {},
                 fieldTypeMap: {
-                    'singlechar': this.$t('短字符'),
-                    'int': this.$t('数字'),
-                    'float': this.$t('浮点'),
-                    'enum': this.$t('枚举'),
-                    'date': this.$t('日期'),
-                    'time': this.$t('时间'),
-                    'longchar': this.$t('长字符'),
-                    'objuser': this.$t('用户'),
-                    'timezone': this.$t('时区'),
-                    'bool': 'bool',
-                    'list': this.$t('列表'),
-                    'organization': this.$t('组织')
+                    singlechar: this.$t('短字符'),
+                    int: this.$t('数字'),
+                    float: this.$t('浮点'),
+                    enum: this.$t('枚举'),
+                    date: this.$t('日期'),
+                    time: this.$t('时间'),
+                    longchar: this.$t('长字符'),
+                    objuser: this.$t('用户'),
+                    timezone: this.$t('时区'),
+                    bool: 'bool',
+                    list: this.$t('列表'),
+                    organization: this.$t('组织')
                 },
                 dialog: {
                     isShow: false,
@@ -360,7 +360,7 @@
                 return this.$route.params.modelId || this.customObjId
             },
             isReadOnly () {
-                return this.activeModel && this.activeModel['bk_ispaused']
+                return this.activeModel && this.activeModel.bk_ispaused
             },
             sortedProperties () {
                 const propertiesSorted = this.isAdminView ? this.groupedProperties : this.metadataGroupedProperties
@@ -373,7 +373,7 @@
             groupedPropertiesCount () {
                 const count = {}
                 this.groupedProperties.forEach(({ info, properties }) => {
-                    const groupId = info['bk_group_id']
+                    const groupId = info.bk_group_id
                     count[groupId] = properties.length
                 })
                 return count
@@ -414,7 +414,7 @@
                 return this.globalUsercustom[`${this.objId}_global_custom_table_columns`]
             },
             canEditSort () {
-                return !this.customObjId && this.curModel['bk_classification_id'] !== 'bk_biz_topo'
+                return !this.customObjId && this.curModel.bk_classification_id !== 'bk_biz_topo'
             }
         },
         async created () {
@@ -474,14 +474,14 @@
                 return metadataIndex !== (this.metadataGroupedProperties.length - 1)
             },
             handleRiseGroup (index, group) {
-                this.groupedProperties[index - 1]['info']['bk_group_index'] = index
-                group['info']['bk_group_index'] = index - 1
+                this.groupedProperties[index - 1].info.bk_group_index = index
+                group.info.bk_group_index = index - 1
                 this.updateGroupIndex()
                 this.resortGroups()
             },
             handleDropGroup (index, group) {
-                this.groupedProperties[index + 1]['info']['bk_group_index'] = index
-                group.info['bk_group_index'] = index + 1
+                this.groupedProperties[index + 1].info.bk_group_index = index
+                group.info.bk_group_index = index + 1
                 this.updateGroupIndex()
                 this.resortGroups()
             },
@@ -505,14 +505,14 @@
                 groups = this.setGroupIndex(groups)
                 const groupState = {}
                 const groupedProperties = groups.map(group => {
-                    groupState[group['bk_group_id']] = group['is_collapse']
+                    groupState[group.bk_group_id] = group.is_collapse
                     return {
                         info: group,
                         properties: properties.filter(property => {
-                            if (['default', 'none'].includes(property['bk_property_group']) && group['bk_group_id'] === 'default') {
+                            if (['default', 'none'].includes(property.bk_property_group) && group.bk_group_id === 'default') {
                                 return true
                             }
-                            return property['bk_property_group'] === group['bk_group_id']
+                            return property.bk_property_group === group.bk_group_id
                         })
                     }
                 })
@@ -535,8 +535,8 @@
             getProperties () {
                 return this.searchObjectAttribute({
                     params: this.$injectMetadata({
-                        'bk_obj_id': this.objId,
-                        'bk_supplier_account': this.supplierAccount
+                        bk_obj_id: this.objId,
+                        bk_supplier_account: this.supplierAccount
                     }, {
                         inject: this.isInjectable
                     }),
@@ -557,21 +557,21 @@
                     }
                 })
                 publicGroups.sort((groupA, groupB) => {
-                    return groupA['bk_group_index'] - groupB['bk_group_index']
+                    return groupA.bk_group_index - groupB.bk_group_index
                 })
                 metadataGroups.sort((groupA, groupB) => {
-                    return groupA['bk_group_index'] - groupB['bk_group_index']
+                    return groupA.bk_group_index - groupB.bk_group_index
                 })
                 return [...publicGroups, ...metadataGroups]
             },
             setGroupIndex (groups) {
                 groups.forEach((group, index) => {
-                    group['bk_group_index'] = index
+                    group.bk_group_index = index
                 })
                 return groups
             },
             setPropertIndex (properties) {
-                properties.sort((propertyA, propertyB) => propertyA['bk_property_index'] - propertyB['bk_property_index'])
+                properties.sort((propertyA, propertyB) => propertyA.bk_property_index - propertyB.bk_property_index)
                 return properties
             },
             handleCancelAddProperty () {
@@ -594,7 +594,7 @@
                 const deletedIndex = deletedProperties.indexOf(property)
                 if (selectedIndex !== -1) {
                     selectedProperties.splice(selectedIndex, 1)
-                    const isDeleteFromGroup = property['bk_property_group'] === this.dialog.group.info['bk_group_id']
+                    const isDeleteFromGroup = property.bk_property_group === this.dialog.group.info.bk_group_id
                     if (isDeleteFromGroup && deletedIndex === -1) {
                         deletedProperties.push(property)
                     }
@@ -603,7 +603,7 @@
                     }
                 } else {
                     selectedProperties.push(property)
-                    const isAddFromOtherGroup = property['bk_property_group'] !== this.dialog.group.info['bk_group_id']
+                    const isAddFromOtherGroup = property.bk_property_group !== this.dialog.group.info.bk_group_id
                     if (isAddFromOtherGroup && addedIndex === -1) {
                         addedProperties.push(property)
                     }
@@ -621,14 +621,14 @@
                 if (addedProperties.length || deletedProperties.length) {
                     this.groupedProperties.forEach(group => {
                         if (group === this.dialog.group) {
-                            const resortedProperties = [...selectedProperties].sort((propertyA, propertyB) => propertyA['bk_property_index'] - propertyB['bk_property_index'])
+                            const resortedProperties = [...selectedProperties].sort((propertyA, propertyB) => propertyA.bk_property_index - propertyB.bk_property_index)
                             group.properties = resortedProperties
                         } else {
                             const resortedProperties = group.properties.filter(property => !addedProperties.includes(property))
-                            if (group.info['bk_group_id'] === 'none') {
+                            if (group.info.bk_group_id === 'none') {
                                 Array.prototype.push.apply(resortedProperties, deletedProperties)
                             }
-                            resortedProperties.sort((propertyA, propertyB) => propertyA['bk_property_index'] - propertyB['bk_property_index'])
+                            resortedProperties.sort((propertyA, propertyB) => propertyA.bk_property_index - propertyB.bk_property_index)
                             group.properties = resortedProperties
                         }
                     })
@@ -636,7 +636,7 @@
                 this.handleCancelAddProperty()
             },
             filter (property) {
-                return property['bk_property_name'].toLowerCase().indexOf(this.dialog.filter.toLowerCase()) !== -1
+                return property.bk_property_name.toLowerCase().indexOf(this.dialog.filter.toLowerCase()) !== -1
             },
             handleEditGroup (group) {
                 this.groupDialog.isShow = true
@@ -644,8 +644,8 @@
                 this.groupDialog.type = 'update'
                 this.groupDialog.title = this.$t('编辑分组')
                 this.groupDialog.group = group
-                this.groupForm.isCollapse = group.info['is_collapse']
-                this.groupForm.groupName = group.info['bk_group_name']
+                this.groupForm.isCollapse = group.info.is_collapse
+                this.groupForm.groupName = group.info.bk_group_name
             },
             async handleUpdateGroup () {
                 const valid = await this.$validator.validate('groupName')
@@ -653,7 +653,7 @@
                     return
                 }
                 const curGroup = this.groupDialog.group
-                const isExist = this.groupedProperties.some(originalGroup => originalGroup !== curGroup && originalGroup.info['bk_group_name'] === this.groupForm.groupName)
+                const isExist = this.groupedProperties.some(originalGroup => originalGroup !== curGroup && originalGroup.info.bk_group_name === this.groupForm.groupName)
                 if (isExist) {
                     this.$error(this.$t('该名字已经存在'))
                     return
@@ -664,8 +664,8 @@
                             id: curGroup.info.id
                         },
                         data: {
-                            'bk_group_name': this.groupForm.groupName,
-                            'is_collapse': this.groupForm.isCollapse
+                            bk_group_name: this.groupForm.groupName,
+                            is_collapse: this.groupForm.isCollapse
                         }
                     }, { inject: this.isInjectable }),
                     config: {
@@ -673,8 +673,8 @@
                         cancelPrevious: true
                     }
                 })
-                curGroup.info['bk_group_name'] = this.groupForm.groupName
-                curGroup.info['is_collapse'] = this.groupForm.isCollapse
+                curGroup.info.bk_group_name = this.groupForm.groupName
+                curGroup.info.is_collapse = this.groupForm.isCollapse
                 this.groupState[curGroup.info.bk_group_id] = this.groupForm.isCollapse
                 this.groupDialog.isShow = false
             },
@@ -697,7 +697,7 @@
                     return
                 }
                 const groupedProperties = this.groupedProperties
-                const isExist = groupedProperties.some(group => group.info['bk_group_name'] === this.groupForm.groupName)
+                const isExist = groupedProperties.some(group => group.info.bk_group_name === this.groupForm.groupName)
                 if (isExist) {
                     this.$error(this.$t('该名字已经存在'))
                     return
@@ -705,12 +705,12 @@
                 const groupId = Date.now().toString()
                 this.createGroup({
                     params: this.$injectMetadata({
-                        'bk_group_id': groupId,
-                        'bk_group_index': groupedProperties.length + 1,
-                        'bk_group_name': this.groupForm.groupName,
-                        'bk_obj_id': this.objId,
-                        'bk_supplier_account': this.supplierAccount,
-                        'is_collapse': this.groupForm.isCollapse
+                        bk_group_id: groupId,
+                        bk_group_index: groupedProperties.length + 1,
+                        bk_group_name: this.groupForm.groupName,
+                        bk_obj_id: this.objId,
+                        bk_supplier_account: this.supplierAccount,
+                        is_collapse: this.groupForm.isCollapse
                     }, {
                         inject: this.isInjectable
                     }),
@@ -746,10 +746,10 @@
                 })
             },
             resortGroups () {
-                this.groupedProperties.sort((groupA, groupB) => groupA.info['bk_group_index'] - groupB.info['bk_group_index'])
+                this.groupedProperties.sort((groupA, groupB) => groupA.info.bk_group_index - groupB.info.bk_group_index)
             },
             updateGroupIndex () {
-                const groupToUpdate = this.groupedProperties.filter((group, index) => group.info['bk_group_index'] !== index)
+                const groupToUpdate = this.groupedProperties.filter((group, index) => group.info.bk_group_index !== index)
                 groupToUpdate.forEach(group => {
                     this.updateGroup({
                         params: this.$injectMetadata({
@@ -757,7 +757,7 @@
                                 id: group.info.id
                             },
                             data: {
-                                'bk_group_index': group.info['bk_group_index']
+                                bk_group_index: group.info.bk_group_index
                             }
                         }, {
                             inject: this.isInjectable
@@ -833,7 +833,7 @@
             },
             handleDeleteField ({ property: field, index, fieldIndex }) {
                 this.$bkInfo({
-                    title: this.$tc('确定删除字段？', field['bk_property_name'], { name: field['bk_property_name'] }),
+                    title: this.$tc('确定删除字段？', field.bk_property_name, { name: field.bk_property_name }),
                     confirmFn: async () => {
                         await this.$store.dispatch('objectModelProperty/deleteObjectAttribute', {
                             id: field.id,
@@ -845,7 +845,7 @@
                                 originalResponse: true
                             }
                         }).then(res => {
-                            this.$http.cancel(`post_searchObjectAttribute_${this.activeModel['bk_obj_id']}`)
+                            this.$http.cancel(`post_searchObjectAttribute_${this.activeModel.bk_obj_id}`)
                             if (res.data.bk_error_msg === 'success' && res.data.bk_error_code === 0) {
                                 this.groupedProperties[index].properties.splice(fieldIndex, 1)
                                 this.handleSliderHidden()

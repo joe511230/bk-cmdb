@@ -70,7 +70,7 @@
                 return allProperties
             },
             previewParams () {
-                const conditions = this.$tools.clone(this.apiParams['info']['condition'])
+                const conditions = this.$tools.clone(this.apiParams.info.condition)
                 conditions.forEach(model => {
                     const modelCondition = model.condition || []
                     const newConditions = []
@@ -86,7 +86,7 @@
                     model.condition = newConditions
                 })
                 const previewParams = {
-                    'bk_biz_id': this.apiParams['bk_biz_id'],
+                    bk_biz_id: this.apiParams.bk_biz_id,
                     condition: conditions,
                     page: {
                         start: (this.table.pagination.current - 1) * this.table.pagination.limit,
@@ -111,7 +111,7 @@
                 'searchHost'
             ]),
             getHostCellText (property, item) {
-                const objId = property['bk_obj_id']
+                const objId = property.bk_obj_id
                 const originalValues = item[objId] instanceof Array ? item[objId] : [item[objId]]
                 const text = []
                 originalValues.forEach(value => {
@@ -122,7 +122,7 @@
             },
             getColumnProperty (propertyId, objId) {
                 return this.allProperties.find(property => {
-                    return property['bk_property_id'] === propertyId && property['bk_obj_id'] === objId
+                    return property.bk_property_id === propertyId && property.bk_obj_id === objId
                 })
             },
             setTableHeader () {
@@ -150,12 +150,12 @@
                             name: this.$t('业务')
                         }
                     } else {
-                        const property = this.attribute.host.properties.find(property => propertyId === property['bk_property_id'])
+                        const property = this.attribute.host.properties.find(property => propertyId === property.bk_property_id)
                         if (property) {
                             header = {
                                 objId: 'host',
-                                id: property['bk_property_id'],
-                                name: property['bk_property_name']
+                                id: property.bk_property_id,
+                                name: property.bk_property_name
                             }
                         }
                     }

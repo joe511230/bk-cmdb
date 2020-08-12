@@ -137,7 +137,7 @@
             ...mapGetters('objectModelClassify', ['models']),
             isReadOnly () {
                 if (this.activeModel) {
-                    return this.activeModel['bk_ispaused']
+                    return this.activeModel.bk_ispaused
                 }
                 return false
             }
@@ -153,7 +153,7 @@
                 'searchAssociationType'
             ]),
             isEditable (item) {
-                if (item.ispre || item['bk_asst_id'] === 'bk_mainline' || this.isReadOnly) {
+                if (item.ispre || item.bk_asst_id === 'bk_mainline' || this.isReadOnly) {
                     return false
                 }
                 if (!this.isAdminView) {
@@ -189,9 +189,9 @@
                 })
             },
             getModelName (objId) {
-                const model = this.models.find(model => model['bk_obj_id'] === objId)
+                const model = this.models.find(model => model.bk_obj_id === objId)
                 if (model) {
-                    return model['bk_obj_name']
+                    return model.bk_obj_name
                 }
                 return ''
             },
@@ -220,7 +220,7 @@
                                 requestId: 'deleteObjectAssociation'
                             }
                         }).then(() => {
-                            this.$http.cancel(`post_searchObjectAssociation_${this.activeModel['bk_obj_id']}`)
+                            this.$http.cancel(`post_searchObjectAssociation_${this.activeModel.bk_obj_id}`)
                         })
                         this.searchRelationList()
                     }
@@ -234,7 +234,7 @@
                 return this.searchObjectAssociation({
                     params: this.$injectMetadata({
                         condition: {
-                            'bk_obj_id': this.activeModel['bk_obj_id']
+                            bk_obj_id: this.activeModel.bk_obj_id
                         }
                     }, {
                         inject: this.isInjectable
@@ -245,7 +245,7 @@
                 return this.searchObjectAssociation({
                     params: this.$injectMetadata({
                         condition: {
-                            'bk_asst_obj_id': this.activeModel['bk_obj_id']
+                            bk_asst_obj_id: this.activeModel.bk_obj_id
                         }
                     }, {
                         inject: this.isInjectable

@@ -191,13 +191,13 @@
                     this.table.allList = templateData.info.map(template => {
                         const result = {
                             ...template,
-                            ...template['service_template']
+                            ...template.service_template
                         }
-                        const secondaryCategory = this.allSecondaryList.find(classification => classification['id'] === result['service_category_id'])
-                        const mainCategory = this.mainList.find(classification => secondaryCategory && classification['id'] === secondaryCategory['bk_parent_id'])
-                        const secondaryCategoryName = secondaryCategory ? secondaryCategory['name'] : '--'
-                        const mainCategoryName = mainCategory ? mainCategory['name'] : '--'
-                        result['service_category'] = `${mainCategoryName} / ${secondaryCategoryName}`
+                        const secondaryCategory = this.allSecondaryList.find(classification => classification.id === result.service_category_id)
+                        const mainCategory = this.mainList.find(classification => secondaryCategory && classification.id === secondaryCategory.bk_parent_id)
+                        const secondaryCategoryName = secondaryCategory ? secondaryCategory.name : '--'
+                        const mainCategoryName = mainCategory ? mainCategory.name : '--'
+                        result.service_category = `${mainCategoryName} / ${secondaryCategoryName}`
                         return result
                     })
                     this.table.stuff.type = this.hasFilter ? 'search' : 'default'
@@ -228,12 +228,12 @@
                         requestId: 'get_proc_services_categories'
                     }
                 })
-                this.classificationList = res.info.map(item => item['category'])
-                this.mainList = this.classificationList.filter(classification => !classification['bk_parent_id'])
-                this.allSecondaryList = this.classificationList.filter(classification => classification['bk_parent_id'])
+                this.classificationList = res.info.map(item => item.category)
+                this.mainList = this.classificationList.filter(classification => !classification.bk_parent_id)
+                this.allSecondaryList = this.classificationList.filter(classification => classification.bk_parent_id)
             },
             handleSelect (id, data) {
-                this.secondaryList = this.allSecondaryList.filter(classification => classification['bk_parent_id'] === id)
+                this.secondaryList = this.allSecondaryList.filter(classification => classification.bk_parent_id === id)
                 this.filter.secondaryClassification = ''
                 this.maincategoryId = id
                 this.getTableData(true)

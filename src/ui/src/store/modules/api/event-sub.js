@@ -81,7 +81,7 @@ const actions = {
      * @return {Promise} promise 对象
      */
     pingSubscription ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`event/subscribe/ping`, params, config)
+        return $http.post('event/subscribe/ping', params, config)
     },
 
     /**
@@ -93,7 +93,7 @@ const actions = {
      * @return {Promise} promise 对象
      */
     testingConnection ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`event/subscribe/telnet`, params, config)
+        return $http.post('event/subscribe/telnet', params, config)
     }
 }
 

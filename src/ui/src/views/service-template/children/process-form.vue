@@ -120,16 +120,16 @@
             return {
                 ipOption: [
                     {
-                        'name': '127.0.0.1',
-                        'type': 'text',
-                        'is_default': true,
-                        'id': '1'
+                        name: '127.0.0.1',
+                        type: 'text',
+                        is_default: true,
+                        id: '1'
                     },
                     {
-                        'id': '2',
-                        'name': '0.0.0.0',
-                        'type': 'text',
-                        'is_default': false
+                        id: '2',
+                        name: '0.0.0.0',
+                        type: 'text',
+                        is_default: false
                     }
                     // {
                     //     'name': '第一内网IP',
@@ -154,9 +154,9 @@
         computed: {
             groupedProperties () {
                 const properties = this.$groupedProperties.map(properties => {
-                    const filterProperties = properties.filter(property => !['singleasst', 'multiasst', 'foreignkey'].includes(property['bk_property_type']))
+                    const filterProperties = properties.filter(property => !['singleasst', 'multiasst', 'foreignkey'].includes(property.bk_property_type))
                     filterProperties.map(property => {
-                        if (!['bk_func_name', 'bk_process_name'].includes(property['bk_property_id'])) {
+                        if (!['bk_func_name', 'bk_process_name'].includes(property.bk_property_id)) {
                             property.isLocking = false
                         }
                         // if (['bind_ip'].includes(property['bk_property_id'])) {
@@ -197,14 +197,14 @@
         methods: {
             ...mapMutations('serviceProcess', ['addLocalProcessTemplate', 'updateLocalProcessTemplate']),
             getPropertyEditStatus (property) {
-                const uneditable = ['bk_func_name', 'bk_process_name'].includes(property['bk_property_id']) && !this.isCreatedService
+                const uneditable = ['bk_func_name', 'bk_process_name'].includes(property.bk_property_id) && !this.isCreatedService
                 return (this.type === 'update' && uneditable)
-                    || !this.values[property['bk_property_id']]['as_default_value']
+                    || !this.values[property.bk_property_id].as_default_value
             },
             changedValues () {
                 const changedValues = {}
                 if (!Object.keys(this.refrenceValues).length) return {}
-                if (!this.values['bind_ip']['value']) {
+                if (!this.values.bind_ip.value) {
                     this.$set(this.values.bind_ip, 'value', '')
                     this.$set(this.refrenceValues.bind_ip, 'value', '')
                 }
@@ -237,14 +237,14 @@
                     Object.keys(this.inst).forEach(key => {
                         const type = typeof this.inst[key]
                         if (type === 'object') {
-                            inst[key] = this.inst[key] ? this.inst[key]['value'] : this.inst[key]
+                            inst[key] = this.inst[key] ? this.inst[key].value : this.inst[key]
                         } else {
                             inst[key] = this.inst[key]
                         }
                     })
                 }
                 const properties = this.properties.map(property => {
-                    if (['bind_ip'].includes(property['bk_property_id'])) {
+                    if (['bind_ip'].includes(property.bk_property_id)) {
                         property.bk_property_type = 'enum'
                         property.option = this.ipOption
                     }
@@ -255,14 +255,14 @@
                     this.$set(this.values, key, {
                         value: formValues[key],
                         as_default_value: this.type === 'update'
-                            ? this.inst[key] ? this.inst[key]['as_default_value'] : false
+                            ? this.inst[key] ? this.inst[key].as_default_value : false
                             : ['bk_func_name', 'bk_process_name'].includes(key)
                     })
                 })
                 if (this.isCreatedService && this.type === 'update') {
-                    this.values['sign_id'] = inst['sign_id']
+                    this.values.sign_id = inst.sign_id
                 } else if (this.type === 'update') {
-                    this.values['process_id'] = inst['process_id']
+                    this.values.process_id = inst.process_id
                 }
                 const timer = setTimeout(() => {
                     this.refrenceValues = this.$tools.clone(this.values)
@@ -277,9 +277,9 @@
             },
             checkEditable (property) {
                 if (this.type === 'create') {
-                    return !property['bk_isapi']
+                    return !property.bk_isapi
                 }
-                return property.editable && !property['bk_isapi']
+                return property.editable && !property.bk_isapi
             },
             checkDisabled (property) {
                 if (this.type === 'create') {
@@ -324,8 +324,8 @@
             },
             uncollapseGroup () {
                 this.errors.items.forEach(item => {
-                    const property = this.properties.find(property => property['bk_property_id'] === item.field)
-                    const group = property['bk_property_group']
+                    const property = this.properties.find(property => property.bk_property_id === item.field)
+                    const group = property.bk_property_group
                     this.groupState[group] = false
                 })
             },
@@ -350,13 +350,13 @@
             },
             handleResetValue (status, property) {
                 if (!status) {
-                    const type = property['bk_property_type']
+                    const type = property.bk_property_type
                     if (['bool'].includes(type)) {
-                        this.values[property['bk_property_id']]['value'] = false
+                        this.values[property.bk_property_id].value = false
                     } else if (['int'].includes(type)) {
-                        this.values[property['bk_property_id']]['value'] = null
+                        this.values[property.bk_property_id].value = null
                     } else {
-                        this.values[property['bk_property_id']]['value'] = ''
+                        this.values[property.bk_property_id].value = ''
                     }
                 }
             }

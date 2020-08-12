@@ -29,7 +29,7 @@ const actions = {
      * @return {Promise} promise 对象
      */
     searchHost ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`hosts/search`, transformHostSearchParams(params), config).then(data => {
+        return $http.post('hosts/search', transformHostSearchParams(params), config).then(data => {
             if (data.hasOwnProperty('info')) {
                 data.info.forEach(host => {
                     localSort(host.module, 'bk_module_name')
@@ -74,7 +74,7 @@ const actions = {
      * @return {Promise} promise 对象
      */
     searchHostByCondition ({ commit, state, dispatch }, { params }) {
-        return $http.post(`hosts/snapshot/asstdetail`, params)
+        return $http.post('hosts/snapshot/asstdetail', params)
     }
 }
 

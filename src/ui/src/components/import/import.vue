@@ -177,7 +177,7 @@
                         } else {
                             this.failed = true
                             this.fileInfo.status = this.$t('失败')
-                            this.$error(res['bk_error_msg'])
+                            this.$error(res.bk_error_msg)
                             this.$emit('error', res)
                         }
                         this.$refs.fileInput.value = ''

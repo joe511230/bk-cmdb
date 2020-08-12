@@ -364,8 +364,8 @@
             },
             handleLinkToFAQ () {
                 const FAQLink = {
-                    '1': 'https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html',
-                    '2': 'https://cloud.tencent.com/document/product/598/37140'
+                    1: 'https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html',
+                    2: 'https://cloud.tencent.com/document/product/598/37140'
                 }
                 const link = FAQLink[this.form.bk_cloud_vendor]
                 if (link) {

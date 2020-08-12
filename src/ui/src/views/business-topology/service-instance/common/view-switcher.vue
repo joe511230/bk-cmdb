@@ -50,7 +50,7 @@
         },
         methods: {
             handleSwitch (active) {
-                RouterQuery.set({ 'view': active })
+                RouterQuery.set({ view: active })
             },
             hideTips () {
                 this.tipsDisabled = true

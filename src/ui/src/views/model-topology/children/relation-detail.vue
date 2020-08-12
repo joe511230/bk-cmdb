@@ -139,9 +139,9 @@
                 }
             },
             getModelName (objId) {
-                const model = this.models.find(model => model['bk_obj_id'] === objId)
+                const model = this.models.find(model => model.bk_obj_id === objId)
                 if (model) {
-                    return model['bk_obj_name']
+                    return model.bk_obj_name
                 }
                 return ''
             },
@@ -149,7 +149,7 @@
                 await this.updateObjectAssociation({
                     id: this.relationInfo.id,
                     params: this.$injectMetadata({
-                        bk_obj_asst_name: this.relationInfo['bk_obj_asst_name']
+                        bk_obj_asst_name: this.relationInfo.bk_obj_asst_name
                     }),
                     config: {
                         requestId: 'updateObjectAssociation'

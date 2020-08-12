@@ -118,7 +118,7 @@
                 const hitsData = data.hits || []
                 const modelData = data.aggregations || []
                 this.modelClassify.forEach(model => {
-                    this.modelClassifyName[model['bk_obj_id']] = model['bk_obj_name']
+                    this.modelClassifyName[model.bk_obj_id] = model.bk_obj_name
                 })
                 await this.processArray(modelData)
                 this.searchData = hitsData.filter(hits => !['model'].includes(hits.type)).map(hits => {
@@ -128,13 +128,13 @@
                         highlight: hits.highlight
                     }
                     if (hit.hasOwnProperty('bk_obj_id')) {
-                        hit['bk_obj_id'] = hit['bk_obj_id'].toString().replace(/\<\/?em\>/g, '')
+                        hit.bk_obj_id = hit.bk_obj_id.toString().replace(/\<\/?em\>/g, '')
                     }
                     return hit
                 })
             },
             isPublicModel (objId) {
-                const model = this.models.find(model => model['bk_obj_id'] === objId) || {}
+                const model = this.models.find(model => model.bk_obj_id === objId) || {}
                 return !this.$tools.getMetadataBiz(model)
             },
             async getPublicModelProperties (objId) {
@@ -144,8 +144,8 @@
                         bk_supplier_account: this.supplierAccount
                     }, { inject: false }),
                     config: {
-                        requestId: `post_batchSearchObjectAttribute_${objId['$in'].join('_')}`,
-                        requestGroup: objId['$in'].map(id => `post_searchObjectAttribute_${id}`)
+                        requestId: `post_batchSearchObjectAttribute_${objId.$in.join('_')}`,
+                        requestGroup: objId.$in.map(id => `post_searchObjectAttribute_${id}`)
                     }
                 })
             },
@@ -168,7 +168,7 @@
                 const privateObj = data.filter(aggregation => !this.isPublicModel(aggregation.key)).map(model => model.key)
                 if (publicObj.length) {
                     const objId = {
-                        '$in': publicObj
+                        $in: publicObj
                     }
                     await this.getPublicModelProperties(objId)
                 }
@@ -179,18 +179,18 @@
                 }
             },
             jumpPage (source) {
-                if (source['hitsType'] === 'host') {
+                if (source.hitsType === 'host') {
                     this.$routerActions.redirect({
                         name: MENU_RESOURCE_HOST_DETAILS,
                         params: {
-                            id: source['bk_host_id'].toString().replace(/(\<\/?em\>)/g, '')
+                            id: source.bk_host_id.toString().replace(/(\<\/?em\>)/g, '')
                         },
                         history: true
                     })
-                } else if (source['hitsType'] === 'object') {
-                    const model = this.getModelById(source['bk_obj_id'])
-                    const isPauserd = this.getModelById(source['bk_obj_id'])['bk_ispaused']
-                    if (model['bk_classification_id'] === 'bk_biz_topo') {
+                } else if (source.hitsType === 'object') {
+                    const model = this.getModelById(source.bk_obj_id)
+                    const isPauserd = this.getModelById(source.bk_obj_id).bk_ispaused
+                    if (model.bk_classification_id === 'bk_biz_topo') {
                         this.$bkMessage({
                             message: this.$t('主线模型无法查看'),
                             theme: 'warning'
@@ -206,18 +206,18 @@
                     this.$routerActions.redirect({
                         name: MENU_RESOURCE_INSTANCE_DETAILS,
                         params: {
-                            objId: source['bk_obj_id'],
-                            instId: source['bk_inst_id'].toString().replace(/(\<\/?em\>)/g, '')
+                            objId: source.bk_obj_id,
+                            instId: source.bk_inst_id.toString().replace(/(\<\/?em\>)/g, '')
                         },
                         history: true
                     })
-                } else if (source['hitsType'] === 'biz') {
+                } else if (source.hitsType === 'biz') {
                     const name = source.bk_data_status === 'disabled' ? MENU_RESOURCE_BUSINESS_HISTORY : MENU_RESOURCE_BUSINESS_DETAILS
                     this.$routerActions.redirect({
                         name: name,
                         params: {
                             bizId: source.bk_biz_id,
-                            bizName: source['bk_biz_name'].toString().replace(/(\<\/?em\>)/g, '')
+                            bizName: source.bk_biz_name.toString().replace(/(\<\/?em\>)/g, '')
                         },
                         history: true
                     })

@@ -86,7 +86,7 @@
         computed: {
             groupedProperties () {
                 return this.$groupedProperties.map(properties => {
-                    return properties.filter(property => !['singleasst', 'multiasst', 'foreignkey'].includes(property['bk_property_type']))
+                    return properties.filter(property => !['singleasst', 'multiasst', 'foreignkey'].includes(property.bk_property_type))
                 })
             }
         },
@@ -124,9 +124,9 @@
             },
             checkEditable (property) {
                 if (this.type === 'create') {
-                    return !property['bk_isapi']
+                    return !property.bk_isapi
                 }
-                return property.editable && !property['bk_isapi']
+                return property.editable && !property.bk_isapi
             },
             checkDisabled (property) {
                 if (this.type === 'create') {
@@ -150,8 +150,8 @@
             },
             uncollapseGroup () {
                 this.errors.items.forEach(item => {
-                    const property = this.properties.find(property => property['bk_property_id'] === item.field)
-                    const group = property['bk_property_group']
+                    const property = this.properties.find(property => property.bk_property_id === item.field)
+                    const group = property.bk_property_group
                     this.groupState[group] = false
                 })
             }

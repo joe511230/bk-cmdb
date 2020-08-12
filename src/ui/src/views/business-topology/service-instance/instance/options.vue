@@ -172,11 +172,11 @@
                     return false
                 }
                 this.searchValue.push({
-                    'id': 'name',
-                    'name': this.$t('服务实例名'),
-                    'values': [{
-                        'id': filterName,
-                        'name': filterName
+                    id: 'name',
+                    name: this.$t('服务实例名'),
+                    values: [{
+                        id: filterName,
+                        name: filterName
                     }]
                 })
                 this.$nextTick(() => {

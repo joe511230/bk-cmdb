@@ -231,7 +231,7 @@
                 return type
             },
             isComponentShow () {
-                return ['singlechar', 'longchar', 'enum', 'int', 'float', 'list', 'bool'].indexOf(this.fieldInfo['bk_property_type']) !== -1
+                return ['singlechar', 'longchar', 'enum', 'int', 'float', 'list', 'bool'].indexOf(this.fieldInfo.bk_property_type) !== -1
             },
             changedValues () {
                 const changedValues = {}
@@ -331,7 +331,7 @@
                         }
                     }).then(() => {
                         fieldId = this.fieldInfo.bk_property_id
-                        this.$http.cancel(`post_searchObjectAttribute_${this.activeModel['bk_obj_id']}`)
+                        this.$http.cancel(`post_searchObjectAttribute_${this.activeModel.bk_obj_id}`)
                         this.$http.cancelCache('getHostPropertyList')
                     })
                 } else {
@@ -355,7 +355,7 @@
                             requestId: 'createObjectAttribute'
                         }
                     }).then(() => {
-                        this.$http.cancel(`post_searchObjectAttribute_${this.activeModel['bk_obj_id']}`)
+                        this.$http.cancel(`post_searchObjectAttribute_${this.activeModel.bk_obj_id}`)
                         this.$http.cancelCache('getHostPropertyList')
                     })
                 }

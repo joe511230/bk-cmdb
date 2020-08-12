@@ -27,7 +27,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     createNetcollectProperty ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.post(`collector/netcollect/property/action/create`, params, config)
+        return $http.post('collector/netcollect/property/action/create', params, config)
     },
     /**
      * 更新属性
@@ -48,7 +48,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     searchNetcollectProperty ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.post(`collector/netcollect/property/action/search`, params, config)
+        return $http.post('collector/netcollect/property/action/search', params, config)
     },
     /**
      * 批量删除属性
@@ -59,7 +59,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     deleteNetcollectProperty ({ commit, state, dispatch, rootGetters }, { config }) {
-        return $http.delete(`collector/netcollect/property/action/delete`, config)
+        return $http.delete('collector/netcollect/property/action/delete', config)
     },
     /**
      * 导入属性

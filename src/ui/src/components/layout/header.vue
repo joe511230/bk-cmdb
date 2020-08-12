@@ -91,7 +91,7 @@
             },
             handleLogout () {
                 this.$http.post(`${window.API_HOST}logout`, {
-                    'http_scheme': window.location.protocol.replace(':', '')
+                    http_scheme: window.location.protocol.replace(':', '')
                 }).then(data => {
                     window.location.href = data.url
                 })

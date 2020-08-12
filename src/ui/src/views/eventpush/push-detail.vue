@@ -274,15 +274,15 @@
             },
             params () {
                 const params = this.$tools.clone(this.tempEventData)
-                params['confirm_pattern'] = this.tempEventData['confirm_mode'] === 'httpstatus' ? this.tempEventData['confirm_pattern']['httpstatus'] : this.tempEventData['confirm_pattern']['regular']
+                params.confirm_pattern = this.tempEventData.confirm_mode === 'httpstatus' ? this.tempEventData.confirm_pattern.httpstatus : this.tempEventData.confirm_pattern.regular
                 const subscriptionForm = []
-                for (const key in params['subscription_form']) {
-                    if (params['subscription_form'][key].length) {
-                        subscriptionForm.push(params['subscription_form'][key].join(','))
+                for (const key in params.subscription_form) {
+                    if (params.subscription_form[key].length) {
+                        subscriptionForm.push(params.subscription_form[key].join(','))
                     }
                 }
-                params['subscription_form'] = subscriptionForm.join(',')
-                params['time_out'] = parseInt(params['time_out'])
+                params.subscription_form = subscriptionForm.join(',')
+                params.time_out = parseInt(params.time_out)
                 return params
             }
         },
@@ -300,7 +300,7 @@
                 const eventData = this.eventData
                 for (const key in tempEventData) {
                     if (key === 'confirm_pattern') {
-                        if (tempEventData[key][tempEventData['confirm_mode']] !== eventData[key][eventData['confirm_mode']]) {
+                        if (tempEventData[key][tempEventData.confirm_mode] !== eventData[key][eventData.confirm_mode]) {
                             return true
                         }
                     } else if (key === 'subscription_form') {
@@ -348,12 +348,10 @@
                 if (!await this.checkParams()) {
                     return
                 }
-                // eslint-disable-next-line
-                let res = null
                 if (this.type === 'create') {
-                    res = await this.subscribeEvent({ bkBizId: 0, params: this.params, config: { requestId: 'savePush' } })
+                    await this.subscribeEvent({ bkBizId: 0, params: this.params, config: { requestId: 'savePush' } })
                 } else {
-                    res = await this.updateEventSubscribe({ bkBizId: 0, subscriptionId: this.curPush['subscription_id'], params: this.params, config: { requestId: 'savePush' } })
+                    await this.updateEventSubscribe({ bkBizId: 0, subscriptionId: this.curPush.subscription_id, params: this.params, config: { requestId: 'savePush' } })
                 }
                 this.$emit('saveSuccess')
                 this.$success(this.$t('保存成功'))
@@ -365,14 +363,14 @@
             checkAll (objId) {
                 if (event.target.checked) {
                     if (objId === 'resource') {
-                        this.tempEventData['subscription_form'][objId] = ['hostcreate', 'hostdelete']
+                        this.tempEventData.subscription_form[objId] = ['hostcreate', 'hostdelete']
                     } else if (objId === 'host') {
-                        this.tempEventData['subscription_form'][objId] = ['moduletransfer', 'hostupdate', 'hostidentifier']
+                        this.tempEventData.subscription_form[objId] = ['moduletransfer', 'hostupdate', 'hostidentifier']
                     } else {
-                        this.tempEventData['subscription_form'][objId] = [`${objId}create`, `${objId}update`, `${objId}delete`]
+                        this.tempEventData.subscription_form[objId] = [`${objId}create`, `${objId}update`, `${objId}delete`]
                     }
                 } else {
-                    this.tempEventData['subscription_form'][objId] = []
+                    this.tempEventData.subscription_form[objId] = []
                 }
             },
             toggleEventList (classify) {
@@ -385,14 +383,14 @@
                 const eventPushList = []
                 const subscriptionForm = {}
                 this.classifications.map(classify => {
-                    if (classify['bk_objects'].length && classify['bk_classification_id'] !== 'bk_host_manage') {
+                    if (classify.bk_objects.length && classify.bk_classification_id !== 'bk_host_manage') {
                         const event = {
-                            name: classify['bk_classification_name'],
+                            name: classify.bk_classification_name,
                             isHidden: false,
-                            classificationId: classify['bk_classification_id'],
+                            classificationId: classify.bk_classification_id,
                             children: []
                         }
-                        if (classify['bk_classification_id'] === 'bk_biz_topo') {
+                        if (classify.bk_classification_id === 'bk_biz_topo') {
                             event.children.push({
                                 id: 'set',
                                 name: this.$t('集群')
@@ -400,22 +398,22 @@
                                 id: 'module',
                                 name: this.$t('模块')
                             })
-                            subscriptionForm['set'] = []
-                            subscriptionForm['module'] = []
+                            subscriptionForm.set = []
+                            subscriptionForm.module = []
                         } else {
-                            classify['bk_objects'].map(model => {
+                            classify.bk_objects.map(model => {
                                 event.children.push({
-                                    id: model['bk_obj_id'],
-                                    name: model['bk_obj_name']
+                                    id: model.bk_obj_id,
+                                    name: model.bk_obj_name
                                 })
-                                subscriptionForm[model['bk_obj_id']] = []
+                                subscriptionForm[model.bk_obj_id] = []
                             })
                         }
                         eventPushList.push(event)
                     }
                 })
-                subscriptionForm['resource'] = []
-                subscriptionForm['host'] = []
+                subscriptionForm.resource = []
+                subscriptionForm.host = []
                 eventPushList.unshift({
                     isDefault: true,
                     isHidden: false,
@@ -435,57 +433,62 @@
             initData () {
                 if (this.type === 'edit') {
                     const subscriptionForm = {}
-                    this.curPush['subscription_form'].map(item => {
+                    this.curPush.subscription_form.map(item => {
                         switch (item) {
-                            case 'hostcreate':
+                            case 'hostcreate': {
                                 if (subscriptionForm.hasOwnProperty('resource')) {
-                                    subscriptionForm['resource'].push('hostcreate')
+                                    subscriptionForm.resource.push('hostcreate')
                                 } else {
-                                    subscriptionForm['resource'] = ['hostcreate']
+                                    subscriptionForm.resource = ['hostcreate']
                                 }
                                 break
-                            case 'hostdelete':
+                            }
+                            case 'hostdelete': {
                                 if (subscriptionForm.hasOwnProperty('resource')) {
-                                    subscriptionForm['resource'].push('hostdelete')
+                                    subscriptionForm.resource.push('hostdelete')
                                 } else {
-                                    subscriptionForm['resource'] = ['hostdelete']
+                                    subscriptionForm.resource = ['hostdelete']
                                 }
                                 break
-                            case 'hostidentifier':
+                            }
+                            case 'hostidentifier': {
                                 if (subscriptionForm.hasOwnProperty('host')) {
-                                    subscriptionForm['host'].push('hostidentifier')
+                                    subscriptionForm.host.push('hostidentifier')
                                 } else {
-                                    subscriptionForm['host'] = ['hostidentifier']
+                                    subscriptionForm.host = ['hostidentifier']
                                 }
                                 break
-                            case 'moduletransfer':
+                            }
+                            case 'moduletransfer': {
                                 if (subscriptionForm.hasOwnProperty('host')) {
-                                    subscriptionForm['host'].push('moduletransfer')
+                                    subscriptionForm.host.push('moduletransfer')
                                 } else {
-                                    subscriptionForm['host'] = ['moduletransfer']
+                                    subscriptionForm.host = ['moduletransfer']
                                 }
                                 break
-                            default:
+                            }
+                            default: {
                                 const key = item.substr(0, item.length - 6)
                                 if (subscriptionForm.hasOwnProperty(key)) {
                                     subscriptionForm[key].push(item)
                                 } else {
                                     subscriptionForm[key] = [item]
                                 }
+                            }
                         }
                     })
                     this.tempEventData = {
-                        subscription_id: this.curPush['subscription_id'],
-                        subscription_name: this.curPush['subscription_name'],
-                        system_name: this.curPush['system_name'],
-                        callback_url: this.curPush['callback_url'],
-                        confirm_mode: this.curPush['confirm_mode'],
+                        subscription_id: this.curPush.subscription_id,
+                        subscription_name: this.curPush.subscription_name,
+                        system_name: this.curPush.system_name,
+                        callback_url: this.curPush.callback_url,
+                        confirm_mode: this.curPush.confirm_mode,
                         confirm_pattern: {
-                            httpstatus: this.curPush['confirm_mode'] === 'httpstatus' ? this.curPush['confirm_pattern'] : '',
-                            regular: this.curPush['confirm_mode'] === 'regular' ? this.curPush['confirm_pattern'] : ''
+                            httpstatus: this.curPush.confirm_mode === 'httpstatus' ? this.curPush.confirm_pattern : '',
+                            regular: this.curPush.confirm_mode === 'regular' ? this.curPush.confirm_pattern : ''
                         },
-                        subscription_form: { ...this.tempEventData['subscription_form'], ...subscriptionForm },
-                        time_out: this.curPush['time_out']
+                        subscription_form: { ...this.tempEventData.subscription_form, ...subscriptionForm },
+                        time_out: this.curPush.time_out
                     }
                 }
                 this.eventData = this.$tools.clone(this.tempEventData)

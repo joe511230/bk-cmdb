@@ -124,6 +124,12 @@ module.exports = {
         // 如果一个变量不会被重新赋值，必须使用 `const` 进行声明。
         'prefer-const': 'error',
 
+        // https://eslint.org/docs/rules/no-prototype-builtins
+        // 禁止直接在对象上调用对象原型方法。不限制
+        'no-prototype-builtins': 'off',
+        'no-async-promise-executor': 'off',
+        'no-void': 'off',
+
         // https://github.com/vuejs/eslint-plugin-vue/blob/master/docs/rules/array-bracket-spacing.md
         'vue/array-bracket-spacing': ['error', 'never'],
 

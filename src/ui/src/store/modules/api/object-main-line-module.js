@@ -28,7 +28,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     createMainlineObject ({ commit, state, dispatch }, { params }) {
-        return $http.post(`create/topomodelmainline`, params)
+        return $http.post('create/topomodelmainline', params)
     },
 
     /**
@@ -52,7 +52,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     searchMainlineObject ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.post(`find/topomodelmainline`, params, config)
+        return $http.post('find/topomodelmainline', params, config)
     },
 
     /**

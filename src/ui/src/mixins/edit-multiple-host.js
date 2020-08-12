@@ -60,7 +60,7 @@ export default {
                 await this.$store.dispatch('hostUpdate/updateHost', {
                     params: {
                         ...changedValues,
-                        'bk_host_id': this.selection.map(row => row.host.bk_host_id).join(',')
+                        bk_host_id: this.selection.map(row => row.host.bk_host_id).join(',')
                     }
                 })
                 this.slider.show = false

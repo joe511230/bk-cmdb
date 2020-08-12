@@ -28,7 +28,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     getCountedCharts ({ commit, state, dispatch }, { params, config }) {
-        return $http.get(`findmany/operation/chart`, params, config)
+        return $http.get('findmany/operation/chart', params, config)
     },
 
     /**
@@ -40,7 +40,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     getCountedChartsData ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`find/operation/chart/data`, params, config)
+        return $http.post('find/operation/chart/data', params, config)
     },
 
     /**
@@ -64,7 +64,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     getStaticObj ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`objects`, params, config)
+        return $http.post('objects', params, config)
     },
 
     /**
@@ -76,7 +76,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     newStatisticalCharts ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`create/operation/chart`, params, config)
+        return $http.post('create/operation/chart', params, config)
     },
 
     /**
@@ -88,7 +88,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     updateStatisticalCharts ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`update/operation/chart`, params, config)
+        return $http.post('update/operation/chart', params, config)
     },
 
     /**
@@ -112,7 +112,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     updateChartPosition ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`/update/operation/chart/position`, params, config)
+        return $http.post('/update/operation/chart/position', params, config)
     }
 }
 

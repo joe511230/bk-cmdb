@@ -162,14 +162,14 @@
                         {
                             selector: 'node',
                             style: {
-                                'width': 36,
-                                'height': 36,
+                                width: 36,
+                                height: 36,
 
                                 // 设置label文本
-                                'label': 'data(name)',
+                                label: 'data(name)',
 
                                 // label
-                                'color': '#868b97',
+                                color: '#868b97',
                                 'text-valign': 'bottom',
                                 'text-halign': 'center',
                                 'font-size': '14px',
@@ -191,8 +191,8 @@
                         {
                             selector: 'node.root',
                             style: {
-                                'width': 56,
-                                'height': 56
+                                width: 56,
+                                height: 56
                             }
                         },
                         {
@@ -216,17 +216,17 @@
                             style: {
                                 'curve-style': 'straight',
                                 'target-arrow-shape': 'triangle-backcurve',
-                                'opacity': 1,
+                                opacity: 1,
                                 'arrow-scale': 1.5,
                                 'line-color': '#c3cdd7',
                                 'target-arrow-color': '#c3cdd7',
-                                'width': 2,
+                                width: 2,
 
                                 // 点击时overlay
                                 'overlay-padding': '3px',
 
                                 // label
-                                'color': '#979ba5',
+                                color: '#979ba5',
                                 'font-size': '10px',
                                 'text-background-opacity': 0.7,
                                 'text-background-color': '#ffffff',
@@ -258,7 +258,7 @@
                         {
                             selector: 'edge.hover',
                             style: {
-                                'width': 3,
+                                width: 3,
                                 'line-color': '#3c96ff',
                                 'source-arrow-color': '#3c96ff',
                                 'target-arrow-color': '#3c96ff',
@@ -332,8 +332,8 @@
             async initTopoElements () {
                 try {
                     const rootObjId = this.$parent.objId
-                    const rootInstId = this.$parent.formatedInst['bk_inst_id']
-                    const rootInstName = this.$parent.formatedInst['bk_inst_name']
+                    const rootInstId = this.$parent.formatedInst.bk_inst_id
+                    const rootInstName = this.$parent.formatedInst.bk_inst_name
                     const rootNodeId = `${rootObjId}_${rootInstId}_${NODE_ID++}`
                     const relData = await this.getRelationTopo(rootObjId, rootInstId)
 
@@ -419,8 +419,8 @@
             getAsstDetail (asstId) {
                 const asst = this.associationTypes.find(asst => asst.bk_asst_id === asstId)
                 return {
-                    asstId: asst['bk_asst_id'],
-                    asstName: asst['bk_asst_name'].length ? asst['bk_asst_name'] : asst['bk_asst_id'],
+                    asstId: asst.bk_asst_id,
+                    asstName: asst.bk_asst_name.length ? asst.bk_asst_name : asst.bk_asst_id,
                     direction: asst.direction
                 }
             },
@@ -436,11 +436,11 @@
             },
             getInstIdKey (objId) {
                 const specialObj = {
-                    'host': 'bk_host_id',
-                    'biz': 'bk_biz_id',
-                    'plat': 'bk_cloud_id',
-                    'module': 'bk_module_id',
-                    'set': 'bk_set_id'
+                    host: 'bk_host_id',
+                    biz: 'bk_biz_id',
+                    plat: 'bk_cloud_id',
+                    module: 'bk_module_id',
+                    set: 'bk_set_id'
                 }
                 if (specialObj.hasOwnProperty(objId)) {
                     return specialObj[objId]
@@ -449,12 +449,12 @@
             },
             getInstNameKey (idKey) {
                 const nameKey = {
-                    'bk_host_id': 'bk_host_innerip',
-                    'bk_biz_id': 'bk_biz_name',
-                    'bk_cloud_id': 'bk_cloud_name',
-                    'bk_module_id': 'bk_module_name',
-                    'bk_set_id': 'bk_set_name',
-                    'bk_inst_id': 'bk_inst_name'
+                    bk_host_id: 'bk_host_innerip',
+                    bk_biz_id: 'bk_biz_name',
+                    bk_cloud_id: 'bk_cloud_name',
+                    bk_module_id: 'bk_module_name',
+                    bk_set_id: 'bk_set_name',
+                    bk_inst_id: 'bk_inst_name'
                 }
                 return nameKey[idKey]
             },
@@ -629,7 +629,7 @@
                 return this.$store.dispatch('hostSearch/getHostBaseInfo', { hostId }).then(data => {
                     const inst = {}
                     data.forEach(field => {
-                        inst[field['bk_property_id']] = field['bk_property_value']
+                        inst[field.bk_property_id] = field.bk_property_value
                     })
                     return inst
                 })
@@ -638,7 +638,7 @@
                 const bizId = this.hoverNodeData.instId
                 return this.$store.dispatch('objectBiz/searchBusiness', {
                     params: {
-                        condition: { 'bk_biz_id': bizId },
+                        condition: { bk_biz_id: bizId },
                         fields: [],
                         page: { start: 0, limit: 1 }
                     }
@@ -670,7 +670,7 @@
                 const model = this.getModelById(modelId)
                 return this.$store.dispatch('objectModelProperty/searchObjectAttribute', {
                     params: this.$injectMetadata({
-                        'bk_obj_id': modelId
+                        bk_obj_id: modelId
                     }, {
                         inject: !!this.$tools.getMetadataBiz(model)
                     })

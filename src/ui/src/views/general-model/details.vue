@@ -60,7 +60,7 @@
                 return this.getModelById(this.objId) || {}
             },
             isPublicModel () {
-                const model = this.models.find(model => model['bk_obj_id'] === this.objId) || {}
+                const model = this.models.find(model => model.bk_obj_id === this.objId) || {}
                 return !this.$tools.getMetadataBiz(model)
             }
         },

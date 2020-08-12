@@ -78,11 +78,11 @@
                 defaultDate: [startDate, endDate],
                 ip: '',
                 idMap: {
-                    'host': 'bk_host_id',
-                    'set': 'bk_set_id',
-                    'module': 'bk_module_id',
-                    'biz': 'bk_biz_id',
-                    'plat': 'bk_plat_id'
+                    host: 'bk_host_id',
+                    set: 'bk_set_id',
+                    module: 'bk_module_id',
+                    biz: 'bk_biz_id',
+                    plat: 'bk_plat_id'
                 },
                 emptyStuff: {
                     type: 'search',
@@ -97,7 +97,7 @@
             customColumns () {
                 const customKeyMap = {
                     [this.objId]: `${this.userName}_${this.objId}_${this.isAdminView ? 'adminView' : this.bizId}_table_columns`,
-                    'host': `${this.userName}_$resource_${this.isAdminView ? 'adminView' : this.bizId}_table_columns`
+                    host: `${this.userName}_$resource_${this.isAdminView ? 'adminView' : this.bizId}_table_columns`
                 }
                 return this.usercustom[customKeyMap[this.objId]] || []
             },
@@ -201,16 +201,16 @@
             },
             setTableHeader () {
                 const fixedPropertyMap = {
-                    'host': ['bk_host_innerip', 'bk_cloud_id'],
-                    'set': ['bk_set_name'],
-                    'module': ['bk_module_name'],
-                    'biz': ['bk_biz_name'],
-                    'plat': ['bk_plat_name']
+                    host: ['bk_host_innerip', 'bk_cloud_id'],
+                    set: ['bk_set_name'],
+                    module: ['bk_module_name'],
+                    biz: ['bk_biz_name'],
+                    plat: ['bk_plat_name']
                 }
                 const headerProperties = this.$tools.getHeaderProperties(this.properties, this.customColumns, fixedPropertyMap[this.objId] || ['bk_inst_name'])
                 this.header = headerProperties.map(property => {
                     return {
-                        id: property['bk_property_id'],
+                        id: property.bk_property_id,
                         name: this.$tools.getHeaderPropertyName(property),
                         property
                     }
@@ -235,7 +235,7 @@
                         const list = log.info.map(data => {
                             return {
                                 ...data.operation_detail.details.pre_data,
-                                'op_time': data.operation_time
+                                op_time: data.operation_time
                             }
                         })
                         this.list = list

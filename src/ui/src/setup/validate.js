@@ -161,7 +161,7 @@ const customRules = {
 }
 
 const dictionary = {
-    'zh_CN': {
+    zh_CN: {
         messages: {
             regex: (field) => {
                 return `请输入合法的${field}`
@@ -208,7 +208,7 @@ const dictionary = {
     en: {
         messages: {
             regex: (field) => {
-                return `Please enter a valid $ {field}`
+                return 'Please enter a valid $ {field}'
             },
             longchar: () => 'Please enter the correct content',
             singlechar: () => 'Please enter the correct content',
@@ -299,13 +299,13 @@ const mixinConfig = () => {
         // 加入到自定义规则列表
         customRules[key] = { validate }
         // 提示语设置
-        dictionary['zh_CN']['messages'][key] = (field, args) => {
+        dictionary.zh_CN.messages[key] = (field, args) => {
             // 确保总是获取最新的配置
             const { validationRules } = window.CMDB_CONFIG
             const rule = validationRules[key]
             return rule.i18n.cn.replace(/{field}/g, field)
         }
-        dictionary['en']['messages'][key] = (field, args) => {
+        dictionary.en.messages[key] = (field, args) => {
             const { validationRules } = window.CMDB_CONFIG
             const rule = validationRules[key]
             return rule.i18n.en.replace(/{field}/g, field)

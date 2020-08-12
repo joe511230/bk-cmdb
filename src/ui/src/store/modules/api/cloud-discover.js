@@ -20,15 +20,15 @@ const getters = {
 
 const actions = {
     searchCloudTask ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`hosts/cloud/search`, params, config)
+        return $http.post('hosts/cloud/search', params, config)
     },
 
     addCloudTask ({ commit, state, dispatch }, { params }) {
-        return $http.post(`hosts/cloud/add`, params)
+        return $http.post('hosts/cloud/add', params)
     },
 
     updateCloudTask ({ commit, state, dispatch }, { params }) {
-        return $http.put(`hosts/cloud/update`, params)
+        return $http.put('hosts/cloud/update', params)
     },
 
     deleteCloudTask ({ commit, state, dispatch }, { taskID }) {
@@ -36,19 +36,19 @@ const actions = {
     },
 
     startCloudSync ({ commit, state, dispatch }, { params }) {
-        return $http.post(`hosts/cloud/startSync`, params)
+        return $http.post('hosts/cloud/startSync', params)
     },
 
     searchCloudHistory ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`hosts/cloud/syncHistory`, params, config)
+        return $http.post('hosts/cloud/syncHistory', params, config)
     },
 
     getResourceConfirm ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`hosts/cloud/searchConfirm`, params, config)
+        return $http.post('hosts/cloud/searchConfirm', params, config)
     },
 
     resourceConfirm ({ commit, state, dispatch }, { params }) {
-        return $http.post(`hosts/cloud/resourceConfirm`, params)
+        return $http.post('hosts/cloud/resourceConfirm', params)
     },
 
     addConfirmHistory ({ commit, state, dispatch }, { params }) {

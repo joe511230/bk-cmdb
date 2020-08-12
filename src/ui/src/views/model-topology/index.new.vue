@@ -235,8 +235,8 @@
             },
             localClassifications () {
                 return this.$tools.clone(this.classifications).map(classify => {
-                    classify['bk_objects'] = classify['bk_objects'].filter(model => {
-                        return !this.specialModel.includes(model['bk_obj_id']) && !model.bk_ispaused
+                    classify.bk_objects = classify.bk_objects.filter(model => {
+                        return !this.specialModel.includes(model.bk_obj_id) && !model.bk_ispaused
                     })
                     return classify
                 })
@@ -347,14 +347,14 @@
                         {
                             selector: 'node.model',
                             style: {
-                                'width': NODE_WIDTH,
-                                'height': NODE_WIDTH,
+                                width: NODE_WIDTH,
+                                height: NODE_WIDTH,
 
                                 // 设置label文本
-                                'label': 'data(name)',
+                                label: 'data(name)',
 
                                 // label
-                                'color': '#868b97',
+                                color: '#868b97',
                                 'text-valign': 'bottom',
                                 'text-halign': 'center',
                                 'font-size': '14px',
@@ -390,7 +390,7 @@
                         {
                             selector: 'node.model.mask',
                             style: {
-                                'opacity': 0.16
+                                opacity: 0.16
                             }
                         },
 
@@ -398,18 +398,18 @@
                         {
                             selector: 'node.add-business-btn',
                             style: {
-                                'width': 20,
-                                'height': 20,
-                                'color': '#ffffff',
+                                width: 20,
+                                height: 20,
+                                color: '#ffffff',
                                 'text-valign': 'bottom',
                                 'text-halign': 'center',
                                 'font-size': '20px',
                                 'text-margin-y': '-19px',
                                 'font-family': 'arial',
-                                'label': '+',
-                                'shape': 'round-rectangle',
+                                label: '+',
+                                shape: 'round-rectangle',
                                 'background-color': '#3c96ff',
-                                'display': 'none'
+                                display: 'none'
                             }
                         },
 
@@ -418,19 +418,19 @@
                             selector: 'edge.model',
                             style: {
                                 'curve-style': 'bezier',
-                                'label': 'data(label)',
+                                label: 'data(label)',
                                 'target-arrow-shape': 'triangle-backcurve',
-                                'opacity': 1,
+                                opacity: 1,
                                 'arrow-scale': 1.5,
                                 'line-color': '#c3cdd7',
                                 'target-arrow-color': '#c3cdd7',
-                                'width': 2,
+                                width: 2,
 
                                 // 点击时overlay
                                 'overlay-padding': '3px',
 
                                 // label
-                                'color': '#979ba5',
+                                color: '#979ba5',
                                 'font-size': '14px',
                                 'text-background-opacity': 0.7,
                                 'text-background-color': '#ffffff',
@@ -462,7 +462,7 @@
                         {
                             selector: 'edge.model.hover',
                             style: {
-                                'width': 3,
+                                width: 3,
                                 'line-color': '#3c96ff',
                                 'source-arrow-color': '#3c96ff',
                                 'target-arrow-color': '#3c96ff',
@@ -472,7 +472,7 @@
                         {
                             selector: 'edge.model.mask',
                             style: {
-                                'opacity': 0.16
+                                opacity: 0.16
                             }
                         },
 
@@ -480,7 +480,7 @@
                             selector: '.edge-editing',
                             style: {
                                 'curve-style': 'bezier',
-                                'label': 'data(label)'
+                                label: 'data(label)'
                             }
                         },
 
@@ -489,7 +489,7 @@
                             selector: '.eh-handle',
                             style: {
                                 // 不需要控制点
-                                'display': 'none'
+                                display: 'none'
                             }
                         },
                         {
@@ -528,7 +528,7 @@
                         {
                             selector: '.eh-ghost-edge.eh-preview-active',
                             style: {
-                                'opacity': 0
+                                opacity: 0
                             }
                         }
                     ]
@@ -667,7 +667,7 @@
                 this.loading = false
 
                 // 包含分类属性的节点数据
-                const nodeObjects = this.localClassifications.reduce((acc, cur) => acc.concat(cur['bk_objects']), [])
+                const nodeObjects = this.localClassifications.reduce((acc, cur) => acc.concat(cur.bk_objects), [])
 
                 this.localTopoModelList.forEach((nodeItem, i) => {
                     // nodes，模型节点
@@ -703,18 +703,18 @@
                     if (Array.isArray(nodeItem.assts) && nodeItem.assts.length) {
                         nodeItem.assts.forEach((asstItem, asstIndex) => {
                             // 关联关系源数据
-                            const { direction, asstName, asstId } = this.getAsstDetail(asstItem['bk_asst_inst_id'])
+                            const { direction, asstName, asstId } = this.getAsstDetail(asstItem.bk_asst_inst_id)
 
                             // 所关联的节点必须存在
                             if (this.localTopoModelList.findIndex(({ bk_obj_id: objId }) => objId === asstItem.bk_obj_id) !== -1) {
                                 elements.push({
                                     data: {
-                                        id: asstItem['bk_inst_id'],
+                                        id: asstItem.bk_inst_id,
                                         label: asstName || asstId,
                                         source: nodeItem.bk_obj_id,
                                         target: asstItem.bk_obj_id,
                                         direction,
-                                        instId: asstItem['bk_inst_id']
+                                        instId: asstItem.bk_inst_id
                                     },
                                     group: 'edges',
                                     selectable: true,
@@ -766,7 +766,7 @@
 
                 // 坚排并lock
                 this.mainLineModelList.forEach((model, i) => {
-                    cy.nodes(`#${model['bk_obj_id']}`).position({
+                    cy.nodes(`#${model.bk_obj_id}`).position({
                         x: centerPos.x,
                         y: i * nodeSpace + startPosY
                     }).lock()
@@ -789,7 +789,7 @@
                 // 3. 摆放无位置节点
                 const nodeCollection = cy.collection()
                 this.noPositionModels.forEach((model, i) => {
-                    const node = cy.nodes(`#${model['bk_obj_id']}`)
+                    const node = cy.nodes(`#${model.bk_obj_id}`)
                     nodeCollection.merge(node)
                 })
                 const collectionBoundingBox = nodeCollection.boundingBox()
@@ -815,7 +815,7 @@
                 cy.autolock(!isEdit)
             },
             handleToggleGroup (group) {
-                const groupId = group['bk_classification_id']
+                const groupId = group.bk_classification_id
                 const index = this.topoNav.hideGroupIds.indexOf(groupId)
                 let display
                 if (index !== -1) {
@@ -828,8 +828,8 @@
                 this.toggleNodeByGroup(group, display)
             },
             handleToggleNode (model, group) {
-                const nodeId = model['bk_obj_id']
-                const groupId = group['bk_classification_id']
+                const nodeId = model.bk_obj_id
+                const groupId = group.bk_classification_id
 
                 // 当前节点在隐藏列表中的索引
                 const index = this.topoNav.hideNodeIds.indexOf(nodeId)
@@ -845,7 +845,7 @@
                 }
 
                 // 节点所关联的组中所有节点id
-                const nodeIds = group['bk_objects'].map(model => model['bk_obj_id'])
+                const nodeIds = group.bk_objects.map(model => model.bk_obj_id)
                 const nodeCount = nodeIds.length
                 const hideNodeCount = this.topoNav.hideNodeIds.filter(id => nodeIds.includes(id)).length
                 const hideGroupIndex = this.topoNav.hideGroupIds.indexOf(groupId)
@@ -860,7 +860,7 @@
             },
             handleSelectGroup (group) {
                 if (group) {
-                    const groupId = group['bk_classification_id']
+                    const groupId = group.bk_classification_id
                     const groupNodes = cy.$(`node[groupId='${groupId}']`)
 
                     // 通过样式降低其它节点透明度，使用batch降低开销
@@ -869,7 +869,7 @@
                     groupNodes.removeClass('mask').edgesWith(groupNodes).removeClass('mask')
                     cy.endBatch()
 
-                    this.topoNav.selectedGroupId = group['bk_classification_id']
+                    this.topoNav.selectedGroupId = group.bk_classification_id
                 } else {
                     // 选择全部
                     this.topoNav.selectedGroupId = -1
@@ -880,7 +880,7 @@
                 this.topoNav.selectedNodeId = ''
             },
             handleSelectNode (model) {
-                const nodeId = model['bk_obj_id']
+                const nodeId = model.bk_obj_id
                 this.topoNav.selectedNodeId = nodeId
 
                 cy.startBatch()
@@ -892,8 +892,8 @@
                 this.topoNav.selectedGroupId = ''
             },
             toggleNodeByGroup (group, display) {
-                const groupId = group['bk_classification_id']
-                const nodeIds = group['bk_objects'].map(model => model['bk_obj_id'])
+                const groupId = group.bk_classification_id
+                const nodeIds = group.bk_objects.map(model => model.bk_obj_id)
 
                 if (display) {
                     // 显示则从隐藏记录中过滤掉
@@ -930,13 +930,13 @@
                 })
             },
             handleRelationSave (params) {
-                const fromNode = this.localTopoModelList.find(model => model['bk_obj_id'] === params['bk_obj_id'])
+                const fromNode = this.localTopoModelList.find(model => model.bk_obj_id === params.bk_obj_id)
                 if (!fromNode.hasOwnProperty('assts')) {
                     Object.assign(fromNode, { assts: [] })
                 }
                 fromNode.assts.push({
-                    bk_asst_inst_id: this.associationList.find(asst => asst['bk_asst_id'] === params['bk_asst_id']).id,
-                    bk_obj_id: params['bk_asst_obj_id'],
+                    bk_asst_inst_id: this.associationList.find(asst => asst.bk_asst_id === params.bk_asst_id).id,
+                    bk_obj_id: params.bk_asst_obj_id,
                     bk_inst_id: params.id,
                     asstInfo: params
                 })
@@ -948,10 +948,10 @@
                     this.localTopoModelList.forEach(model => {
                         if (model.hasOwnProperty('assts')) {
                             const index = model.assts.findIndex(asst => {
-                                if (asst['bk_inst_id'] !== '') {
-                                    return asst['bk_inst_id'] === data.params.id
+                                if (asst.bk_inst_id !== '') {
+                                    return asst.bk_inst_id === data.params.id
                                 } else {
-                                    return asst.asstInfo['bk_obj_id'] === data.params['bk_obj_id'] && asst.asstInfo['bk_asst_id'] === data.params['bk_asst_id'] && asst.asstInfo['bk_asst_obj_id'] === data.params['bk_asst_obj_id']
+                                    return asst.asstInfo.bk_obj_id === data.params.bk_obj_id && asst.asstInfo.bk_asst_id === data.params.bk_asst_id && asst.asstInfo.bk_asst_obj_id === data.params.bk_asst_obj_id
                                 }
                             })
                             if (index > -1) {
@@ -1024,7 +1024,7 @@
                 cy.edges('.edge-editing').remove()
             },
             completeEditingEdge (params) {
-                const asstInstId = this.associationList.find(asst => asst['bk_asst_id'] === params['bk_asst_id']).id
+                const asstInstId = this.associationList.find(asst => asst.bk_asst_id === params.bk_asst_id).id
                 const { direction, asstName, asstId } = this.getAsstDetail(asstInstId)
                 const edge = cy.edges('.edge-editing')
 
@@ -1060,18 +1060,18 @@
                 this.slider.isShow = false
             },
             canAddBusinessLevel (model) {
-                return this.isAdminView && !['set', 'module', 'host'].includes(model['bk_obj_id'])
+                return this.isAdminView && !['set', 'module', 'host'].includes(model.bk_obj_id)
             },
             isMainNode (model) {
-                const mainLineIds = this.mainLineModelList.map(model => model['bk_obj_id'])
-                return mainLineIds.includes(model['bk_obj_id'])
+                const mainLineIds = this.mainLineModelList.map(model => model.bk_obj_id)
+                return mainLineIds.includes(model.bk_obj_id)
             },
             handleShowDetails (labelInfo) {
                 this.slider.title = labelInfo.text
                 this.slider.properties = {
                     objId: labelInfo.objId,
                     isEdit: this.topoEdit.isEdit,
-                    asstId: labelInfo.asst['bk_inst_id'],
+                    asstId: labelInfo.asst.bk_inst_id,
                     asstInfo: labelInfo.asst.asstInfo || {}
                 }
                 this.showSlider('theRelationDetail')
@@ -1079,8 +1079,8 @@
             getAsstDetail (asstId) {
                 const asst = this.associationList.find(asst => asst.id === asstId)
                 return {
-                    asstId: asst['bk_asst_id'],
-                    asstName: asst['bk_asst_name'].length ? asst['bk_asst_name'] : asst['bk_asst_id'],
+                    asstId: asst.bk_asst_id,
+                    asstName: asst.bk_asst_name.length ? asst.bk_asst_name : asst.bk_asst_id,
                     direction: asst.direction
                 }
             },
@@ -1098,8 +1098,8 @@
                 slider.isShow = true
             },
             handleSlideGroup (group) {
-                if (group['bk_classification_id'] !== this.topoNav.activeGroupId) {
-                    this.topoNav.activeGroupId = group['bk_classification_id']
+                if (group.bk_classification_id !== this.topoNav.activeGroupId) {
+                    this.topoNav.activeGroupId = group.bk_classification_id
                 } else {
                     this.topoNav.activeGroupId = ''
                 }
@@ -1141,13 +1141,13 @@
                 try {
                     await this.createMainlineObject({
                         params: this.$injectMetadata({
-                            'bk_asst_obj_id': this.addBusinessLevel.parent['bk_obj_id'],
-                            'bk_classification_id': 'bk_biz_topo',
-                            'bk_obj_icon': data['bk_obj_icon'],
-                            'bk_obj_id': data['bk_obj_id'],
-                            'bk_obj_name': data['bk_obj_name'],
-                            'bk_supplier_account': this.supplierAccount,
-                            'creator': this.userName
+                            bk_asst_obj_id: this.addBusinessLevel.parent.bk_obj_id,
+                            bk_classification_id: 'bk_biz_topo',
+                            bk_obj_icon: data.bk_obj_icon,
+                            bk_obj_id: data.bk_obj_id,
+                            bk_obj_name: data.bk_obj_name,
+                            bk_supplier_account: this.supplierAccount,
+                            creator: this.userName
                         })
                     })
 

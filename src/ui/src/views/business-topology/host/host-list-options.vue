@@ -197,8 +197,8 @@
                 return this.getProperties('host')
             },
             columnsConfigProperties () {
-                const setProperties = this.getProperties('set').filter(property => ['bk_set_name'].includes(property['bk_property_id']))
-                const moduleProperties = this.getProperties('module').filter(property => ['bk_module_name'].includes(property['bk_property_id']))
+                const setProperties = this.getProperties('set').filter(property => ['bk_set_name'].includes(property.bk_property_id))
+                const moduleProperties = this.getProperties('module').filter(property => ['bk_module_name'].includes(property.bk_property_id))
                 const hostProperties = this.getProperties('host')
                 return [...setProperties, ...moduleProperties, ...hostProperties]
             },
@@ -459,7 +459,7 @@
             },
             handleApplyColumnsConfig (properties) {
                 this.$store.dispatch('userCustom/saveUsercustom', {
-                    [this.$route.meta.customInstanceColumn]: properties.map(property => property['bk_property_id'])
+                    [this.$route.meta.customInstanceColumn]: properties.map(property => property.bk_property_id)
                 })
                 this.sideslider.show = false
             },

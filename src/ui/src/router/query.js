@@ -67,6 +67,7 @@ class RouterQuery {
     constructor () {
         this.router = router
     }
+
     get app () {
         return router.app
     }

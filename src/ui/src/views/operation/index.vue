@@ -534,7 +534,7 @@
                 if (data.points.length === 1) {
                     colors[pn] = color[0]
                     const update = {
-                        'marker': {
+                        marker: {
                             color: colors
                         }
                     }
@@ -623,8 +623,8 @@
             },
             updatePosition () {
                 const data = {
-                    'host': [],
-                    'inst': []
+                    host: [],
+                    inst: []
                 }
                 this.hostData.disList.forEach(item => {
                     data.host.push(item.config_id)

@@ -96,9 +96,9 @@
                 return this.usercustom[this.$route.meta.customInstanceColumn] || []
             },
             columnsConfigProperties () {
-                const setProperties = this.properties.set.filter(property => ['bk_set_name'].includes(property['bk_property_id']))
-                const moduleProperties = this.properties.module.filter(property => ['bk_module_name'].includes(property['bk_property_id']))
-                const businessProperties = this.properties.biz.filter(property => ['bk_biz_name'].includes(property['bk_property_id']))
+                const setProperties = this.properties.set.filter(property => ['bk_set_name'].includes(property.bk_property_id))
+                const moduleProperties = this.properties.module.filter(property => ['bk_module_name'].includes(property.bk_property_id))
+                const businessProperties = this.properties.biz.filter(property => ['bk_biz_name'].includes(property.bk_property_id))
                 const hostProperties = this.properties.host
                 return [...setProperties, ...moduleProperties, ...businessProperties, ...hostProperties]
             }
@@ -147,7 +147,7 @@
                 try {
                     const propertyMap = await this.$store.dispatch('objectModelProperty/batchSearchObjectAttribute', {
                         params: {
-                            bk_obj_id: { '$in': Object.keys(this.properties) },
+                            bk_obj_id: { $in: Object.keys(this.properties) },
                             bk_supplier_account: this.supplierAccount
                         },
                         config: {
@@ -188,7 +188,7 @@
             setTableHeader () {
                 const customColumns = this.customColumns.length ? this.customColumns : this.globalCustomColumns
                 this.table.header = this.$tools.getHeaderProperties(this.columnsConfigProperties, customColumns, this.columnsConfigDisabledColumns)
-                this.columnsConfig.selected = this.table.header.map(property => property['bk_property_id'])
+                this.columnsConfig.selected = this.table.header.map(property => property.bk_property_id)
             },
             isPropertySortable (property) {
                 return property.bk_obj_id === 'host' && !['foreignkey'].includes(property.bk_property_type)

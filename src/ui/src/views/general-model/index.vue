@@ -309,7 +309,7 @@
                 }
             },
             isPublicModel () {
-                const model = this.models.find(model => model['bk_obj_id'] === this.objId) || {}
+                const model = this.models.find(model => model.bk_obj_id === this.objId) || {}
                 return !this.$tools.getMetadataBiz(model)
             },
             parentLayers () {
@@ -436,7 +436,7 @@
                     stuff: {
                         type: 'default',
                         payload: {
-                            resource: this.model['bk_obj_name']
+                            resource: this.model.bk_obj_name
                         }
                     }
                 }
@@ -472,7 +472,7 @@
                     resolve(headerProperties)
                 }).then(properties => {
                     this.updateTableHeader(properties)
-                    this.columnsConfig.selected = properties.map(property => property['bk_property_id'])
+                    this.columnsConfig.selected = properties.map(property => property.bk_property_id)
                 })
             },
             updateTableHeader (properties) {
@@ -577,14 +577,14 @@
                             value: filterValue
                         })
                     } else if (['singleasst', 'multiasst'].includes(filterType)) {
-                        const asstObjId = (this.$tools.getProperty(this.properties, this.filter.id) || {})['bk_asst_obj_id']
+                        const asstObjId = (this.$tools.getProperty(this.properties, this.filter.id) || {}).bk_asst_obj_id
                         if (asstObjId) {
                             const fieldMap = {
-                                'host': 'bk_host_innerip',
-                                'biz': 'bk_biz_name',
-                                'plat': 'bk_cloud_name',
-                                'module': 'bk_module_name',
-                                'set': 'bk_set_name'
+                                host: 'bk_host_innerip',
+                                biz: 'bk_biz_name',
+                                plat: 'bk_cloud_name',
+                                module: 'bk_module_name',
+                                set: 'bk_set_name'
                             }
                             params.condition[asstObjId] = [{
                                 field: fieldMap.hasOwnProperty(asstObjId) ? fieldMap[asstObjId] : 'bk_inst_name',
@@ -610,15 +610,15 @@
                 this.attribute.type = 'create'
                 this.attribute.inst.edit = {}
                 this.slider.show = true
-                this.slider.title = `${this.$t('创建')} ${this.model['bk_obj_name']}`
+                this.slider.title = `${this.$t('创建')} ${this.model.bk_obj_name}`
             },
             handleDelete (inst) {
                 this.$bkInfo({
-                    title: this.$t('确认要删除', { name: inst['bk_inst_name'] }),
+                    title: this.$t('确认要删除', { name: inst.bk_inst_name }),
                     confirmFn: () => {
                         this.deleteInst({
                             objId: this.objId,
-                            instId: inst['bk_inst_id'],
+                            instId: inst.bk_inst_id,
                             config: {
                                 data: this.$injectMetadata({}, { inject: !this.isPublicModel })
                             }
@@ -636,7 +636,7 @@
                 if (type === 'update') {
                     this.updateInst({
                         objId: this.objId,
-                        instId: originalValues['bk_inst_id'],
+                        instId: originalValues.bk_inst_id,
                         params: this.$injectMetadata(values, { inject: !this.isPublicModel })
                     }).then(() => {
                         this.attribute.inst.details = Object.assign({}, originalValues, values)
@@ -677,8 +677,8 @@
                     params: this.$injectMetadata({
                         update: this.table.checked.map(instId => {
                             return {
-                                'datas': values,
-                                'inst_id': instId
+                                datas: values,
+                                inst_id: instId
                             }
                         })
                     }, { inject: !this.isPublicModel }),
@@ -710,8 +710,8 @@
                     objId: this.objId,
                     config: {
                         data: this.$injectMetadata({
-                            'delete': {
-                                'inst_ids': this.table.checked
+                            delete: {
+                                inst_ids: this.table.checked
                             }
                         }, { inject: !this.isPublicModel })
                     }
@@ -725,7 +725,7 @@
             },
             handleApplyColumnsConfig (properties) {
                 this.$store.dispatch('userCustom/saveUsercustom', {
-                    [this.customConfigKey]: properties.map(property => property['bk_property_id'])
+                    [this.customConfigKey]: properties.map(property => property.bk_property_id)
                 })
                 this.columnsConfig.show = false
             },

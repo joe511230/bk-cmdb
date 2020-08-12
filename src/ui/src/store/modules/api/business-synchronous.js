@@ -24,7 +24,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     searchServiceInstanceDifferences ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.post(`find/proc/service_instance/difference`, params, config)
+        return $http.post('find/proc/service_instance/difference', params, config)
     },
     /**
      * 批量更新服务实例中的进程信息，保持和服务模板一致
@@ -35,7 +35,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     syncServiceInstanceByTemplate ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.put(`update/proc/service_instance/sync`, params, config)
+        return $http.put('update/proc/service_instance/sync', params, config)
     }
 }
 

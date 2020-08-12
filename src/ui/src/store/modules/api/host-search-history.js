@@ -28,7 +28,7 @@ const actions = {
      * @return {Promise} promise 对象
      */
     createHostSearchHistory ({ commit, state, dispatch }, { params }) {
-        return $http.post(`hosts/history`, params)
+        return $http.post('hosts/history', params)
     },
 
     /**

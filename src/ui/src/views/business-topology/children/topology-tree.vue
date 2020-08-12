@@ -389,8 +389,8 @@
                     const parentNode = this.createInfo.parentNode
                     const formData = this.$injectMetadata({
                         ...value,
-                        'bk_biz_id': this.bizId,
-                        'bk_parent_id': parentNode.data.bk_inst_id
+                        bk_biz_id: this.bizId,
+                        bk_parent_id: parentNode.data.bk_inst_id
                     })
                     const nextModelId = this.createInfo.nextModelId
                     const nextModel = this.topologyModels.find(model => model.bk_obj_id === nextModelId)
@@ -423,8 +423,8 @@
                     const formData = (value.sets || []).map(set => {
                         return this.$injectMetadata({
                             ...set,
-                            'bk_biz_id': this.bizId,
-                            'bk_parent_id': parentNode.data.bk_inst_id
+                            bk_biz_id: this.bizId,
+                            bk_parent_id: parentNode.data.bk_inst_id
                         })
                     })
                     const data = await this.createSet(formData)

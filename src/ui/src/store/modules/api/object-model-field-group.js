@@ -77,7 +77,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     updatePropertyGroup ({ commit, state, dispatch }, { params, config }) {
-        return $http.put(`objectatt/group/property`, params, config)
+        return $http.put('objectatt/group/property', params, config)
     },
 
     /**

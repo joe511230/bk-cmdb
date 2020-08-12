@@ -88,7 +88,7 @@
                 if (type === 'organization') {
                     displayValue = await this.getOrganization(value)
                 } else {
-                    displayValue = this.$options.filters['formatter'](value, this.property, this.options)
+                    displayValue = this.$options.filters.formatter(value, this.property, this.options)
                 }
                 this.displayValue = (this.showUnit && unit && displayValue !== '--') ? `${displayValue}${unit}` : displayValue
             },

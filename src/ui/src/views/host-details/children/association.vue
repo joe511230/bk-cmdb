@@ -70,8 +70,8 @@
         data () {
             return {
                 viewName: {
-                    'list': cmdbHostAssociationList.name,
-                    'graphics': cmdbHostAssociationGraphics.name
+                    list: cmdbHostAssociationList.name,
+                    graphics: cmdbHostAssociationGraphics.name
                 },
                 activeView: cmdbHostAssociationList.name,
                 showCreate: false

@@ -456,7 +456,7 @@
             },
             handleCopy (target) {
                 const copyList = this.table.list.filter(item => {
-                    return this.table.checked.includes(item['host']['bk_host_id'])
+                    return this.table.checked.includes(item.host.bk_host_id)
                 })
                 const copyText = []
                 this.$tools.clone(copyList).forEach(item => {
@@ -487,7 +487,7 @@
                 await this.$store.dispatch('hostUpdate/updateHost', {
                     params: {
                         ...changedValues,
-                        'bk_host_id': this.table.checked.join(',')
+                        bk_host_id: this.table.checked.join(',')
                     }
                 })
                 this.slider.show = false
@@ -502,8 +502,8 @@
                         this.$store.dispatch('hostDelete/deleteHost', {
                             params: {
                                 data: {
-                                    'bk_host_id': this.table.checked.join(','),
-                                    'bk_supplier_account': this.supplierAccount
+                                    bk_host_id: this.table.checked.join(','),
+                                    bk_supplier_account: this.supplierAccount
                                 }
                             }
                         }).then(() => {
@@ -581,7 +581,7 @@
             },
             handleApplyColumnsConfig (properties) {
                 this.$store.dispatch('userCustom/saveUsercustom', {
-                    [this.$route.meta.customInstanceColumn]: properties.map(property => property['bk_property_id'])
+                    [this.$route.meta.customInstanceColumn]: properties.map(property => property.bk_property_id)
                 })
                 this.columnsConfig.show = false
                 RouterQuery.set({

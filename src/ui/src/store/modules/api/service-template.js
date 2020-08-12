@@ -24,7 +24,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     searchServiceTemplate ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.post(`findmany/proc/service_template/with_detail`, params, config)
+        return $http.post('findmany/proc/service_template/with_detail', params, config)
     },
     /**
      * 创建服务模板
@@ -35,7 +35,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     createServiceTemplate ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.post(`create/proc/service_template`, params, config)
+        return $http.post('create/proc/service_template', params, config)
     },
     /**
      * 编辑服务模板
@@ -46,7 +46,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     updateServiceTemplate ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.put(`update/proc/service_template`, params, config)
+        return $http.put('update/proc/service_template', params, config)
     },
     /**
      * 删除服务模板
@@ -57,7 +57,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     deleteServiceTemplate ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.delete(`delete/proc/service_template`, params)
+        return $http.delete('delete/proc/service_template', params)
     },
     /**
      * 查看单个服务模板

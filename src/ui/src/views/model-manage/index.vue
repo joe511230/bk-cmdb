@@ -272,8 +272,8 @@
                 this.classifications.forEach(classification => {
                     enableClassifications.push({
                         ...classification,
-                        'bk_objects': classification['bk_objects'].filter(model => {
-                            return !model['bk_ispaused'] && !['process', 'plat'].includes(model['bk_obj_id'])
+                        bk_objects: classification.bk_objects.filter(model => {
+                            return !model.bk_ispaused && !['process', 'plat'].includes(model.bk_obj_id)
                         })
                     })
                 })
@@ -282,13 +282,13 @@
             disabledClassifications () {
                 const disabledClassifications = []
                 this.classifications.forEach(classification => {
-                    const disabledModels = classification['bk_objects'].filter(model => {
-                        return model['bk_ispaused'] && !['process', 'plat'].includes(model['bk_obj_id'])
+                    const disabledModels = classification.bk_objects.filter(model => {
+                        return model.bk_ispaused && !['process', 'plat'].includes(model.bk_obj_id)
                     })
                     if (disabledModels.length) {
                         disabledClassifications.push({
                             ...classification,
-                            'bk_objects': disabledModels
+                            bk_objects: disabledModels
                         })
                     }
                 })
@@ -387,8 +387,8 @@
                 if (isEdit) {
                     this.groupDialog.data.id = group.id
                     this.groupDialog.title = this.$t('编辑分组')
-                    this.groupDialog.data.bk_classification_id = group['bk_classification_id']
-                    this.groupDialog.data.bk_classification_name = group['bk_classification_name']
+                    this.groupDialog.data.bk_classification_id = group.bk_classification_id
+                    this.groupDialog.data.bk_classification_name = group.bk_classification_name
                     this.groupDialog.data.id = group.id
                 } else {
                     this.groupDialog.title = this.$t('新建分组')
@@ -425,8 +425,8 @@
                 }
                 const params = this.$injectMetadata({
                     bk_supplier_account: this.supplierAccount,
-                    bk_classification_id: this.groupDialog.data['bk_classification_id'],
-                    bk_classification_name: this.groupDialog.data['bk_classification_name']
+                    bk_classification_id: this.groupDialog.data.bk_classification_id,
+                    bk_classification_name: this.groupDialog.data.bk_classification_name
                 })
                 if (this.groupDialog.isEdit) {
                     // eslint-disable-next-line
@@ -460,7 +460,7 @@
                                 })
                             }
                         })
-                        this.$store.commit('objectModelClassify/deleteClassify', group['bk_classification_id'])
+                        this.$store.commit('objectModelClassify/deleteClassify', group.bk_classification_id)
                         this.searchModel = ''
                     }
                 })
@@ -472,10 +472,10 @@
             async saveModel (data) {
                 const params = this.$injectMetadata({
                     bk_supplier_account: this.supplierAccount,
-                    bk_obj_name: data['bk_obj_name'],
-                    bk_obj_icon: data['bk_obj_icon'],
-                    bk_classification_id: data['bk_classification_id'],
-                    bk_obj_id: data['bk_obj_id'],
+                    bk_obj_name: data.bk_obj_name,
+                    bk_obj_icon: data.bk_obj_icon,
+                    bk_classification_id: data.bk_classification_id,
+                    bk_obj_id: data.bk_obj_id,
                     userName: this.userName
                 })
                 const createModel = await this.createObject({ params, config: { requestId: 'createModel' } })
@@ -495,7 +495,7 @@
                 this.$routerActions.redirect({
                     name: 'modelDetails',
                     params: {
-                        modelId: model['bk_obj_id']
+                        modelId: model.bk_obj_id
                     },
                     history: true
                 })

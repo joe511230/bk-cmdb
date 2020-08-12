@@ -16,7 +16,7 @@ export const actions = {
 
 export const types = {
     business: {
-        business: t('业务')  
+        business: t('业务')
     },
     business_resource: {
         service_template: t('服务模板'),

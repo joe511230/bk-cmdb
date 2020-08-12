@@ -13,9 +13,9 @@ export function getFullName (names) {
     const userList = window.CMDB_USER_LIST || [] // set in setup/preload.js
     const enNames = String(names).split(',')
     const fullNames = enNames.map(enName => {
-        const user = userList.find(user => user['english_name'] === enName)
+        const user = userList.find(user => user.english_name === enName)
         if (user) {
-            return `${user['english_name']}(${user['chinese_name']})`
+            return `${user.english_name}(${user.chinese_name})`
         }
         return enName
     })
@@ -30,8 +30,8 @@ export function getFullName (names) {
  */
 
 export function getPropertyText (property, item) {
-    const propertyId = property['bk_property_id']
-    const propertyType = property['bk_property_type']
+    const propertyId = property.bk_property_id
+    const propertyType = property.bk_property_type
     let propertyValue = item[propertyId]
     if (
         propertyValue === null
@@ -46,14 +46,14 @@ export function getPropertyText (property, item) {
         propertyValue = enumOption ? enumOption.name : '--'
     } else if (['singleasst', 'multiasst'].includes(propertyType)) {
         const values = Array.isArray(propertyValue) ? propertyValue : []
-        propertyValue = values.map(inst => inst['bk_inst_name']).join(',')
+        propertyValue = values.map(inst => inst.bk_inst_name).join(',')
     } else if (['date', 'time'].includes(propertyType)) {
         propertyValue = formatTime(propertyValue, propertyType === 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss')
     } else if (propertyType === 'objuser') {
         propertyValue = getFullName(propertyValue)
     } else if (propertyType === 'foreignkey') {
         if (Array.isArray(propertyValue)) {
-            propertyValue = propertyValue.map(inst => inst['bk_inst_name']).join(',')
+            propertyValue = propertyValue.map(inst => inst.bk_inst_name).join(',')
         } else {
             return String(propertyValue).length ? propertyValue : '--'
         }
@@ -79,8 +79,8 @@ function getDefaultOptionValue (property) {
 export function getInstFormValues (properties, inst = {}, autoSelect = true) {
     const values = {}
     properties.forEach(property => {
-        const propertyId = property['bk_property_id']
-        const propertyType = property['bk_property_type']
+        const propertyId = property.bk_property_id
+        const propertyType = property.bk_property_type
         if (['singleasst', 'multiasst', 'foreignkey'].includes(propertyType)) {
             // const validAsst = (inst[propertyId] || []).filter(asstInst => asstInst.id !== '')
             // values[propertyId] = validAsst.map(asstInst => asstInst['bk_inst_id']).join(',')
@@ -91,7 +91,7 @@ export function getInstFormValues (properties, inst = {}, autoSelect = true) {
             values[propertyId] = [null, undefined].includes(inst[propertyId]) ? '' : inst[propertyId]
         } else if (['bool'].includes(propertyType)) {
             if ([null, undefined].includes(inst[propertyId]) && autoSelect) {
-                values[propertyId] = typeof property['option'] === 'boolean' ? property['option'] : false
+                values[propertyId] = typeof property.option === 'boolean' ? property.option : false
             } else {
                 values[propertyId] = !!inst[propertyId]
             }
@@ -144,7 +144,7 @@ export function formatTime (originalTime, format = 'YYYY-MM-DD HH:mm:ss') {
  * @return {Object} 模型属性对象
  */
 export function getProperty (properties, id) {
-    return properties.find(property => property['bk_property_id'] === id)
+    return properties.find(property => property.bk_property_id === id)
 }
 
 /**
@@ -165,10 +165,10 @@ export function getEnumOptions (properties, id) {
  */
 export function getPropertyPriority (property) {
     let priority = 0
-    if (property['isonly']) {
+    if (property.isonly) {
         priority--
     }
-    if (property['isrequired']) {
+    if (property.isrequired) {
         priority--
     }
     return priority
@@ -194,7 +194,7 @@ export function getDefaultHeaderProperties (properties) {
 export function getCustomHeaderProperties (properties, customColumns) {
     const columnProperties = []
     customColumns.forEach(propertyId => {
-        const columnProperty = properties.find(property => property['bk_property_id'] === propertyId)
+        const columnProperty = properties.find(property => property.bk_property_id === propertyId)
         if (columnProperty) {
             columnProperties.push(columnProperty)
         }
@@ -217,10 +217,10 @@ export function getHeaderProperties (properties, customColumns, fixedPropertyIds
         headerProperties = getDefaultHeaderProperties(properties)
     }
     if (fixedPropertyIds.length) {
-        headerProperties = headerProperties.filter(property => !fixedPropertyIds.includes(property['bk_property_id']))
+        headerProperties = headerProperties.filter(property => !fixedPropertyIds.includes(property.bk_property_id))
         const fixedProperties = []
         fixedPropertyIds.forEach(id => {
-            const property = properties.find(property => property['bk_property_id'] === id)
+            const property = properties.find(property => property.bk_property_id === id)
             if (property) {
                 fixedProperties.push(property)
             }
@@ -254,7 +254,7 @@ export function clone (object) {
 export function getMetadataBiz (object = {}) {
     const metadata = object.metadata || {}
     const label = metadata.label || {}
-    const biz = label['bk_biz_id']
+    const biz = label.bk_biz_id
     return biz
 }
 
@@ -271,13 +271,13 @@ export function getValidateRules (property) {
     if (option) {
         if (['int', 'float'].includes(propertyType)) {
             if (option.hasOwnProperty('min') && !['', null, undefined].includes(option.min)) {
-                rules['min_value'] = option.min
+                rules.min_value = option.min
             }
             if (option.hasOwnProperty('max') && !['', null, undefined].includes(option.max)) {
-                rules['max_value'] = option.max
+                rules.max_value = option.max
             }
         } else if (['singlechar', 'longchar'].includes(propertyType)) {
-            rules['regex'] = option
+            rules.regex = option
         }
     }
     if (['singlechar', 'longchar'].includes(propertyType)) {

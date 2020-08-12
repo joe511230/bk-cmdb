@@ -154,7 +154,7 @@
                     Object.assign(params, {
                         condition: {
                             bk_asst_name: {
-                                '$regex': this.sendSearchText
+                                $regex: this.sendSearchText
                             }
                         }
                     })
@@ -202,7 +202,7 @@
                     }
                 })
                 this.table.list.forEach(item => {
-                    const asst = res.associations.find(({ bk_asst_id: asstId }) => asstId === item['bk_asst_id'])
+                    const asst = res.associations.find(({ bk_asst_id: asstId }) => asstId === item.bk_asst_id)
                     if (asst) {
                         this.$set(item, 'count', asst.assts.length)
                     }
@@ -224,7 +224,7 @@
             },
             deleteRelation (relation) {
                 this.$bkInfo({
-                    title: this.$tc('确定删除关联类型？', relation['bk_asst_name'], { name: relation['bk_asst_name'] }),
+                    title: this.$tc('确定删除关联类型？', relation.bk_asst_name, { name: relation.bk_asst_name }),
                     confirmFn: async () => {
                         await this.deleteAssociationType({
                             id: relation.id,

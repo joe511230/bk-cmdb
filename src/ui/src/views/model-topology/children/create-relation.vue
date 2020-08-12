@@ -146,19 +146,19 @@
                 const {
                     relationInfo
                 } = this
-                if (relationInfo['bk_obj_id'].length && relationInfo['bk_asst_id'].length && relationInfo['bk_asst_obj_id'].length) {
-                    return `${relationInfo['bk_obj_id']}_${relationInfo['bk_asst_id']}_${relationInfo['bk_asst_obj_id']}`
+                if (relationInfo.bk_obj_id.length && relationInfo.bk_asst_id.length && relationInfo.bk_asst_obj_id.length) {
+                    return `${relationInfo.bk_obj_id}_${relationInfo.bk_asst_id}_${relationInfo.bk_asst_obj_id}`
                 }
                 return ''
             },
             sourceModel () {
-                return this.getModelById(this.relationInfo['bk_obj_id']) || {}
+                return this.getModelById(this.relationInfo.bk_obj_id) || {}
             },
             targetModel () {
-                return this.getModelById(this.relationInfo['bk_asst_obj_id']) || {}
+                return this.getModelById(this.relationInfo.bk_asst_obj_id) || {}
             },
             relationName () {
-                const asstId = this.relationInfo['bk_asst_id']
+                const asstId = this.relationInfo.bk_asst_id
                 return (this.relationList.find(relation => relation.id === asstId) || {}).name
             }
         },
@@ -173,9 +173,9 @@
                 'searchObjectAssociation'
             ]),
             getModelName (objId) {
-                const model = this.models.find(model => model['bk_obj_id'] === objId)
+                const model = this.models.find(model => model.bk_obj_id === objId)
                 if (model) {
-                    return model['bk_obj_name']
+                    return model.bk_obj_name
                 }
                 return ''
             },
@@ -183,7 +183,7 @@
                 const {
                     relationInfo
                 } = this;
-                [relationInfo['bk_obj_id'], relationInfo['bk_asst_obj_id']] = [relationInfo['bk_asst_obj_id'], relationInfo['bk_obj_id']]
+                [relationInfo.bk_obj_id, relationInfo.bk_asst_obj_id] = [relationInfo.bk_asst_obj_id, relationInfo.bk_obj_id]
             },
             async initRelationList () {
                 const data = await this.searchAssociationType({
@@ -207,7 +207,7 @@
                 }).filter(relation => {
                     return relation.id !== 'bk_mainline'
                 })
-                this.relationInfo['bk_asst_id'] = this.relationList[0].id
+                this.relationInfo.bk_asst_id = this.relationList[0].id
             },
             async searchModelRelationList () {
                 const [source, dest] = await Promise.all([this.searchAsSource(), this.searchAsDest()])
@@ -217,7 +217,7 @@
                 return this.searchObjectAssociation({
                     params: this.$injectMetadata({
                         condition: {
-                            'bk_obj_id': this.relationInfo['bk_obj_id']
+                            bk_obj_id: this.relationInfo.bk_obj_id
                         }
                     })
                 })
@@ -226,7 +226,7 @@
                 return this.searchObjectAssociation({
                     params: this.$injectMetadata({
                         condition: {
-                            'bk_asst_obj_id': this.relationInfo['bk_obj_id']
+                            bk_asst_obj_id: this.relationInfo.bk_obj_id
                         }
                     })
                 })

@@ -106,10 +106,10 @@
             ]),
             ...mapGetters('hosts', ['condition']),
             customColumns () {
-                return this.usercustom['business_topology_table_column_config'] || []
+                return this.usercustom.business_topology_table_column_config || []
             },
             globalCustomColumns () {
-                return this.globalUsercustom['host_global_custom_table_columns'] || []
+                return this.globalUsercustom.host_global_custom_table_columns || []
             }
         },
         watch: {

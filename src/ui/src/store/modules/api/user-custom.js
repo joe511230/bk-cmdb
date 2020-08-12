@@ -19,20 +19,20 @@ const state = {
 const getters = {
     classifyNavigationKey: (state, getters, rootState, rootGetters) => {
         const bizId = rootGetters['objectBiz/bizId']
-        const isAdminView = rootGetters['isAdminView']
-        const userName = rootGetters['userName']
+        const isAdminView = rootGetters.isAdminView
+        const userName = rootGetters.userName
         return `${userName}_${isAdminView ? 'adminView' : bizId}_classify_navigation`
     },
     firstEntryKey: (state, getters, rootState, rootGetters) => {
         const bizId = rootGetters['objectBiz/bizId']
-        const isAdminView = rootGetters['isAdminView']
-        const userName = rootGetters['userName']
+        const isAdminView = rootGetters.isAdminView
+        const userName = rootGetters.userName
         return `${userName}_${isAdminView ? 'adminView' : bizId}_first_entry`
     },
     recentlyKey: (state, getters, rootState, rootGetters) => {
         const bizId = rootGetters['objectBiz/bizId']
-        const isAdminView = rootGetters['isAdminView']
-        const userName = rootGetters['userName']
+        const isAdminView = rootGetters.isAdminView
+        const userName = rootGetters.userName
         return `${userName}_${isAdminView ? 'adminView' : bizId}_recently`
     },
     usercustom: state => state.usercustom,
@@ -54,7 +54,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     saveUsercustom ({ commit, state, dispatch }, usercustom = {}) {
-        return $http.post(`usercustom`, usercustom, { cancelWhenRouteChange: false }).then(() => {
+        return $http.post('usercustom', usercustom, { cancelWhenRouteChange: false }).then(() => {
             $http.cancelCache('searchUserCustom')
             commit('setUsercustom', usercustom)
             return state.usercustom
@@ -72,7 +72,7 @@ const actions = {
         const mergedConfig = Object.assign({
             requestId: 'searchUserCustom'
         }, config)
-        return $http.post(`usercustom/user/search`, {}, mergedConfig).then(usercustom => {
+        return $http.post('usercustom/user/search', {}, mergedConfig).then(usercustom => {
             commit('setUsercustom', usercustom)
             return usercustom
         })
@@ -86,7 +86,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     getUserDefaultCustom ({ commit, state, dispatch }) {
-        return $http.post(`usercustom/default/search`)
+        return $http.post('usercustom/default/search')
     },
 
     setRencentlyData ({ commit, state, dispatch }, { id }) {

@@ -28,7 +28,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     searchNetcollect ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.post(`collector/netcollect/summary/action/search`, params, config)
+        return $http.post('collector/netcollect/summary/action/search', params, config)
     },
     /**
      * 网络发现报告详情列表查询
@@ -39,7 +39,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     searchNetcollectList ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.post(`collector/netcollect/report/action/search`, params, config)
+        return $http.post('collector/netcollect/report/action/search', params, config)
     },
     /**
      * 网络发现报告变更确认
@@ -50,7 +50,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     confirmNetcollectChange ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.post(`collector/netcollect/report/action/confirm`, params, config)
+        return $http.post('collector/netcollect/report/action/confirm', params, config)
     },
     /**
      * 网络发现完成历史
@@ -61,7 +61,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     searchNetcollectHistory ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.post(`collector/netcollect/history/action/search`, params, config)
+        return $http.post('collector/netcollect/history/action/search', params, config)
     }
 }
 

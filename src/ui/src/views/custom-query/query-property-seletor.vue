@@ -84,7 +84,7 @@
                     return
                 }
                 this.groups = groups.filter(group => {
-                    group.children = group.children.filter(property => property['bk_property_name'] && property['bk_property_name'].indexOf(value) !== -1)
+                    group.children = group.children.filter(property => property.bk_property_name && property.bk_property_name.indexOf(value) !== -1)
                     return group.children.length
                 })
             }
@@ -116,7 +116,7 @@
             },
             handleCloneGroups (property) {
                 this.cloneGroups.forEach(group => {
-                    const findIndex = group.children.findIndex(curProperty => curProperty['bk_property_id'] === property['bk_property_id'] && curProperty['bk_obj_id'] === property['bk_obj_id'])
+                    const findIndex = group.children.findIndex(curProperty => curProperty.bk_property_id === property.bk_property_id && curProperty.bk_obj_id === property.bk_obj_id)
                     if (findIndex !== -1) {
                         group.children.splice(findIndex, 1, property)
                     }

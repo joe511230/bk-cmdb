@@ -28,7 +28,7 @@ export default {
         $allModels () {
             const allModels = []
             this.$classifications.forEach(classify => {
-                classify['bk_objects'].forEach(model => {
+                classify.bk_objects.forEach(model => {
                     allModels.push(model)
                 })
             })
@@ -36,7 +36,7 @@ export default {
         },
         $model () {
             const objId = this.$route.params.objId || this.$route.meta.objId
-            const targetModel = this.$allModels.find(model => model['bk_obj_id'] === objId)
+            const targetModel = this.$allModels.find(model => model.bk_obj_id === objId)
             return targetModel || {}
         }
     }

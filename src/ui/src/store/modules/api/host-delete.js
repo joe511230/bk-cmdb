@@ -28,7 +28,7 @@ const actions = {
      * @return {Promise} promise 对象
      */
     deleteHost ({ commit, state, dispatch }, { params }) {
-        return $http.delete(`hosts/batch`, params)
+        return $http.delete('hosts/batch', params)
     }
 }
 

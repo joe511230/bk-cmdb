@@ -96,7 +96,7 @@
         computed: {
             ...mapGetters('objectBiz', ['bizId']),
             setTemplateId () {
-                return this.$route.params['setTemplateId']
+                return this.$route.params.setTemplateId
             },
             setInstancesId () {
                 const id = `${this.bizId}_${this.setTemplateId}`
@@ -233,7 +233,7 @@
                 this.diffList = this.diffList.filter(instance => instance.bk_set_id !== id)
             },
             handleGoback () {
-                const moduleId = this.$route.params['moduleId']
+                const moduleId = this.$route.params.moduleId
                 if (moduleId) {
                     this.$routerActions.redirect({
                         name: MENU_BUSINESS_HOST_AND_SERVICE,

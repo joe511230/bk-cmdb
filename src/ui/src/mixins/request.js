@@ -2,8 +2,8 @@ import { mapGetters } from 'vuex'
 export default {
     computed: {
         ...mapGetters('request', {
-            '$requestQueue': 'queue',
-            '$requestCache': 'cache'
+            $requestQueue: 'queue',
+            $requestCache: 'cache'
         })
     },
     methods: {

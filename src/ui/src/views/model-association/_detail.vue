@@ -143,7 +143,7 @@
             },
             updateParams () {
                 const updateParams = { ...this.relationInfo }
-                delete updateParams['bk_asst_id']
+                delete updateParams.bk_asst_id
                 return updateParams
             },
             changedValues () {

@@ -132,7 +132,7 @@
         computed: {
             ...mapGetters('objectModelClassify', ['models', 'getModelById']),
             isPublicModel () {
-                const model = this.models.find(model => model['bk_obj_id'] === this.objId) || {}
+                const model = this.models.find(model => model.bk_obj_id === this.objId) || {}
                 return !this.$tools.getMetadataBiz(model)
             },
             authData () {
@@ -180,7 +180,7 @@
                     this.loadingState.push(property)
                     this.exitForm()
 
-                    const values = { [property['bk_property_id']]: value }
+                    const values = { [property.bk_property_id]: value }
 
                     if (this.resourceType === 'business') {
                         await this.updateBusiness({

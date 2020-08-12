@@ -108,9 +108,9 @@
                 初始化图表
             */
             initChart () {
-                const chart1 = this.Echarts.init(this.$refs['chart1'])
-                const chart2 = this.Echarts.init(this.$refs['chart2'])
-                const chart3 = this.Echarts.init(this.$refs['chart3'])
+                const chart1 = this.Echarts.init(this.$refs.chart1)
+                const chart2 = this.Echarts.init(this.$refs.chart2)
+                const chart3 = this.Echarts.init(this.$refs.chart3)
                 chart1.setOption({
                     title: {
                         text: this.$t('总CPU使用率'),

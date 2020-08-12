@@ -40,40 +40,40 @@
                 focus: false,
                 keyword: '',
                 searchParams: {
-                    'page': {
-                        'start': 0,
-                        'limit': 15,
-                        'sort': 'bk_host_id'
+                    page: {
+                        start: 0,
+                        limit: 15,
+                        sort: 'bk_host_id'
                     },
-                    'pattern': '',
-                    'ip': {
-                        'flag': 'bk_host_innerip|bk_host_outerip',
-                        'exact': 0,
-                        'data': []
+                    pattern: '',
+                    ip: {
+                        flag: 'bk_host_innerip|bk_host_outerip',
+                        exact: 0,
+                        data: []
                     },
-                    'condition': [{
-                        'bk_obj_id': 'host',
-                        'fields': [],
-                        'condition': []
+                    condition: [{
+                        bk_obj_id: 'host',
+                        fields: [],
+                        condition: []
                     }, {
-                        'bk_obj_id': 'module',
-                        'fields': [],
-                        'condition': []
+                        bk_obj_id: 'module',
+                        fields: [],
+                        condition: []
                     }, {
-                        'bk_obj_id': 'set',
-                        'fields': [],
-                        'condition': []
+                        bk_obj_id: 'set',
+                        fields: [],
+                        condition: []
                     }, {
-                        'bk_obj_id': 'biz',
-                        'fields': [],
-                        'condition': []
+                        bk_obj_id: 'biz',
+                        fields: [],
+                        condition: []
                     }]
                 },
                 resultTab: {
                     active: 'host',
                     headStyle: {
-                        'height': '40px',
-                        'color': '#3c96ff'
+                        height: '40px',
+                        color: '#3c96ff'
                     },
                     list: {},
                     count: {}
@@ -87,7 +87,7 @@
             allModels () {
                 const allModels = []
                 this.classifications.forEach(classify => {
-                    classify['bk_objects'].forEach(model => {
+                    classify.bk_objects.forEach(model => {
                         allModels.push(model)
                     })
                 })
@@ -150,15 +150,15 @@
                 }
             },
             getPanelTitle (panel) {
-                const panelModel = this.allModels.find(model => model['bk_obj_id'] === panel)
-                return panelModel ? `${panelModel['bk_obj_name']}(${this.resultTab.count[panel]})` : null
+                const panelModel = this.allModels.find(model => model.bk_obj_id === panel)
+                return panelModel ? `${panelModel.bk_obj_name}(${this.resultTab.count[panel]})` : null
             },
             initSearchList (data) {
                 const list = []
                 data.forEach(item => {
                     item.biz.forEach(biz => {
                         const uniqueItem = { ...item }
-                        uniqueItem['biz'] = [biz]
+                        uniqueItem.biz = [biz]
                         list.push(uniqueItem)
                     })
                 })
@@ -169,7 +169,7 @@
             },
             showMore () {
                 const funcMaps = {
-                    'host': this.showMoreHost
+                    host: this.showMoreHost
                 }
                 const model = this.resultTab.active
                 if (funcMaps.hasOwnProperty(model)) {

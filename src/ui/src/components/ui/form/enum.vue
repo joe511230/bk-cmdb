@@ -90,7 +90,7 @@
             setInitData () {
                 if (this.autoSelect) {
                     if (this.value === '') {
-                        const defaultOption = this.options.find(option => option['is_default'])
+                        const defaultOption = this.options.find(option => option.is_default)
                         if (defaultOption) {
                             this.selected = this.multiple ? [defaultOption.id] : defaultOption.id
                         } else {

@@ -132,17 +132,17 @@
                     attributes.forEach(name => {
                         const data = details[name]
                         list.push({
-                            'bk_property_name': name,
-                            'pre_data': data,
-                            'cur_data': data
+                            bk_property_name: name,
+                            pre_data: data,
+                            cur_data: data
                         })
                     })
                 } else if (this.hostOperations.includes(this.details.action)) {
                     const content = this.operationDetail
                     list.push({
-                        'bk_property_name': this.$t('关联关系'),
-                        'pre_data': this.getTopoPath(content.pre_data),
-                        'cur_data': this.getTopoPath(content.cur_data)
+                        bk_property_name: this.$t('关联关系'),
+                        pre_data: this.getTopoPath(content.pre_data),
+                        cur_data: this.getTopoPath(content.cur_data)
                     })
                 } else {
                     const attribute = this.operationDetail.details.properties
@@ -150,9 +150,9 @@
                         const preData = this.getCellValue(property, 'pre_data')
                         const curData = this.getCellValue(property, 'cur_data')
                         list.push({
-                            'bk_property_name': property.bk_property_name,
-                            'pre_data': preData,
-                            'cur_data': curData
+                            bk_property_name: property.bk_property_name,
+                            pre_data: preData,
+                            cur_data: curData
                         })
                     })
                 }
@@ -221,8 +221,8 @@
             },
             hasChanged (item) {
                 const action = ['update', 'archive', 'recover'].concat(this.hostOperations)
-                if (action.includes(this.details['action'])) {
-                    return item['pre_data'] !== item['cur_data']
+                if (action.includes(this.details.action)) {
+                    return item.pre_data !== item.cur_data
                 }
                 return false
             },

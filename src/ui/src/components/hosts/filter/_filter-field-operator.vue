@@ -23,14 +23,14 @@
         data () {
             return {
                 operatorMap: {
-                    'common': [{
+                    common: [{
                         id: '$eq',
                         name: this.$t('等于')
                     }, {
                         id: '$ne',
                         name: this.$t('不等于')
                     }],
-                    'char': [{
+                    char: [{
                         id: '$multilike',
                         name: this.$t('包含')
                     }, {
@@ -40,7 +40,7 @@
                         id: '$ne',
                         name: this.$t('不等于')
                     }],
-                    'name': [{
+                    name: [{
                         id: '$multilike',
                         name: this.$t('包含')
                     }, {
@@ -50,7 +50,7 @@
                         id: '$nin',
                         name: this.$t('不等于')
                     }],
-                    'enum': [{
+                    enum: [{
                         id: '$in',
                         name: this.$t('等于')
                     }, {

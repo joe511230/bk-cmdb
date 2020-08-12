@@ -208,15 +208,15 @@
                 }).then((data) => {
                     const categoryList = data.info.map(item => {
                         return {
-                            usage_amount: item['usage_amount'],
-                            ...item['category']
+                            usage_amount: item.usage_amount,
+                            ...item.category
                         }
                     })
-                    const list = categoryList.filter(category => !category['bk_parent_id'] && !(category['name'] === 'Default' && category['is_built_in']))
+                    const list = categoryList.filter(category => !category.bk_parent_id && !(category.name === 'Default' && category.is_built_in))
                     this.list = list.map(mainCategory => {
                         return {
                             ...mainCategory,
-                            child_category_list: categoryList.filter(category => category['bk_parent_id'] === mainCategory['id'])
+                            child_category_list: categoryList.filter(category => category.bk_parent_id === mainCategory.id)
                         }
                     }).sort((prev, next) => prev.id - next.id)
                 })
@@ -236,9 +236,9 @@
                         let markIndex = null
                         const currentObj = this.list.find((category, index) => {
                             markIndex = index
-                            return category.hasOwnProperty('bk_root_id') && category['bk_root_id'] === rootId
+                            return category.hasOwnProperty('bk_root_id') && category.bk_root_id === rootId
                         })
-                        const childList = currentObj ? currentObj['child_category_list'] : []
+                        const childList = currentObj ? currentObj.child_category_list : []
                         childList.unshift(res)
                         this.$set(this.list[markIndex], 'child_category_list', childList)
                     } else {
@@ -311,11 +311,11 @@
                                 this.list.splice(index, 1)
                             } else {
                                 let childIndex = -1
-                                this.list[index]['child_category_list'].find((category, findIndex) => {
+                                this.list[index].child_category_list.find((category, findIndex) => {
                                     childIndex = findIndex
                                     return category.id === id
                                 })
-                                this.list[index]['child_category_list'].splice(childIndex, 1)
+                                this.list[index].child_category_list.splice(childIndex, 1)
                             }
                         })
                     }

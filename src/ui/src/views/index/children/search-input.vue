@@ -240,33 +240,33 @@
             },
             searchParams () {
                 return {
-                    'page': {
-                        'start': this.pagination.start,
-                        'limit': this.pagination.limit,
-                        'sort': 'bk_host_id'
+                    page: {
+                        start: this.pagination.start,
+                        limit: this.pagination.limit,
+                        sort: 'bk_host_id'
                     },
-                    'pattern': '',
-                    'ip': {
-                        'flag': 'bk_host_innerip|bk_host_outerip',
-                        'exact': 0,
-                        'data': [this.keywords]
+                    pattern: '',
+                    ip: {
+                        flag: 'bk_host_innerip|bk_host_outerip',
+                        exact: 0,
+                        data: [this.keywords]
                     },
-                    'condition': [{
-                        'bk_obj_id': 'host',
-                        'fields': [],
-                        'condition': []
+                    condition: [{
+                        bk_obj_id: 'host',
+                        fields: [],
+                        condition: []
                     }, {
-                        'bk_obj_id': 'module',
-                        'fields': [],
-                        'condition': []
+                        bk_obj_id: 'module',
+                        fields: [],
+                        condition: []
                     }, {
-                        'bk_obj_id': 'set',
-                        'fields': [],
-                        'condition': []
+                        bk_obj_id: 'set',
+                        fields: [],
+                        condition: []
                     }, {
-                        'bk_obj_id': 'biz',
-                        'fields': [],
-                        'condition': []
+                        bk_obj_id: 'biz',
+                        fields: [],
+                        condition: []
                     }]
                 }
             },
@@ -330,8 +330,8 @@
             getShowModelName (source) {
                 let modelName = ''
                 try {
-                    const model = this.getModelById(source['bk_obj_id'])
-                    modelName = model['bk_obj_name']
+                    const model = this.getModelById(source.bk_obj_id)
+                    modelName = model.bk_obj_name
                 } catch (e) {
                     console.error(e)
                 }
@@ -493,9 +493,9 @@
                 })
             },
             handleGoInstace (source) {
-                const model = this.getModelById(source['bk_obj_id'])
-                const isPauserd = this.getModelById(source['bk_obj_id'])['bk_ispaused']
-                if (model['bk_classification_id'] === 'bk_biz_topo') {
+                const model = this.getModelById(source.bk_obj_id)
+                const isPauserd = this.getModelById(source.bk_obj_id).bk_ispaused
+                if (model.bk_classification_id === 'bk_biz_topo') {
                     this.$bkMessage({
                         message: this.$t('主线模型无法查看'),
                         theme: 'warning'
@@ -511,8 +511,8 @@
                 this.$routerActions.redirect({
                     name: MENU_RESOURCE_INSTANCE_DETAILS,
                     params: {
-                        objId: source['bk_obj_id'],
-                        instId: source['bk_inst_id']
+                        objId: source.bk_obj_id,
+                        instId: source.bk_inst_id
                     },
                     history: true
                 })
@@ -523,7 +523,7 @@
                     name: name,
                     params: {
                         bizId: source.bk_biz_id,
-                        bizName: source['bk_biz_name']
+                        bizName: source.bk_biz_name
                     },
                     history: true
                 })
@@ -582,9 +582,9 @@
                 const len = itemList.length
                 const keyCode = event.keyCode
                 const code = {
-                    'enter': 13,
-                    'up': 38,
-                    'down': 40
+                    enter: 13,
+                    up: 38,
+                    down: 40
                 }
                 let index = this.selectIndex
                 if (code.up === keyCode || code.down === keyCode) {

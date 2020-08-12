@@ -28,7 +28,7 @@ const actions = {
      * @return {Promise} promise 对象
      */
     createCustomQuery ({ commit, state, dispatch }, { params, config }) {
-        return $http.post(`userapi`, params, config)
+        return $http.post('userapi', params, config)
     },
     
     /**

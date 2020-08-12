@@ -440,7 +440,7 @@
                     this.processList = data.info.map(template => {
                         return {
                             process_id: template.id,
-                            ...template['property']
+                            ...template.property
                         }
                     })
                 }).finally(() => {
@@ -448,7 +448,7 @@
                 })
             },
             handleSelect (id, data) {
-                this.secondaryList = this.allSecondaryList.filter(classification => classification['bk_parent_id'] === id)
+                this.secondaryList = this.allSecondaryList.filter(classification => classification.bk_parent_id === id)
                 this.emptyText = this.$t('没有二级分类')
                 if (!this.secondaryList.length) {
                     this.formData.secondaryClassification = ''
@@ -476,7 +476,7 @@
                 if (type === 'create') {
                     this.createProcessTemplate({
                         params: this.$injectMetadata({
-                            service_template_id: this.originTemplateValues['id'],
+                            service_template_id: this.originTemplateValues.id,
                             processes: [{
                                 spec: processValues
                             }]
@@ -488,7 +488,7 @@
                 } else {
                     this.updateProcessTemplate({
                         params: this.$injectMetadata({
-                            process_template_id: values['process_id'],
+                            process_template_id: values.process_id,
                             process_property: processValues
                         }, { injectBizId: true })
                     }).then(() => {
@@ -509,7 +509,7 @@
             handleUpdateProcess (template, index) {
                 try {
                     this.slider.show = true
-                    this.slider.title = template['bk_func_name']['value']
+                    this.slider.title = template.bk_func_name.value
                     this.attribute.type = 'update'
                     this.attribute.inst.edit = template
                     this.attribute.dataIndex = index
@@ -528,7 +528,7 @@
                             this.deleteProcessTemplate({
                                 params: {
                                     data: this.$injectMetadata({
-                                        process_templates: [template['process_id']]
+                                        process_templates: [template.process_id]
                                     }, { injectBizId: true })
                                 }
                             }).then(() => {
@@ -624,7 +624,7 @@
                     this.refresh()
                     return
                 }
-                const moduleId = this.$route.params['moduleId']
+                const moduleId = this.$route.params.moduleId
                 if (moduleId) {
                     this.$routerActions.redirect({
                         name: MENU_BUSINESS_HOST_AND_SERVICE,
