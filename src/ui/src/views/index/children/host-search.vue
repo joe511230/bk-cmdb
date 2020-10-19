@@ -8,8 +8,7 @@
                 :rows="rows"
                 v-model="searchContent"
                 @focus="handleFocus"
-                @blur="handleBlur"
-                @keypress="handleKeypress">
+                @blur="handleBlur">
             </bk-input>
             <bk-button theme="primary" class="search-btn"
                 :loading="$loading(request.search)"
@@ -45,8 +44,26 @@
         },
         mounted () {
             this.textareaDom = this.$refs.searchInput && this.$refs.searchInput.$refs.textarea
+            this.addQuickSearchListener()
+        },
+        beforeDestroy () {
+            this.removeQuickSearchListener()
         },
         methods: {
+            addQuickSearchListener () {
+                this.textareaDom.addEventListener('keypress', this.handleKeypress)
+            },
+            removeQuickSearchListener () {
+                this.textareaDom.removeEventListener('keypress', this.handleKeypress)
+            },
+            handleKeypress (event) {
+                const agent = window.navigator.userAgent.toLowerCase()
+                const isMac = /macintosh|mac os x/i.test(agent)
+                const modifierKey = isMac ? event.metaKey : event.ctrlKey
+                if (modifierKey && event.code.toLowerCase() === 'enter') {
+                    this.handleSearch()
+                }
+            },
             getSearchList () {
                 const searchList = []
                 this.searchContent.split('\n').forEach(text => {
@@ -79,14 +96,6 @@
                     this.rows = 1
                     this.textareaDom && (this.textareaDom.scrollTop = 0)
                 })
-            },
-            handleKeypress (content, event) {
-                const agent = window.navigator.userAgent.toLowerCase()
-                const isMac = /macintosh|mac os x/i.test(agent)
-                const modifierKey = isMac ? event.metaKey : event.ctrlKey
-                if (modifierKey && event.code.toLowerCase() === 'enter') {
-                    this.handleSearch()
-                }
             },
             handleSearchInput () {
                 this.showEllipsis = false
