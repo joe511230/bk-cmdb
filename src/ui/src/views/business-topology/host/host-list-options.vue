@@ -343,25 +343,37 @@
           count: this.count,
           options: (page) => {
             const condition = this.$parent.getParams()
-            const formData = new FormData()
-            formData.append('bk_biz_id', this.bizId)
-            formData.append('export_custom_fields', properties.map(property => property.bk_property_id))
-            formData.append('export_condition', JSON.stringify({
-              ...condition,
-              page: {
-                ...page,
-                sort: 'bk_host_id'
+            const params = {
+              bk_biz_id: this.bizId,
+              export_custom_fields: properties.map(property => property.bk_property_id),
+              export_condition: {
+                ...condition,
+                page: {
+                  ...page,
+                  sort: 'bk_host_id'
+                }
               }
-            }))
+            }
             return {
               url: `${window.API_HOST}hosts/export`,
               method: 'post',
-              data: formData
+              data: params
             }
           }
         })
       },
-      handleExcelUpdate() {
+      async handleExcelUpdate() {
+        const useImport = await import('@/components/host-import')
+        const [, { show: showImport }] = useImport.default({
+          title: this.$t('更新主机属性'),
+          submit: () => {
+            console.log('submit')
+          }
+        })
+        showImport()
+        if (!0) {
+          return
+        }
         this.sideslider.component = CmdbImport.name
         this.sideslider.componentProps = {
           templateUrl: `${window.API_HOST}importtemplate/host`,

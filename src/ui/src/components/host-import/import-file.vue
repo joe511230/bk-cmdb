@@ -1,0 +1,142 @@
+<template>
+  <div class="import-file">
+    <cmdb-tips class="file-tips"
+      :icon-style="{ color: '#FF9C01' }"
+      :tips-style="{ background: '#fff4e2', border: '1px solid #ffdfac' }">
+      {{$t('导入更新主机提示')}}
+    </cmdb-tips>
+    <div class="file-trigger" v-if="!file">
+      <input type="file"
+        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        @change.prevent="changeFile" />
+      <i class="trigger-icon bk-icon icon-upload-cloud"></i>
+      <i18n class="trigger-text" path="导入文件拖拽提示">
+        <span class="trigger-text-link" place="clickUpload">{{$t('点击上传')}}</span>
+      </i18n>
+    </div>
+    <div class="file-info" v-else>
+      <i class="file-icon icon-cc-excel"></i>
+      <span class="file-name">{{file.name}}</span>
+      <span class="file-size">{{formatSize(file.size)}}</span>
+    </div>
+    <p class="size-tips">{{$t('导入文件大小提示')}}</p>
+    <div class="options">
+      <bk-button theme="primary" :loading="pending" @click="handleNextStep">{{$t('下一步')}}</bk-button>
+      <bk-button theme="default" class="ml10" @click="closeImport">{{$t('取消')}}</bk-button>
+    </div>
+  </div>
+</template>
+
+<script>
+  import useImport from './index'
+  import useStep from './step'
+  import useFile from './file'
+  import { computed } from '@vue/composition-api'
+  export default {
+    name: 'import-file',
+    setup() {
+      const [, { next: nextStep }] = useStep()
+      const [importState, { close: closeImport }] = useImport()
+      const [{ file: file, state }, { change: changeFile, submit: parseFile }] = useFile()
+      const pending = computed(() => state.value === 'pending')
+      return { nextStep, importState, closeImport, file, pending, changeFile, parseFile }
+    },
+    methods: {
+      async handleNextStep() {
+        try {
+          await this.importState.submit(this.file)
+          this.nextStep()
+        } catch (error) {
+          console.error(error)
+        }
+      },
+      formatSize(originalSize) {
+        const uints = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+        const index = Math.floor(Math.log(originalSize) / Math.log(1024))
+        let size = originalSize / (1024 ** index)
+        size = `${size.toFixed(2)}${uints[index]}`
+        return size
+      }
+    }
+  }
+</script>
+
+<style lang="scss" scoped>
+  .import-file {
+    .file-tips {
+      margin: 20px 0 0 0;
+    }
+  }
+  .file-trigger {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    background: #fafbfd;
+    border: 1px dashed #c4c6cc;
+    border-radius: 3px;
+    margin: 10px 0 0 0;
+    &:hover {
+      border-color: $primaryColor;
+      .trigger-icon {
+        color: $primaryColor;
+      }
+    }
+    input[type=file] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      z-index: 2;
+      cursor: pointer;
+    }
+    .trigger-icon {
+      font-size: 24px;
+      color: #C4C6CC;
+    }
+    .trigger-text {
+      font-size: 12px;
+      color: #63656e;
+      line-height: 16px;
+      &-link {
+        color: $primaryColor;
+      }
+    }
+  }
+  .file-info {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    border: 1px solid #c4c6cc;
+    border-radius: 3px;
+    margin: 10px 0 0 0;
+    .file-icon {
+      font-size: 26px;
+      color: #979ba5;
+      margin: 0 13px 0 18px;
+    }
+    .file-name {
+      flex: 1;
+      height: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 20px;
+    }
+    .file-size {
+      font-size: 12px;
+      line-height: 16px;
+      margin: 0 20px;
+    }
+  }
+  .size-tips {
+    font-size: 12px;
+    line-height: 16px;
+    margin: 10px 0 0 0;
+  }
+  .options {
+    display: flex;
+    margin: 12px 0 0 0;
+  }
+</style>

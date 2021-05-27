@@ -696,7 +696,16 @@
       handleSetFilters() {
         FilterForm.show()
       },
-      handleNewImportInst() {
+      async handleNewImportInst() {
+        const useImport = await import('@/components/host-import/import')
+        const [, { show: showImport }] = useImport.default({
+          title: this.$t('导入主机'),
+          submit: () => {
+            console.log('submit')
+          }
+        })
+        showImport()
+        if (!0) return
         this.importInst.type = 'new'
         this.importInst.show = true
         this.importInst.title = this.$t('导入主机')
