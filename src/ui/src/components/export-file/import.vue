@@ -24,7 +24,7 @@
     setup() {
       const [current] = useStep()
       const [{ state }] = useFile()
-      const showState = computed(() => !!state.value)
+      const showState = computed(() => state.value && state.value !== 'resolving')
       return { current, showState }
     },
     data() {

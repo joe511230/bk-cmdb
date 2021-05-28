@@ -24,7 +24,7 @@
   export default {
     name: 'import-state',
     setup() {
-      const [{ state }, { clear: clearFile }] = useFile()
+      const [{ state, error }, { clear: clearFile }] = useFile()
       const [, { close: closeImport }] = useImport()
       const [, { reset: resetStep }] = useStep()
       const reset = () => {
@@ -33,6 +33,7 @@
       }
       return {
         state,
+        error,
         reset,
         closeImport
       }

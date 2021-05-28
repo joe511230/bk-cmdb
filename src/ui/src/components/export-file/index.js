@@ -83,11 +83,6 @@ const createSideslider = () => {
   return new Component({ store, i18n })
 }
 
-export default function ({ title, submit }) {
-  console.log(title, submit)
-  setState({
-    title,
-    submit
-  })
-  return [state, { close, show }]
+export default function () {
+  return [state, { close, show, setState }]
 }

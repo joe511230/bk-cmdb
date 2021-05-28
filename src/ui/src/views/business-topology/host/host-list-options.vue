@@ -169,6 +169,7 @@
   import ExportFields from '@/components/export-fields/export-fields.js'
   import FilterUtils from '@/components/filters/utils'
   import batchExport from '@/components/batch-export/index.js'
+  import { update as updateHost } from '@/service/host/import'
   export default {
     components: {
       FilterCollection,
@@ -363,26 +364,19 @@
         })
       },
       async handleExcelUpdate() {
-        const useImport = await import('@/components/host-import')
-        const [, { show: showImport }] = useImport.default({
+        const useImport = await import('@/components/import-file')
+        const [, { show: showImport, setState: setImportState }] = useImport.default()
+        setImportState({
           title: this.$t('更新主机属性'),
-          submit: () => {
-            console.log('submit')
-          }
+          submit: options => updateHost({
+            file: options.file,
+            params: {
+              bk_biz_id: this.bizId,
+              op: options.step
+            }
+          })
         })
         showImport()
-        if (!0) {
-          return
-        }
-        this.sideslider.component = CmdbImport.name
-        this.sideslider.componentProps = {
-          templateUrl: `${window.API_HOST}importtemplate/host`,
-          importUrl: `${window.API_HOST}hosts/update`,
-          templdateAvailable: false,
-          importPayload: { bk_biz_id: this.bizId }
-        }
-        this.sideslider.title = this.$t('更新主机属性')
-        this.sideslider.show = true
       },
       handleCopy(property) {
         const copyText = this.selection.map((data) => {

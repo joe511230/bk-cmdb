@@ -35,19 +35,36 @@
   export default {
     name: 'import-file',
     setup() {
-      const [, { next: nextStep }] = useStep()
+      const [currentStep, { next: nextStep }] = useStep()
       const [importState, { close: closeImport }] = useImport()
-      const [{ file: file, state }, { change: changeFile, submit: parseFile }] = useFile()
-      const pending = computed(() => state.value === 'pending')
-      return { nextStep, importState, closeImport, file, pending, changeFile, parseFile }
+      const [{ file, state }, { change: changeFile, setState: setFileState, setError: setFileError }] = useFile()
+      const pending = computed(() => state.value === 'resolving')
+      return {
+        currentStep,
+        nextStep,
+        importState,
+        closeImport,
+        file,
+        pending,
+        changeFile,
+        setFileState,
+        setFileError
+      }
     },
     methods: {
       async handleNextStep() {
         try {
-          await this.importState.submit(this.file)
+          this.setFileState('resolving')
+          await this.importState.submit({
+            file: this.file,
+            step: this.currentStep
+          })
           this.nextStep()
+          this.setFileState(null)
         } catch (error) {
           console.error(error)
+          this.setFileState('error')
+          this.setFileError(error)
         }
       },
       formatSize(originalSize) {

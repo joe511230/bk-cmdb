@@ -697,7 +697,7 @@
         FilterForm.show()
       },
       async handleNewImportInst() {
-        const useImport = await import('@/components/host-import/import')
+        const useImport = await import('@/components/import-file')
         const [, { show: showImport }] = useImport.default({
           title: this.$t('导入主机'),
           submit: () => {

@@ -33,13 +33,17 @@
   export default {
     name: 'import-relation',
     setup() {
-      const [, { previous: previousStep }] = useStep()
-      const [, { close: closeImport }] = useImport()
-      const [, { submit: submitFile }] = useFile()
+      const [currentStep, { previous: previousStep }] = useStep()
+      const [importState, { close: closeImport }] = useImport()
+      const [{ file }, { setState: setFileState, setError: setFileError }] = useFile()
       return {
+        currentStep,
         previousStep,
         closeImport,
-        submitFile
+        importState,
+        file,
+        setFileState,
+        setFileError
       }
     },
     data() {
@@ -62,12 +66,16 @@
       },
       async startImport() {
         try {
-          await this.submitFile({
-            bk_module_id: 1,
-            op: 2
+          this.setFileState('pending')
+          await this.importState.submit({
+            file: this.file,
+            step: this.currentStep
           })
+          this.setFileState('success')
         } catch (error) {
           console.error(error)
+          this.setFileState('error')
+          this.setFileError(error)
         }
       }
     }
