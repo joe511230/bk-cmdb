@@ -1,48 +1,33 @@
-import { reactive } from '@vue/composition-api'
 import Vue from 'vue'
-import contentComponent from './import'
+import contentComponent from './export'
 import store from '@/store'
 import i18n from '@/i18n'
-import useStep from './step'
-import useFile from './file'
+import useState from './state'
 import { bkInfoBox } from 'bk-magic-vue'
 let instance = null
-const state = reactive({
-  visible: false,
-  title: null,
-  submit: null
-})
-const setState = (newState) => {
-  Object.assign(state, newState)
-}
-
+const [state, { setState, resetState }] = useState()
+console.log(state)
 const show = (props = {}) => {
   instance = createSideslider(props)
   instance.$mount()
-  state.visible = true
+  state.visible.value = true
 }
 const close = () => {
-  setState({ visible: false, title: null, submit: null })
+  resetState()
   setTimeout(() => {
     instance.$destroy()
     instance = null
-    const [, { reset: resetStep }] = useStep()
-    resetStep()
-    const [, { clear: clearFile }] = useFile()
-    clearFile()
   }, 200)
 }
 
 const beforeClose = () => {
-  const [{ state }] = useFile()
-  const [current] = useStep()
-  if (current.value !== 2 || !state.value === 'pending') {
+  if (state.step.value !== 2 || !state.status.value === 'pending') {
     return true
   }
   return new Promise((resolve) => {
     bkInfoBox({
       title: i18n.t('确认关闭'),
-      subTitle: i18n.t('数据导入终止提示'),
+      subTitle: i18n.t('数据导出终止提示'),
       confirmFn: () => resolve(true),
       cancelFn: () => resolve(false)
     })
@@ -70,9 +55,9 @@ const createSideslider = () => {
     render() {
       return (
         <bk-sideslider
-          is-show={ state.visible }
+          is-show={ state.visible.value }
           width={ 700 }
-          title={ state.title }
+          title={ state.title.value }
           before-close={ beforeClose }
           { ...{ on: { 'update:isShow': close } } }>
           <content-component slot="content"></content-component>
@@ -83,6 +68,7 @@ const createSideslider = () => {
   return new Component({ store, i18n })
 }
 
-export default function () {
-  return [state, { close, show, setState }]
+export default function (state) {
+  setState(state)
+  return { close, show }
 }

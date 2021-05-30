@@ -296,11 +296,33 @@
           history: true
         })
       },
-      handleExport(event) {
+      async handleExport(event) {
         if (!this.hasSelection) {
           event.stopPropagation()
           return false
         }
+        const useExport = await import('@/components/export-file')
+        const { show: showExport } = useExport.default({
+          title: this.$t('导出选中'),
+          bk_biz_id: this.bizId,
+          bk_obj_id: 'host',
+          available: field => !['bk_host_id', 'bk_cloud_id', 'bk_host_innerip'].includes(field.bk_property_id),
+          submit: ({ selection: fields, relations }) => {
+            const params = {
+              export_custom_fields: fields.map(property => property.bk_property_id),
+              bk_host_ids: this.selection.map(({ host }) => host.bk_host_id),
+              bk_biz_id: this.bizId,
+              association_condition: relations
+            }
+            return this.$http.download({
+              url: `${window.API_HOST}hosts/export`,
+              method: 'post',
+              data: params
+            })
+          }
+        })
+        showExport()
+        if (!0) return
         ExportFields.show({
           title: this.$t('导出选中'),
           properties: FilterStore.getModelProperties('host'),
