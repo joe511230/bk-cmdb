@@ -44,7 +44,9 @@
     name: 'export-relation',
     setup() {
       const [state, { setState }] = useState()
-      const [relations] = useRelation(state.bk_obj_id)
+      const [realRelations] = useRelation(state.bk_obj_id)
+      const selfRelation = { bk_obj_id: state.bk_obj_id.value, bk_asst_obj_id: state.bk_obj_id.value }
+      const relations = computed(() => [selfRelation, ...realRelations.value])
       const relationModels = computed(() => relations.value.map((item) => {
         const modelId = item.bk_obj_id
         const asstModelId = item.bk_asst_obj_id

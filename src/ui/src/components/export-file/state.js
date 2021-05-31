@@ -11,7 +11,9 @@ const defaultState = {
   available: () => true,
   submit: () => {},
   selection: [],
-  relations: {}
+  relations: {},
+  count: 0,
+  limit: 10000
 }
 
 const state = reactive(useClone(defaultState))

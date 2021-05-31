@@ -262,7 +262,6 @@ async function download(options = {}) {
   }
   try {
     const response = await promise
-    debugger
     const disposition = response.headers['content-disposition']
     const fileName = name || disposition.substring(disposition.indexOf('filename') + 9)
     const downloadUrl = window.URL.createObjectURL(new Blob([response.data], {
