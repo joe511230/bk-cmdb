@@ -1,5 +1,5 @@
 <template>
-  <div class="property-selector">
+  <div class="property-selector" v-bkloading="{ isLoading: pending }">
     <div class="filter">
       <bk-input v-model.trim="keyword" :placeholder="$t('请输入字段名称')"></bk-input>
     </div>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-  import { ref, watch } from '@vue/composition-api'
+  import { ref, toRef } from '@vue/composition-api'
   import useFilter from '@/hooks/utils/filter'
   import useGroupProperty from '@/hooks/utils/group-property'
   import useProperty from '@/hooks/property/property'
@@ -42,8 +42,8 @@
   export default {
     name: 'import-property',
     setup() {
-      const [exportState, { setState }] = useState()
-      const [properties] = useProperty({
+      const [exportState] = useState()
+      const [{ properties, pending }] = useProperty({
         bk_obj_id: exportState.bk_obj_id.value,
         bk_biz_id: exportState.bk_biz_id.value
       })
@@ -60,7 +60,7 @@
       })
       const groupedPropertyies = useGroupProperty(groups, matchedProperties)
 
-      const selection = ref([])
+      const selection = toRef(exportState, 'fields')
       const setSelection = (item, selected) => {
         if (selected) {
           selection.value.push(item)
@@ -78,7 +78,6 @@
       }
       const isSelected = property => selection.value.includes(property)
       const isAllSelected = properties => properties.every(property => selection.value.includes(property))
-      watch(selection, value => setState({ selection: value }))
 
       return {
         keyword,
@@ -88,7 +87,8 @@
         setSelection,
         isSelected,
         setAllSelection,
-        isAllSelected
+        isAllSelected,
+        pending
       }
     }
   }

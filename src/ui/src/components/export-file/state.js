@@ -1,19 +1,20 @@
-import { reactive, toRefs } from '@vue/composition-api'
+import { reactive, toRefs, set } from '@vue/composition-api'
 import useClone from '@/hooks/utils/clone'
 const defaultState = {
   visible: false,
   title: '',
-  step: 1,
   bk_obj_id: null,
   bk_biz_id: null,
-  fields: [],
-  status: null,
   available: () => true,
   submit: () => {},
-  selection: [],
-  relations: {},
   count: 0,
-  limit: 10000
+  limit: 10000,
+  step: 1,
+  status: null,
+  fields: [],
+  relations: {},
+  exportRelation: false,
+  object_unique_id: ''
 }
 
 const state = reactive(useClone(defaultState))
@@ -21,8 +22,18 @@ const state = reactive(useClone(defaultState))
 const setState = (newState) => {
   Object.assign(state, newState)
 }
-const resetState = () => setState(useClone(defaultState))
+const resetState = () => setState({
+  step: 1,
+  status: null,
+  fields: [],
+  relations: {},
+  exportRelation: false,
+  object_unique_id: ''
+})
+
+const setRelation = (modelId, uniqueId) => set(state.relations, modelId, uniqueId)
+const removeRelation = modelId => setRelation(modelId, '')
 
 export default function () {
-  return [toRefs(state), { setState, resetState }]
+  return [toRefs(state), { setState, resetState, setRelation, removeRelation }]
 }

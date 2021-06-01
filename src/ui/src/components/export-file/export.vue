@@ -7,7 +7,7 @@
     <div :class="['options', { 'is-sticky': sticky }]" slot="footer" slot-scope="{ sticky }">
       <template v-if="currentStep === 1">
         <bk-button class="mr10" theme="primary"
-          :disabled="!selection.length"
+          :disabled="!fields.length"
           @click="nextStep">
           {{$t('下一步')}}
         </bk-button>
@@ -37,7 +37,7 @@
       [exportStatus.name]: exportStatus
     },
     setup() {
-      const [{ step: currentStep, selection }, { setState }] = useState()
+      const [{ step: currentStep, fields }, { setState }] = useState()
       const nextStep = () => setState({ step: currentStep.value + 1 })
       const previousStep = () => setState({ step: currentStep.value - 1 })
       const stepComponent = computed(() => {
@@ -54,7 +54,7 @@
         start()
       }
       return {
-        selection,
+        fields,
         currentStep,
         nextStep,
         previousStep,

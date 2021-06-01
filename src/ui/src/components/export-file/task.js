@@ -21,7 +21,7 @@ const task = reactive({
     waiting: i18n.t('等待中')
   }
 })
-const processSchedule = async () => {
+const process = async () => {
   const [state] = useState()
   if (!task.queue.length) return
   try {
@@ -31,7 +31,7 @@ const processSchedule = async () => {
     task.current.state = 'pending'
     await state.submit.value(state, toRefs(task))
     task.current.state = 'finished'
-    processSchedule()
+    process()
   } catch (error) {
     task.queue.unshift(task.current)
     task.current.state = 'error'
@@ -51,10 +51,10 @@ const start = () => {
     }))
   task.queue = queue
   task.all = queue.slice()
-  processSchedule()
+  process()
 }
 
-const clear = () => {
+const reset = () => {
   task.current = null
   task.message = null
   task.queue = []
@@ -62,5 +62,5 @@ const clear = () => {
 }
 
 export default function () {
-  return [toRefs(task), { start, clear, processSchedule }]
+  return [toRefs(task), { start, reset, process }]
 }

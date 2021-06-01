@@ -9,8 +9,8 @@
         <i class="status-success bk-icon icon-check-circle-shape"></i>
         <p class="text">{{$t('数据导出成功')}}</p>
         <div>
-          <bk-button class="mt20" theme="default">{{$t('重新导出')}}</bk-button>
-          <bk-button class="mt20" theme="default">{{$t('关闭')}}</bk-button>
+          <bk-button class="mt20" theme="default" @click="resetStep">{{$t('重新导出')}}</bk-button>
+          <bk-button class="mt20" theme="default" @click="close">{{$t('关闭')}}</bk-button>
         </div>
       </template>
       <template v-else-if="hasError">
@@ -18,7 +18,7 @@
         <p class="text">{{$t('导入失败')}}</p>
         <div>
           <bk-button class="mt20" theme="default">{{$t('重试失败')}}</bk-button>
-          <bk-button class="mt20" theme="default">{{$t('关闭')}}</bk-button>
+          <bk-button class="mt20" theme="default" @click="close">{{$t('关闭')}}</bk-button>
         </div>
       </template>
     </div>
@@ -28,6 +28,7 @@
 
 <script>
   import useTask from './task'
+  import useState from './state'
   import exportTask from './export-task'
   import { computed } from '@vue/composition-api'
   export default {
@@ -36,11 +37,21 @@
       exportTask
     },
     setup() {
-      const [{ all, current }] = useTask()
+      const [{ all, current }, { reset: resetTask }] = useTask()
       const hasError = computed(() => all.value.some(task => task.state === 'error'))
       const isFinished = computed(() => all.value.every(task => task.state === 'finished'))
       const pending = computed(() => current.value && current.value.state === 'pending')
-      return { hasError, isFinished, pending }
+
+      const [{ visible }, { resetState }] = useState()
+      const resetStep = () => {
+        resetState()
+        resetTask()
+      }
+      const close = () => {
+        visible.value = false
+      }
+
+      return { hasError, isFinished, pending, resetStep, close }
     }
   }
 </script>

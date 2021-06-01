@@ -262,6 +262,10 @@ async function download(options = {}) {
   }
   try {
     const response = await promise
+    if (response.data.type.indexOf('application') === -1) {
+      const text = await new Response(response.data).text()
+      throw new Error(JSON.parse(text).bk_error_msg)
+    }
     const disposition = response.headers['content-disposition']
     const fileName = name || disposition.substring(disposition.indexOf('filename') + 9)
     const downloadUrl = window.URL.createObjectURL(new Blob([response.data], {

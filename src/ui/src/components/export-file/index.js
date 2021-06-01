@@ -4,15 +4,20 @@ import store from '@/store'
 import i18n from '@/i18n'
 import useState from './state'
 import { bkInfoBox } from 'bk-magic-vue'
+import { toRef } from '@vue/composition-api'
 let instance = null
 const [state, { setState, resetState }] = useState()
-console.log(state)
+const visible = toRef(state, 'visible')
+const title = toRef(state, 'title')
+const step = toRef(state, 'step')
+const status = toRef(state, 'status')
 const show = (props = {}) => {
   instance = createSideslider(props)
   instance.$mount()
-  state.visible.value = true
+  visible.value = true
 }
 const close = () => {
+  visible.value = false
   resetState()
   setTimeout(() => {
     instance.$destroy()
@@ -21,7 +26,7 @@ const close = () => {
 }
 
 const beforeClose = () => {
-  if (state.step.value !== 2 || !state.status.value === 'pending') {
+  if (step.value !== 2 || !status.value === 'pending') {
     return true
   }
   return new Promise((resolve) => {
@@ -55,9 +60,9 @@ const createSideslider = () => {
     render() {
       return (
         <bk-sideslider
-          is-show={ state.visible.value }
+          is-show={ visible.value }
           width={ 700 }
-          title={ state.title.value }
+          title={ title.value }
           before-close={ beforeClose }
           { ...{ on: { 'update:isShow': close } } }>
           <content-component slot="content"></content-component>

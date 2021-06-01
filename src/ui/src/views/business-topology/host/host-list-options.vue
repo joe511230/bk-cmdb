@@ -308,12 +308,16 @@
           bk_obj_id: 'host',
           available: field => !['bk_host_id', 'bk_cloud_id', 'bk_host_innerip'].includes(field.bk_property_id),
           count: this.selection.length,
-          submit: ({ relations, selection: fields  }) => {
+          submit: (state) => {
+            const { fields, exportRelation  } = state
             const params = {
               export_custom_fields: fields.value.map(property => property.bk_property_id),
               bk_host_ids: this.selection.map(({ host }) => host.bk_host_id),
-              bk_biz_id: this.bizId,
-              association_condition: relations.value
+              bk_biz_id: this.bizId
+            }
+            if (exportRelation.value) {
+              params.object_unique_id = state.object_unique_id.value
+              params.association_condition = state.relations.value
             }
             return this.$http.download({
               url: `${window.API_HOST}hosts/export`,
