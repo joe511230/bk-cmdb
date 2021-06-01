@@ -778,18 +778,30 @@
         }
         return true
       },
-      handleExport() {
-        const data = new FormData()
-        data.append('bk_inst_id', this.table.checked.join(','))
-        const customFields = this.usercustom[this.customConfigKey]
-        if (customFields) {
-          data.append('export_custom_fields', customFields)
-        }
-        this.$http.download({
-          url: this.url.export,
-          method: 'post',
-          data
-        })
+      async handleExport() {
+        const useExport = await import('@/components/export-file')
+        useExport.default({
+          title: this.$t('导出选中'),
+          bk_obj_id: this.objId,
+          count: this.table.checked.length,
+          submit: (state, task) => {
+            const { fields, exportRelation  } = state
+            const params = {
+              export_custom_fields: fields.value.map(property => property.bk_property_id),
+              bk_inst_ids: this.table.checked
+            }
+            if (exportRelation.value) {
+              params.object_unique_id = state.object_unique_id.value
+              params.association_condition = state.relations.value
+            }
+            return this.$http.download({
+              url: `${window.API_HOST}insts/object/${this.objId}/export`,
+              method: 'post',
+              name: task.current.value.name,
+              data: params
+            })
+          }
+        }).show()
       }
     }
   }

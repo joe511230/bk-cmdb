@@ -315,10 +315,7 @@
             }
             if (exportRelation.value) {
               params.object_unique_id = state.object_unique_id.value
-              params.association_condition = {
-                ...state.relations.value,
-                host: state.object_unique_id.value
-              }
+              params.association_condition = state.relations.value
             }
             return this.$http.download({
               url: `${window.API_HOST}hosts/export`,
