@@ -1,7 +1,7 @@
 <template>
   <div class="export-relation" v-bkloading="{ isLoading: pending }">
-    <div class="allow-export">
-      <bk-checkbox class="allow-export-checkbox" v-model="allowExport">{{$t('是否导出关联的模型实例')}}</bk-checkbox>
+    <bk-checkbox class="allow-export-checkbox" v-model="allowExport">{{$t('是否导出关联的模型实例')}}</bk-checkbox>
+    <div v-show="allowExport">
       <div class="allow-export-model" v-show="allowExport">
         <i :class="['model-icon', getModelIcon(currentModelId)]"></i>
         <span class="model-name">{{getModelName(currentModelId)}}</span>
@@ -19,39 +19,39 @@
           </bk-select>
         </div>
       </div>
+      <bk-table class="relation-table"
+        v-show="allowExport"
+        ref="table"
+        :outer-border="false"
+        :max-height="$APP.height - 280"
+        :data="computedRelations"
+        @select="handleSelect"
+        @select-all="handleSelectAll">
+        <bk-table-column type="selection" :selectable="() => allowExport"></bk-table-column>
+        <bk-table-column :label="$t('关联的模型')" prop="model" width="250" :resizable="false">
+          <template slot-scope="{ row }">
+            <i :class="['model-icon', getModelIcon(row)]"></i>
+            <span class="model-name">{{getModelName(row)}}</span>
+            <span class="model-desc" v-if="row.bk_obj_id === row.bk_asst_obj_id">{{`(${$t('自关联')})`}}</span>
+          </template>
+        </bk-table-column>
+        <bk-table-column :label="$t('唯一校验标识')" prop="identification" align="right" :resizable="false">
+          <template slot-scope="{ row }">
+            <bk-select class="unique-selector"
+              v-model="selectedRelations[row.relation_obj_id]"
+              :clearable="false"
+              :disabled="isUniqueCheckDisabled(row)">
+              <bk-option v-for="uniqueCheck in row.relation_unique_checks"
+                :key="uniqueCheck.id"
+                :id="uniqueCheck.id"
+                :name="getUniqueCheckName(uniqueCheck)">
+              </bk-option>
+            </bk-select>
+          </template>
+        </bk-table-column>
+        <bk-exception slot="empty" type="empty" scene="part">{{$t('暂无关联模型，无需选择')}}</bk-exception>
+      </bk-table>
     </div>
-    <bk-table class="relation-table"
-      v-show="allowExport"
-      ref="table"
-      :outer-border="false"
-      :max-height="$APP.height - 280"
-      :data="computedRelations"
-      @select="handleSelect"
-      @select-all="handleSelectAll">
-      <bk-table-column type="selection" :selectable="() => allowExport"></bk-table-column>
-      <bk-table-column :label="$t('关联的模型')" prop="model" width="250" :resizable="false">
-        <template slot-scope="{ row }">
-          <i :class="['model-icon', getModelIcon(row)]"></i>
-          <span class="model-name">{{getModelName(row)}}</span>
-          <span class="model-desc" v-if="row.bk_obj_id === row.bk_asst_obj_id">{{`(${$t('自关联')})`}}</span>
-        </template>
-      </bk-table-column>
-      <bk-table-column :label="$t('唯一校验标识')" prop="identification" align="right" :resizable="false">
-        <template slot-scope="{ row }">
-          <bk-select class="unique-selector"
-            v-model="selectedRelations[row.relation_obj_id]"
-            :clearable="false"
-            :disabled="isUniqueCheckDisabled(row)">
-            <bk-option v-for="uniqueCheck in row.relation_unique_checks"
-              :key="uniqueCheck.id"
-              :id="uniqueCheck.id"
-              :name="getUniqueCheckName(uniqueCheck)">
-            </bk-option>
-          </bk-select>
-        </template>
-      </bk-table-column>
-      <bk-exception slot="empty" type="empty" scene="part">{{$t('暂无关联模型，无需选择')}}</bk-exception>
-    </bk-table>
   </div>
 </template>
 
@@ -160,7 +160,7 @@
         }
       }
       // 总的请求状态
-      const pending = usePending([modelUniquePending, relationPending, propertyPending, uniqueCheckPending])
+      const pending = usePending([modelUniquePending, relationPending, propertyPending, uniqueCheckPending], true)
       return {
         state,
         objectUniqueId,
@@ -223,11 +223,9 @@
       }
   }
   .export-relation {
-    .allow-export {
-      display: block;
-      margin: 20px 0 0 0;
-    }
+    padding: 20px 0 0 0;
     .allow-export-checkbox {
+      display: block;
       margin: 0 16px;
     }
     .allow-export-model {

@@ -9,7 +9,7 @@
         <i class="status-success bk-icon icon-check-circle-shape"></i>
         <p class="text">{{$t('数据导出成功')}}</p>
         <div>
-          <bk-button class="mt20" theme="default" @click="resetStep">{{$t('重新导出')}}</bk-button>
+          <bk-button class="mt20 mr10" theme="default" @click="resetStep">{{$t('重新导出')}}</bk-button>
           <bk-button class="mt20" theme="default" @click="close">{{$t('关闭')}}</bk-button>
         </div>
       </template>
@@ -17,7 +17,7 @@
         <i class="status-error bk-icon icon-close-circle-shape"></i>
         <p class="text">{{$t('导入失败')}}</p>
         <div>
-          <bk-button class="mt20" theme="default">{{$t('重试失败')}}</bk-button>
+          <bk-button class="mt20 mr10" theme="default" @click="restart">{{$t('重试失败')}}</bk-button>
           <bk-button class="mt20" theme="default" @click="close">{{$t('关闭')}}</bk-button>
         </div>
       </template>
@@ -37,7 +37,7 @@
       exportTask
     },
     setup() {
-      const [{ all, current }, { reset: resetTask }] = useTask()
+      const [{ all, current }, { reset: resetTask, process: restart }] = useTask()
       const hasError = computed(() => all.value.some(task => task.state === 'error'))
       const isFinished = computed(() => all.value.every(task => task.state === 'finished'))
       const pending = computed(() => current.value && current.value.state === 'pending')
@@ -51,7 +51,7 @@
         visible.value = false
       }
 
-      return { hasError, isFinished, pending, resetStep, close }
+      return { hasError, isFinished, pending, resetStep, close, restart }
     }
   }
 </script>

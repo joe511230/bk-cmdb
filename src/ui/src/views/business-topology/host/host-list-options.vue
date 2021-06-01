@@ -166,9 +166,7 @@
   import FilterCollection from '@/components/filters/filter-collection'
   import FilterFastSearch from '@/components/filters/filter-fast-search'
   import FilterStore from '@/components/filters/store'
-  import ExportFields from '@/components/export-fields/export-fields.js'
   import FilterUtils from '@/components/filters/utils'
-  import batchExport from '@/components/batch-export/index.js'
   import { update as updateHost } from '@/service/host/import'
   export default {
     components: {
@@ -302,13 +300,13 @@
           return false
         }
         const useExport = await import('@/components/export-file')
-        const { show: showExport } = useExport.default({
+        useExport.default({
           title: this.$t('导出选中'),
           bk_biz_id: this.bizId,
           bk_obj_id: 'host',
-          available: field => !['bk_host_id', 'bk_cloud_id', 'bk_host_innerip'].includes(field.bk_property_id),
+          presetFields: ['bk_cloud_id', 'bk_host_innerip'],
           count: this.selection.length,
-          submit: (state) => {
+          submit: (state, task) => {
             const { fields, exportRelation  } = state
             const params = {
               export_custom_fields: fields.value.map(property => property.bk_property_id),
@@ -317,78 +315,59 @@
             }
             if (exportRelation.value) {
               params.object_unique_id = state.object_unique_id.value
-              params.association_condition = state.relations.value
+              params.association_condition = {
+                ...state.relations.value,
+                host: state.object_unique_id.value
+              }
             }
             return this.$http.download({
               url: `${window.API_HOST}hosts/export`,
               method: 'post',
+              name: task.current.value.name,
               data: params
             })
           }
-        })
-        showExport()
-        if (!0) return
-        ExportFields.show({
-          title: this.$t('导出选中'),
-          properties: FilterStore.getModelProperties('host'),
-          propertyGroups: FilterStore.propertyGroups,
-          handler: this.exportHanlder
-        })
-      },
-      async exportHanlder(properties) {
-        const formData = new FormData()
-        formData.append('bk_biz_id', this.bizId)
-        formData.append('bk_host_id', this.selection.map(({ host }) => host.bk_host_id).join(','))
-        formData.append('export_custom_fields', properties.map(property => property.bk_property_id))
-        try {
-          this.$store.commit('setGlobalLoading', true)
-          await this.$http.download({
-            url: `${window.API_HOST}hosts/export`,
-            method: 'post',
-            data: formData
-          })
-        } catch (error) {
-          console.error(error)
-        } finally {
-          this.$store.commit('setGlobalLoading', false)
-        }
+        }).show()
       },
       async handleBatchExport(event) {
         if (!this.count) {
           event.stopPropagation()
           return false
         }
-        ExportFields.show({
+        const useExport = await import('@/components/export-file')
+        useExport.default({
           title: this.$t('导出全部'),
-          properties: FilterStore.getModelProperties('host'),
-          propertyGroups: FilterStore.propertyGroups,
-          handler: this.batchExportHandler
-        })
-      },
-      batchExportHandler(properties) {
-        batchExport({
-          name: 'host',
+          bk_biz_id: this.bizId,
+          bk_obj_id: 'host',
+          presetFields: ['bk_cloud_id', 'bk_host_innerip'],
           count: this.count,
-          options: (page) => {
-            const condition = this.$parent.getParams()
+          limit: 20,
+          submit: (state, task) => {
+            const { fields, exportRelation  } = state
+            const exportCondition = this.$parent.getParams()
             const params = {
+              export_custom_fields: fields.value.map(property => property.bk_property_id),
               bk_biz_id: this.bizId,
-              export_custom_fields: properties.map(property => property.bk_property_id),
               export_condition: {
-                ...condition,
+                ...exportCondition,
                 page: {
-                  ...page,
+                  ...task.current.value.page,
                   sort: 'bk_host_id'
                 }
               }
             }
-            return {
+            if (exportRelation.value) {
+              params.object_unique_id = state.object_unique_id.value
+              params.association_condition = state.relations.value
+            }
+            return this.$http.download({
               url: `${window.API_HOST}hosts/export`,
               method: 'post',
+              name: task.current.value.name,
               data: params
-            }
+            })
           }
-        })
+        }).show()
       },
       async handleExcelUpdate() {
         const useImport = await import('@/components/import-file')

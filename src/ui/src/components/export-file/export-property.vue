@@ -22,6 +22,7 @@
           <bk-checkbox class="property-checkbox"
             :title="property.bk_property_name"
             :checked="isSelected(property)"
+            :disabled="isPreset(property)"
             @change="setSelection(property, ...arguments)">
             {{property.bk_property_name}}
           </bk-checkbox>
@@ -33,7 +34,7 @@
 </template>
 
 <script>
-  import { ref, toRef } from '@vue/composition-api'
+  import { ref, toRef, watch } from '@vue/composition-api'
   import useFilter from '@/hooks/utils/filter'
   import useGroupProperty from '@/hooks/utils/group-property'
   import useProperty from '@/hooks/property/property'
@@ -43,6 +44,7 @@
     name: 'import-property',
     setup() {
       const [exportState] = useState()
+      // 加载属性与属性分组
       const [{ properties, pending }] = useProperty({
         bk_obj_id: exportState.bk_obj_id.value,
         bk_biz_id: exportState.bk_biz_id.value
@@ -51,16 +53,29 @@
         bk_obj_id: exportState.bk_obj_id.value,
         bk_biz_id: exportState.bk_biz_id.value
       })
+      
+      // 设置筛选
       const keyword = ref('')
       const [matchedProperties] = useFilter({
         list: properties,
         keyword,
-        target: 'bk_property_name',
-        available: exportState.available.value
+        target: 'bk_property_name'
       })
       const groupedPropertyies = useGroupProperty(groups, matchedProperties)
 
+      // 设置预置属性
       const selection = toRef(exportState, 'fields')
+      const presetProperties = ref([])
+      watch(properties, (value) => {
+        exportState.presetFields.value.forEach((field) => {
+          const property = value.find(property => property.bk_property_id === field)
+          property && presetProperties.value.push(property)
+        })
+        selection.value.push(...presetProperties.value)
+      })
+      const isPreset = property => presetProperties.value.includes(property)
+
+      // 用户勾选属性
       const setSelection = (item, selected) => {
         if (selected) {
           selection.value.push(item)
@@ -73,7 +88,7 @@
         if (selected) {
           selection.value = [...new Set([...selection.value, ...properties])]
         } else {
-          selection.value = selection.value.filter(property => !properties.includes(property))
+          selection.value = selection.value.filter(property => !properties.includes(property) || isPreset(property))
         }
       }
       const isSelected = property => selection.value.includes(property)
@@ -88,6 +103,7 @@
         isSelected,
         setAllSelection,
         isAllSelected,
+        isPreset,
         pending
       }
     }

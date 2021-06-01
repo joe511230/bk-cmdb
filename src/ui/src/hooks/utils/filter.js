@@ -1,18 +1,17 @@
-import { toRef, reactive, watch, computed } from '@vue/composition-api'
+import { toRef, reactive, watch } from '@vue/composition-api'
 import debounce from 'lodash.debounce'
 
-export default function ({ list, keyword, target, available }) {
+export default function ({ list, keyword, target }) {
   const state = reactive({
     result: []
   })
-  const availableList = computed(() => list.value.filter(available))
   const handler = (value) => {
     if (!value) {
-      state.result = availableList.value
+      state.result = list.value
       return
     }
     const regexp = new RegExp(value, 'ig')
-    state.result = availableList.value.filter(item => regexp.test(item[target]))
+    state.result = list.value.filter(item => regexp.test(item[target]))
   }
   const filter = debounce(handler, 300, { leading: false, trailing: true })
   watch(keyword, filter)

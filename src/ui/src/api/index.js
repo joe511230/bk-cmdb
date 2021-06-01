@@ -283,7 +283,7 @@ async function download(options = {}) {
     if (Axios.isCancel(error)) {
       return Promise.reject(error)
     }
-    $error('Download failure')
+    $error(error.message)
     return Promise.reject(error)
   }
 }

@@ -11,6 +11,7 @@ const defaultState = {
   limit: 10000,
   step: 1,
   status: null,
+  presetFields: [],
   fields: [],
   relations: {},
   exportRelation: false,
@@ -25,7 +26,6 @@ const setState = (newState) => {
 const resetState = () => setState({
   step: 1,
   status: null,
-  fields: [],
   relations: {},
   exportRelation: false,
   object_unique_id: ''

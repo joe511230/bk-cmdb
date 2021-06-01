@@ -23,7 +23,7 @@
           {{textMapdding[task.state]}}
         </span>
         <span class="info">
-          <span class="info-name">{{`${name}_download_${index + 1}.xlsx`}}</span>
+          <span class="info-name">{{`${task.name}.xlsx`}}</span>
           <span class="info-error"
             v-if="task === current && current.state === 'error'">
             {{message}}
@@ -40,11 +40,10 @@
   import { computed } from '@vue/composition-api'
   export default {
     setup() {
-      const [{ bk_obj_id: name, count, limit }] = useState()
+      const [{ count, limit }] = useState()
       const [taskState] = useTask()
       const finishedTask = computed(() => taskState.all.value.filter(task => task.state === 'finished'))
       return {
-        name,
         count,
         limit,
         finishedTask,
