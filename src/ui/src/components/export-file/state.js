@@ -1,4 +1,4 @@
-import { reactive, toRefs, set } from '@vue/composition-api'
+import { reactive, toRefs, set, del } from '@vue/composition-api'
 import useClone from '@/hooks/utils/clone'
 const defaultState = {
   visible: false,
@@ -32,7 +32,7 @@ const resetState = () => setState({
 })
 
 const setRelation = (modelId, uniqueId) => set(state.relations, modelId, uniqueId)
-const removeRelation = modelId => setRelation(modelId, '')
+const removeRelation = modelId => del(state.relations, modelId)
 
 export default function () {
   return [toRefs(state), { setState, resetState, setRelation, removeRelation }]

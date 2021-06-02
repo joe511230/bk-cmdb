@@ -38,9 +38,10 @@
         <bk-table-column :label="$t('唯一校验标识')" prop="identification" align="right" :resizable="false">
           <template slot-scope="{ row }">
             <bk-select class="unique-selector"
-              v-model="selectedRelations[row.relation_obj_id]"
+              :value="selectedRelations[row.relation_obj_id]"
               :clearable="false"
-              :disabled="isUniqueCheckDisabled(row)">
+              :disabled="isUniqueCheckDisabled(row)"
+              @change="handleUniqueCheckChange(row, ...arguments)">
               <bk-option v-for="uniqueCheck in row.relation_unique_checks"
                 :key="uniqueCheck.id"
                 :id="uniqueCheck.id"
@@ -159,6 +160,13 @@
           selection.forEach(setSelectionUniqueCheck)
         }
       }
+      const handleUniqueCheckChange = (relation, id) => {
+        if (id) {
+          setRelation(relation.relation_obj_id, id)
+        } else {
+          removeRelation(relation.relation_obj_id)
+        }
+      }
       // 总的请求状态
       const pending = usePending([modelUniquePending, relationPending, propertyPending, uniqueCheckPending], true)
       return {
@@ -172,6 +180,7 @@
         allowExport,
         handleSelect,
         handleSelectAll,
+        handleUniqueCheckChange,
         modelUniqueChecks
       }
     },
